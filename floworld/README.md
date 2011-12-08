@@ -18,5 +18,5 @@
 技术支持
 ------------------------------------
 - Member:冯建 谌东华 李阳
--   Site: <https://github.com/openproject/floworld/>
+-   Site: <https://github.com/openproject/world/>
 -     QQ: 673592063 2361208192

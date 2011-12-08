@@ -18,5 +18,5 @@
 技术支持
 ------------------------------------
 - Member:冯建
--   Site: <https://github.com/openproject/healthworld/>
+-   Site: <https://github.com/openproject/world/>
 -     QQ: 673592063 2248234614
