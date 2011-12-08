@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">花界</string>
+    <string name="appreciate_archiver_title">归档</string>
+    <string-array name="tab_text">
+        <item>花界•欣赏美花</item>
+        <item>花界•评花论花</item>
+        <item>花界•亮眼识花</item>
+        <item>我的收藏</item>
+        <item>设置</item>
+    </string-array>
+</resources>

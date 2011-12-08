@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout android:id="@+id/main_tab_banner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/main_banner_bg"
+        android:layout_alignParentTop="true">
+        <TextView android:id="@+id/main_tab_banner_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="欣赏美花"
+            android:textSize="20dip"
+            android:textColor="#000000"/>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/main_tab"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/tab_bg"
+        android:layout_alignParentBottom="true">
+    </LinearLayout>
+    <LinearLayout android:id="@+id/main_tab_container"
+        android:layout_above="@id/main_tab"
+        android:layout_below="@id/main_tab_banner"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#FFFFE0">
+    </LinearLayout>
+</RelativeLayout>

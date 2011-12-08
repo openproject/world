@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+import time
+
+print "please enter the article categoty name:"
+print "1. baike"
+print "2. language"
+print "3. prose"
+category = raw_input("choose the number:")
+
+now = time.strftime('%Y-%m-%d-%H%M%S',time.localtime(time.time()))
+filename = now + ".html"
+filepath = "";
+
+result = True
+if category == str(1):
+    filepath = '../json/discuss/baike/' + filename
+elif category == str(2):
+    filepath = '../json/discuss/language/' + filename
+elif category == str(3):
+    filepath = '../json/discuss/prose/' + filename
+else:
+    result = False
+
+if result :
+    file = open(filepath, 'w')
+    file.write("<html>\n")
+    file.write("<body>\n")
+    file.write("</body>\n")
+    file.write("</html>")
+    file.close()

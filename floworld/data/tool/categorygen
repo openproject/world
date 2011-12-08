@@ -1,0 +1,115 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import json
+
+list = []
+index = []
+countDict = {}
+basePath = "../json/appreciate/"
+categoryBasePath = "../json/appreciate/category/"
+archiverBasePath = "../json/appreciate/archiver/"
+
+#delete the category json files
+def removeCategoryJson():
+    print "1. 清空旧版本的分类json数据文件"
+    if os.path.isfile(basePath + "appreciate-category.json") :
+        os.remove(basePath + "appreciate-category.json")
+    for root,dirs,files in os.walk(categoryBasePath) :
+        for name in files:
+            if os.path.isfile(categoryBasePath + name) :
+                os.remove(categoryBasePath + name)
+
+#get the category list from the archiver json files
+def getCategoryList():
+    print "2. 分析新版本的分类json数据列表"
+    global list
+    for root,dirs,files in os.walk(archiverBasePath) :
+        for name in files:
+            jsonVal = json.load(file(archiverBasePath + name));
+            for val in jsonVal["list"]:
+                list[0:0]=[val["category"]]
+    list = {}.fromkeys(list).keys()
+    list.sort()
+
+def updateCategoryCount():
+    categoryIndexFile = open(basePath  + "appreciate-category.json", "r+");
+    line = categoryIndexFile.readline()
+    categoryIndexFile.close()
+    for category in countDict.keys() :
+        oldStr = "\"category\":\"" + category + "\",\"count\":\"1\""
+        newStr = "\"category\":\"" + category + "\",\"count\":\"" + str(countDict[category]) + "\""
+        line = line.replace(oldStr, newStr)
+    os.remove(basePath + "appreciate-category.json")
+    categoryIndexFile = open(basePath  + "appreciate-category.json", "w");
+    categoryIndexFile.write(line)
+    categoryIndexFile.close()
+
+def createCategoryIndex():
+    print "3. 生成新版本的分类json数据索引"
+    categoryIndexFile = open(basePath  + "appreciate-category.json", "a+");
+    categoryIndexFile.write("{\"list\":[")
+    for root,dirs,files in os.walk(archiverBasePath):
+        for name in files:
+            jsonVal = json.load(file(archiverBasePath + name));
+            for val in jsonVal["list"]:
+                if not val["category"] in index :
+                    categoryIndexFile.seek(0, 2)
+                    lastPos = categoryIndexFile.tell() - 1
+                    categoryIndexFile.seek(lastPos)
+                    lastStr = categoryIndexFile.read(1)
+                    if lastStr == "}" :
+                        categoryIndexFile.write(",")
+                    categoryIndexFile.write("{\"category\":\"" + val["category"] + "\",\"count\":\"1\",\"thumbnail\":\"" + val["thumbnail"] + "\"}")
+                    #categoryIndexFile.write(json.dumps(val, skipkeys=False, ensure_ascii=False))
+                    index[0:0]=[val["category"]]
+                    countDict[val["category"]] = 1;
+                else :
+                    countDict[val["category"]] = countDict[val["category"]] + 1
+        print >> categoryIndexFile, "]}"
+        categoryIndexFile.close()
+        updateCategoryCount()
+
+#create the category json files by the category list
+def createCategoryJson():
+    print "4. 生成新版本的分类json数据模板"
+    for str in list:
+        f = open(categoryBasePath + str + ".json", "w")
+        f.write("{\"list\":[")
+        f.close()
+        
+def fillCategoryContent():
+    print "5. 填充新版本的分类json数据内容"
+    for root,dirs,files in os.walk(archiverBasePath):
+        for name in files:
+            jsonVal = json.load(file(archiverBasePath + name));
+            for val in jsonVal["list"]:
+                categoryFile = open(categoryBasePath + val["category"] + ".json", "a+");
+                categoryFile.seek(0, 2)
+                lastPos = categoryFile.tell() - 1
+                categoryFile.seek(lastPos)
+                lastStr = categoryFile.read(1)
+                if lastStr == "}" :
+                    categoryFile.write(",")
+                categoryFile.write(json.dumps(val, skipkeys=False, ensure_ascii=False))
+                categoryFile.close()
+                
+def endCategoryJson():
+    for str in list:
+        f = open(categoryBasePath + str + ".json", "a")
+        f.write("]}")
+        f.close()
+    print "6. 完成新版本的分类json数据生成"
+        
+removeCategoryJson()
+
+getCategoryList()
+
+createCategoryIndex()
+
+createCategoryJson()
+
+fillCategoryContent()
+
+endCategoryJson()

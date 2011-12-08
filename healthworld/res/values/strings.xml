@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, HealthworldActivity!</string>
+    <string name="app_name">Healthworld</string>
+    <string-array name="tab_text">
+        <item>天天养生</item>
+        <item>养生书籍</item>
+        <item>养生节目</item>
+        <item>我的收藏</item>
+        <item>设置</item>
+    </string-array>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.tianxia.app.floworld"
+      android:versionCode="1"
+      android:versionName="1.0">
+    <uses-sdk android:minSdkVersion="7" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application android:name=".AppApplication"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Black.NoTitleBar">
+        <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".appreciate.AppreciateTabActivity"></activity>
+        <activity android:name=".appreciate.AppreciateLatestActivity"></activity>
+        <activity android:name=".appreciate.AppreciateLatestDetailsActivity"></activity>
+        <activity android:name=".appreciate.AppreciateCompanyActivity"></activity>
+        <activity android:name=".appreciate.AppreciateCategoryActivity"></activity>
+        <activity android:name=".appreciate.AppreciateArchiverActivity"></activity>
+
+        <activity android:name=".discuss.DiscussTabActivity"></activity>
+        <activity android:name=".identification.IdentificationTabActivity"></activity>
+        <activity android:name=".favorite.FavoriteTabActivity"></activity>
+        <activity android:name=".setting.SettingTabActivity"></activity>
+    </application>
+</manifest>

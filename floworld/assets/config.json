@@ -1,0 +1,8 @@
+{
+    "app":{"name":"花界",
+           "version-code":1,
+            "version-name":"0.0.1"
+          },
+     "net":{"config":"https://raw.github.com/openproject/floworld/master/data/config.json"
+           }
+}

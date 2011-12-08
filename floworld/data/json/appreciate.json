@@ -1,0 +1,7 @@
+{
+    "base-url":"https://raw.github.com/openproject/floworld/master/data/json/appreciate/",
+    "latest":{"add":51,"list":"appreciate-latest.json"},
+    "most":{"list":"appreciate-most.json"},
+    "category":{"list":"appreciate-category.json"},
+    "archiver":{"list":"appreciate-archiver.json"}
+}
