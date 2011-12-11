@@ -1,4 +1,6 @@
-package com.tianxia.app.floworld.view;
+package com.tianxia.lib.baseworld.widget;
+
+import com.tianxia.lib.baseworld.R;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,23 +8,19 @@ import android.view.MotionEvent;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.tianxia.app.floworld.R;
-
 /**
  * 圆角ListView
  */
 public class CornerListView extends ListView {
 
     public CornerListView(Context context) {
-        super(context);
-    }
-
-    public CornerListView(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
+        this(context, null);
     }
 
     public CornerListView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        //整个listview的圆角背景
+        this.setBackgroundResource(R.drawable.corner_list_bg);
     }
 
     @Override
@@ -36,16 +34,20 @@ public class CornerListView extends ListView {
                 if (itemnum == AdapterView.INVALID_POSITION){
                     break;
                 } else {
-                        if (itemnum==0){
-                                if (itemnum==(getAdapter().getCount()-1)) {
-                                    setSelector(R.drawable.app_list_corner_round);
+                        if (itemnum == 0){
+                                if (itemnum == (getAdapter().getCount()-1)) {
+                                    //只有一项
+                                    setSelector(R.drawable.corner_list_single_item);
                                 } else {
-                                    setSelector(R.drawable.app_list_corner_round_top);
+                                    //第一项
+                                    setSelector(R.drawable.corner_list_first_item);
                                 }
                         } else if (itemnum==(getAdapter().getCount()-1)){
-                            setSelector(R.drawable.app_list_corner_round_bottom);
+                             //最后一项
+                            setSelector(R.drawable.corner_list_last_item);
                         } else {
-                            setSelector(R.drawable.app_list_corner_shape);
+                            //中间项
+                            setSelector(R.drawable.corner_list_item);
                         }
                 }
                 break;

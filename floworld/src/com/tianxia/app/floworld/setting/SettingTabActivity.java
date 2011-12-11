@@ -5,42 +5,46 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.SimpleAdapter;
 
 import com.tianxia.app.floworld.R;
-import com.tianxia.app.floworld.view.CornerListView;
+import com.tianxia.lib.baseworld.activity.PreferenceActivity;
+import com.tianxia.lib.baseworld.widget.CornerListView;
 
-public class SettingTabActivity extends Activity{
-
-    private CornerListView cornerListView = null;
-
-    private List<Map<String,String>> listData = null;
-    private SimpleAdapter adapter = null;
+public class SettingTabActivity extends PreferenceActivity{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setLayout() {
         setContentView(R.layout.main_tab_setting);
+        cornerContainer = (LinearLayout) findViewById(R.id.setting);
 
-        cornerListView = (CornerListView)findViewById(R.id.setting_list);
-        setListData();
+        int size = listDatas.size();
+        CornerListView cornerListView;
+        LayoutParams lp;
+        SimpleAdapter adapter;
+        for (int i = 0; i < size; i++) {
+            cornerListView = new CornerListView(this);
+            lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+            lp.setMargins(8, 16, 8, 0);
+            cornerListView.setLayoutParams(lp);
+            cornerListView.setCacheColorHint(0);
+            cornerContainer.addView(cornerListView);
 
-        adapter = new SimpleAdapter(getApplicationContext(), listData, R.layout.main_tab_setting_list_item , new String[]{"text"}, new int[]{R.id.setting_list_item_text});
-        cornerListView.setAdapter(adapter);
+            adapter = new SimpleAdapter(getApplicationContext(), listDatas.get(i), R.layout.main_tab_setting_list_item , new String[]{"text"}, new int[]{R.id.setting_list_item_text});
+            cornerListView.setAdapter(adapter);
+        }
     }
-    
-    /**
-     * 设置列表数据
-     */
-    private void setListData(){
-        listData = new ArrayList<Map<String,String>>();
+
+    @Override
+    public void setListDatas() {
+        List<Map<String,String>> listData = new ArrayList<Map<String,String>>();
 
         Map<String,String> map = new HashMap<String, String>();
         map.put("text", "图库更新");
         listData.add(map);
-        
+
         map = new HashMap<String, String>();
         map.put("text", "收藏图片");
         listData.add(map);
@@ -48,7 +52,9 @@ public class SettingTabActivity extends Activity{
         map = new HashMap<String, String>();
         map.put("text", "下载目录");
         listData.add(map);
+        listDatas.add(listData);
 
+        listData = new ArrayList<Map<String,String>>();
         map = new HashMap<String, String>();
         map.put("text", "检查新版本");
         listData.add(map);
@@ -60,9 +66,14 @@ public class SettingTabActivity extends Activity{
         map = new HashMap<String, String>();
         map.put("text", "关于我们");
         listData.add(map);
+        listDatas.add(listData);
 
+        listData = new ArrayList<Map<String,String>>();
         map = new HashMap<String, String>();
         map.put("text", "支持我们，请点击这里的广告");
         listData.add(map);
+
+        listDatas.add(listData);
     }
+    
 }
