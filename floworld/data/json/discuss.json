@@ -1,8 +1,8 @@
 {
     "base-url":"https://raw.github.com/openproject/world/master/floworld/data/json/discuss/",
     "list":[
-                {"id":"0","title":"Ê²Ã´ÊÇ»¨Óï","path":"2011-12-02-001052.html","category":"baike"},
-	            {"id":"1","title":"»¨µÄÑÕÉ«ÊÇÔõÑùĞÎ³ÉµÄ","path":"2011-12-02-001058.html","category":"language"}£¬
-				{"id":"2","title":"Ò°°ÙºÏÒ²ÓĞ´ºÌì","path":"2011-12-02-001058.html","category":"prose"}
-	       ]
+            {"id":"0","title":"ä»€ä¹ˆæ˜¯èŠ±è¯­","date":"2011-12-02","path":"baike/2011-12-02-001052.html","category":"ç™¾ç§‘"},
+            {"id":"1","title":"èŠ±çš„é¢œè‰²æ˜¯æ€æ ·å½¢æˆçš„","date":"2011-12-02","path":"language/2011-12-02-001058.html","category":"èŠ±è¯­"},
+            {"id":"2","title":"é‡ç™¾åˆä¹Ÿæœ‰æ˜¥å¤©","date":"2011-12-02","path":"prose/2011-12-02-001058.html","category":"æ–‡ç« "}
+     ]
 }

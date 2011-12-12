@@ -31,8 +31,8 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
     private Intent appreciateListIntent = null;
 
-    private TextView appreciateListTextView = null;
-    private ImageView appreciateListImageView = null;
+    private TextView itemTextView = null;
+    private ImageView itemImageView = null;
     private int imageHeight = 0;
     private int dividerHeight;
 
@@ -138,17 +138,17 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
             view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.appreciate_tab_list_item, null);
         }
 
-        appreciateListImageView = (ImageView) view.findViewById(R.id.appreciate_tab_list_item_image);
-        appreciateListImageView.setImageResource(Integer.parseInt(listData.get(position).get("image")));
+        itemImageView = (ImageView) view.findViewById(R.id.item_image);
+        itemImageView.setImageResource(Integer.parseInt(listData.get(position).get("image")));
         if(MainTabFrame.mainTabContainerHeight != 0){
             if(imageHeight==0){
-                imageHeight = MainTabFrame.mainTabContainerHeight/5 - appreciateListImageView.getPaddingTop() - appreciateListImageView.getPaddingBottom() - dividerHeight*2;
+                imageHeight = MainTabFrame.mainTabContainerHeight/5 - itemImageView.getPaddingTop() - itemImageView.getPaddingBottom() - dividerHeight*2;
             }
-            appreciateListImageView.getLayoutParams().height = imageHeight;
+            itemImageView.getLayoutParams().height = imageHeight;
         }
 
-        appreciateListTextView = (TextView) view.findViewById(R.id.appreciate_tab_list_item_text);
-        appreciateListTextView.setText(listData.get(position).get("name"));
+        itemTextView = (TextView) view.findViewById(R.id.item_text);
+        itemTextView.setText(listData.get(position).get("name"));
         return view;
     }
 

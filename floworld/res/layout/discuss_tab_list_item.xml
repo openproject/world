@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <ImageView android:id="@+id/item_image"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_width="84dip"
+            android:layout_height="68dip"
+            android:layout_margin="2dip"
+            android:background="@drawable/app_border_rect"/>
+    <ImageView android:id="@+id/item_arrow"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="15dip"
+            android:layout_marginRight="15dip"
+            android:src="@drawable/app_arrow"/>
+    <LinearLayout android:layout_width="fill_parent" 
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@id/item_arrow"
+        android:layout_toRightOf="@id/item_image">
+        <TextView android:id="@+id/item_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dip"
+            android:textColor="#192F06">
+        </TextView>
+        <TextView android:id="@+id/item_category"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dip"
+            android:textColor="#192F06">
+        </TextView>
+        <TextView android:id="@+id/item_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="14dip"
+            android:textColor="#192F06">
+        </TextView>
+    </LinearLayout>
+</RelativeLayout>

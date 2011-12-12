@@ -45,7 +45,7 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
     private Intent appreciateArchiverIntent = null;
 
     private AssetManager assetManager = null;
-    private String[] appreciateArchiverImages = null;
+    private String[] kindImages = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
 
         assetManager = getResources().getAssets();
         try {
-            appreciateArchiverImages = assetManager.list("kinds");
+            kindImages = assetManager.list("kinds");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -156,7 +156,7 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
 
         itemImageView = (ImageView) view.findViewById(R.id.item_image);
         try {
-            itemImageView.setImageBitmap(BitmapFactory.decodeStream(assetManager.open("kinds/" + appreciateArchiverImages[position])));
+            itemImageView.setImageBitmap(BitmapFactory.decodeStream(assetManager.open("kinds/" + kindImages[position])));
         } catch (IOException e) {
             e.printStackTrace();
         }
