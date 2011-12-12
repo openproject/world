@@ -19,13 +19,29 @@
             android:layout_marginLeft="15dip"
             android:layout_marginRight="15dip"
             android:src="@drawable/app_arrow"/>
-    <TextView android:id="@+id/item_text"
-        android:layout_toLeftOf="@id/item_arrow"
-        android:layout_toRightOf="@id/item_image"
-        android:layout_width="fill_parent" 
+    <LinearLayout android:layout_width="fill_parent" 
         android:layout_centerVertical="true"
-        android:layout_height="fill_parent" 
-        android:textSize="20dip"
-        android:textColor="#192F06" >
-    </TextView>
+        android:orientation="vertical"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@id/item_arrow"
+        android:layout_toRightOf="@id/item_image">
+        <TextView android:id="@+id/item_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dip"
+            android:textColor="#192F06">
+        </TextView>
+        <TextView android:id="@+id/item_category"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dip"
+            android:textColor="#192F06">
+        </TextView>
+        <TextView android:id="@+id/item_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dip"
+            android:textColor="#192F06">
+        </TextView>
+    </LinearLayout>
 </RelativeLayout>
