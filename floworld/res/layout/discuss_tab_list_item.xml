@@ -21,6 +21,7 @@
         android:layout_centerVertical="true"
         android:orientation="vertical"
         android:layout_height="fill_parent"
+        android:layout_marginLeft="8dip"
         android:layout_toLeftOf="@id/item_arrow"
         android:layout_toRightOf="@id/item_image">
         <TextView android:id="@+id/item_title"

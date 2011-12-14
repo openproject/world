@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">土特产</string>
+    <string-array name="tab_text">
+        <item>特产资讯</item>
+        <item>养生书籍</item>
+        <item>养生节目</item>
+        <item>我的收藏</item>
+        <item>设置</item>
+    </string-array>
+</resources>

@@ -9,4 +9,6 @@
         <item>我的收藏</item>
         <item>设置</item>
     </string-array>
+
+    <string name="discuss_category">"类别:"%s</string>
 </resources>

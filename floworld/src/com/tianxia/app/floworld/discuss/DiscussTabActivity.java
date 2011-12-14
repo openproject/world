@@ -67,7 +67,7 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
                         discussInfo = new DiscussInfo();
                         discussInfo.id = discussList.getJSONObject(i).getInt("id");
                         discussInfo.title = discussList.getJSONObject(i).getString("title");
-                        discussInfo.category = discussList.getJSONObject(i).getString("category");
+                        discussInfo.category = getString(R.string.discuss_category, discussList.getJSONObject(i).getString("category"));
                         discussInfo.date = discussList.getJSONObject(i).getString("date");
                         discussInfo.path = baseUrl + discussList.getJSONObject(i).getString("path");
                         listData.add(discussInfo);
