@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:paddingRight="10dip"
             android:background="@drawable/app_btn_green">
-             <ProgressBar android:id="@+id/app_loading_pbar"
+            <ProgressBar android:id="@+id/app_loading_pbar"
                 android:layout_width="24dip"
                 android:layout_height="24dip"
                 android:indeterminateDrawable="@anim/app_refresh_progress"

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -20,9 +21,11 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.model.DiscussInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
+import com.tianxia.lib.baseworld.main.MainTabFrame;
 
 public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
 
+    private LinearLayout appLoadingLinearLayout;
     private ImageView itemImageView;
     private TextView itemTitleTextView;
     private TextView itemCategoryTextView;
@@ -33,6 +36,9 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        appLoadingLinearLayout = (LinearLayout) findViewById(R.id.app_loading);
+        appLoadingLinearLayout.getLayoutParams().height = MainTabFrame.mainTabContainerHeight;
 
         assetManager = getResources().getAssets();
         try {
@@ -57,7 +63,6 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
             @Override
             public void onSuccess(String result){
                 try {
-                    System.out.println("result:" + result);
                     JSONObject discussConfig = new JSONObject(result);
 
                     String baseUrl = discussConfig.getString("base-url");
@@ -72,7 +77,6 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
                         discussInfo.path = baseUrl + discussList.getJSONObject(i).getString("path");
                         listData.add(discussInfo);
                     }
-                    
 
                     adapter = new Adapter(DiscussTabActivity.this);
                     listView.setAdapter(adapter);
@@ -87,6 +91,10 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
                 listView.setAdapter(null);
             }
 
+            @Override
+            public void onFinish() {
+                appLoadingLinearLayout.setVisibility(View.GONE);
+            }
         });
     }
 
