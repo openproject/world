@@ -20,11 +20,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.model.AppreciateArchiverInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 
 public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiverInfo> {
 
@@ -104,7 +104,6 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
 
             @Override
             public void onFailure(Throwable arg0) {
-                super.onFailure(arg0);
             }
 
             @Override

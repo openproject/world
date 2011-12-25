@@ -16,12 +16,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.model.DiscussInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.main.MainTabFrame;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 
 public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
 
@@ -62,6 +62,7 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
 
             @Override
             public void onSuccess(String result){
+                appLoadingLinearLayout.setVisibility(View.GONE);
                 try {
                     JSONObject discussConfig = new JSONObject(result);
 
@@ -88,12 +89,8 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
 
             @Override
             public void onFailure(Throwable arg0) {
-                listView.setAdapter(null);
-            }
-
-            @Override
-            public void onFinish() {
                 appLoadingLinearLayout.setVisibility(View.GONE);
+                listView.setAdapter(null);
             }
         });
     }

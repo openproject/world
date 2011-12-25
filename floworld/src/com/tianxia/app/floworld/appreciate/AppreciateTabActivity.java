@@ -15,11 +15,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tianxia.app.floworld.R;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.main.MainTabFrame;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 
 public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 //    private AppreciateApi appreciateApi = null;

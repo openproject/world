@@ -1,5 +1,5 @@
 {
-    "base-url":"https://raw.github.com/openproject/world/master/floworld/data/json/discuss/",
+    "base-url":"http://api.kaiyuanxiangmu.com/floworld/data/json/discuss/",
     "list":[
             {"id":"0","title":"什么是花语","date":"2011-12-02","path":"baike/2011-12-02-001052.html","category":"百科"},
             {"id":"1","title":"花的颜色是怎样形成的","date":"2011-12-02","path":"language/2011-12-02-001058.html","category":"花语"},

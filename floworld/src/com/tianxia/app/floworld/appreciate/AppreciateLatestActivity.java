@@ -17,11 +17,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.model.AppreciateLatestInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 import com.tianxia.widget.image.SmartImageView;
 
 public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestInfo> {
@@ -95,7 +95,6 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
 
             @Override
             public void onFailure(Throwable arg0) {
-                super.onFailure(arg0);
             }
 
             @Override
@@ -113,6 +112,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
             JSONArray jsonArray = json.getJSONArray("list");
             listData = new ArrayList<AppreciateLatestInfo>();
             AppreciateLatestInfo appreciateLatestInfo = null;
+
             for(int i = 0; i < jsonArray.length(); i++){
                 appreciateLatestInfo = new AppreciateLatestInfo();
                 appreciateLatestInfo.title = jsonArray.getJSONObject(i).optString("title");

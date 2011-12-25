@@ -3,6 +3,6 @@
            "version-code":1,
             "version-name":"0.0.1"
           },
-     "net":{"config":"https://raw.github.com/openproject/world/master/floworld/assets/config.json"
+     "net":{"config":"http://api.kaiyuanxiangmu.com/floworld/assets/config.json"
            }
 }

@@ -1,5 +1,5 @@
 {
-    "base-url":"https://raw.github.com/openproject/world/master/floworld/data/json/appreciate/",
+    "base-url":"http://api.kaiyuanxiangmu.com/floworld/data/json/appreciate/",
     "latest":{"add":51,"list":"appreciate-latest.json"},
     "most":{"list":"appreciate-most.json"},
     "category":{"list":"appreciate-category.json"},
