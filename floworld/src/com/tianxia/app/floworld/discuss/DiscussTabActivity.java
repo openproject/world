@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -122,6 +123,8 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        
+        Intent intent = new Intent(this, DiscussDetailsActivity.class);
+        intent.putExtra("url", listData.get(position).path);
+        startActivity(intent);
     }
 }

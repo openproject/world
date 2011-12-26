@@ -27,6 +27,8 @@
         <activity android:name=".appreciate.AppreciateArchiverActivity"></activity>
 
         <activity android:name=".discuss.DiscussTabActivity"></activity>
+        <activity android:name=".discuss.DiscussDetailsActivity"></activity>
+
         <activity android:name=".identification.IdentificationTabActivity"></activity>
         <activity android:name=".favorite.FavoriteTabActivity"></activity>
         <activity android:name=".setting.SettingTabActivity"></activity>
