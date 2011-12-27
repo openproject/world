@@ -10,6 +10,6 @@ public class IdentificationTabActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_tab_identification);
+        setContentView(R.layout.identification_tab_activity);
     }
 }
