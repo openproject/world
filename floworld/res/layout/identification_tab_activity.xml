@@ -2,29 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="@drawable/icon">
+    <com.tianxia.widget.image.SmartImageView android:id="@+id/identification_image"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:scaleType="centerCrop" />
     <TextView  
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
         android:text="请选择下图的花名:"
         />
-    <RadioGroup android:id="@+id/ataawGroup" 
+    <RadioGroup android:id="@+id/ataawGroup"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" 
+        android:layout_height="fill_parent"
         android:checkedButton="@+id/ataaw3"
-        android:orientation="horizontal" 
+        android:orientation="vertical"
         android:gravity="center_vertical|center_horizontal"> 
         <RadioButton android:id="@+id/ataaw1"
             android:text="花名1"
+            android:textSize="16dip"
+            android:textColor="#192F06"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></RadioButton>
         <RadioButton android:id="@+id/ataaw2"
             android:text="花名2"
+            android:textSize="16dip"
+            android:textColor="#192F06"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></RadioButton>
         <RadioButton android:id="@+id/ataaw3"
             android:text="花名3"
+            android:textSize="16dip"
+            android:textColor="#192F06"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></RadioButton>
-</RadioGroup>
+    </RadioGroup>
 </LinearLayout>
