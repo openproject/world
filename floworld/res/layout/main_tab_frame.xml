@@ -88,6 +88,6 @@
         android:layout_below="@id/main_tab_banner"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#FFFFE0">
+        android:background="#FFFFFA">
     </LinearLayout>
 </RelativeLayout>

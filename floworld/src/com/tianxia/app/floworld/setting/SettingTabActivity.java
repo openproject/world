@@ -30,6 +30,7 @@ public class SettingTabActivity extends PreferenceActivity{
             lp.setMargins(8, 16, 8, 0);
             cornerListView.setLayoutParams(lp);
             cornerListView.setCacheColorHint(0);
+            cornerListView.setDivider(getResources().getDrawable(R.drawable.app_divider_h_gray));
             cornerContainer.addView(cornerListView);
 
             adapter = new SimpleAdapter(getApplicationContext(), listDatas.get(i), R.layout.main_tab_setting_list_item , new String[]{"text"}, new int[]{R.id.setting_list_item_text});
