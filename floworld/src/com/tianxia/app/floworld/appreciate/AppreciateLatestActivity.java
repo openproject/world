@@ -26,45 +26,45 @@ import com.tianxia.widget.image.SmartImageView;
 
 public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestInfo> {
 
-    private String appricateLatestUrl = null;
-    private String appreciateLatestTitle = null;
+    private String mAppricateLatestUrl = null;
+    private String mAppreciateLatestTitle = null;
 
-    private TextView appreciateLatestTitleView = null;
+    private TextView mAppreciateLatestTitleView = null;
 
-    private Button appBackButton = null;
-    private TextView appLoadingTip = null;
-    private ProgressBar appLoadingPbar = null;
-    private ImageView appLoadingImage = null;
+    private Button mAppBackButton = null;
+    private TextView mAppLoadingTip = null;
+    private ProgressBar mAppLoadingPbar = null;
+    private ImageView mAppLoadingImage = null;
 
-    private SmartImageView appreciateLatestImageView = null;
-    private TextView appreciateLatestTextView = null;
-    private Intent appreciateDetailsIntent = null;
+    private SmartImageView mAppreciateLatestImageView = null;
+    private TextView mAppreciateLatestTextView = null;
+    private Intent mAppreciateDetailsIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        appricateLatestUrl = getIntent().getStringExtra("url");
-        appreciateLatestTitle = getIntent().getStringExtra("title");
+        mAppricateLatestUrl = getIntent().getStringExtra("url");
+        mAppreciateLatestTitle = getIntent().getStringExtra("title");
 
-        appreciateLatestTitleView = (TextView) findViewById(R.id.appreciate_latest_title);
-        if (appreciateLatestTitle != null) {
-            appreciateLatestTitleView.setText(appreciateLatestTitle);
+        mAppreciateLatestTitleView = (TextView) findViewById(R.id.appreciate_latest_title);
+        if (mAppreciateLatestTitle != null) {
+            mAppreciateLatestTitleView.setText(mAppreciateLatestTitle);
         }
 
-        appBackButton  = (Button) findViewById(R.id.app_back);
-        appLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
-        appLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
-        appLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
+        mAppBackButton  = (Button) findViewById(R.id.app_back);
+        mAppLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
+        mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
+        mAppLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
 
-        appBackButton.setOnClickListener(new OnClickListener() {
+        mAppBackButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
 
-        appLoadingImage.setOnClickListener(new OnClickListener() {
+        mAppLoadingImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadGridView();
@@ -76,14 +76,14 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
 
     private void loadGridView(){
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(appricateLatestUrl, new AsyncHttpResponseHandler(){
+        client.get(mAppricateLatestUrl, new AsyncHttpResponseHandler(){
 
             @Override
             public void onStart() {
                 listView.setAdapter(null);
-                appLoadingTip.setVisibility(View.VISIBLE);
-                appLoadingPbar.setVisibility(View.VISIBLE);
-                appLoadingImage.setVisibility(View.GONE);
+                mAppLoadingTip.setVisibility(View.VISIBLE);
+                mAppLoadingPbar.setVisibility(View.VISIBLE);
+                mAppLoadingImage.setVisibility(View.GONE);
             }
 
             @Override
@@ -99,9 +99,9 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
 
             @Override
             public void onFinish() {
-                appLoadingTip.setVisibility(View.GONE);
-                appLoadingPbar.setVisibility(View.GONE);
-                appLoadingImage.setVisibility(View.VISIBLE);
+                mAppLoadingTip.setVisibility(View.GONE);
+                mAppLoadingPbar.setVisibility(View.GONE);
+                mAppLoadingImage.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -140,21 +140,21 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
             view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.appreciate_latest_list_item, null);
         }
 
-        appreciateLatestImageView = (SmartImageView) view.findViewById(R.id.item_image);
+        mAppreciateLatestImageView = (SmartImageView) view.findViewById(R.id.item_image);
         if (listData != null && position < listData.size()){
-            appreciateLatestImageView.setImageUrl(listData.get(position).thumbnail, R.drawable.app_download_fail, R.drawable.app_download_loading);
+            mAppreciateLatestImageView.setImageUrl(listData.get(position).thumbnail, R.drawable.app_download_fail, R.drawable.app_download_loading);
         }
 
-        appreciateLatestTextView = (TextView) view.findViewById(R.id.item_title);
-        appreciateLatestTextView.setText(listData.get(position).title);
+        mAppreciateLatestTextView = (TextView) view.findViewById(R.id.item_title);
+        mAppreciateLatestTextView.setText(listData.get(position).title);
         return view;
     }
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        appreciateDetailsIntent = new Intent(AppreciateLatestActivity.this, AppreciateLatestDetailsActivity.class);
-        appreciateDetailsIntent.putExtra("url", listData.get(position).origin);
-        startActivity(appreciateDetailsIntent);
+        mAppreciateDetailsIntent = new Intent(AppreciateLatestActivity.this, AppreciateLatestDetailsActivity.class);
+        mAppreciateDetailsIntent.putExtra("url", listData.get(position).origin);
+        startActivity(mAppreciateDetailsIntent);
     }
 
 }

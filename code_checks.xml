@@ -1,0 +1,38 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+<module name="Checker">
+
+    <!-- 检查文件是否以一个新行结束-->
+    <module name="NewlineAtEndOfFile"/>
+
+    <!-- 检查文件中是否含有tab键-->
+    <module name="FileTabCharacter"/>
+
+    <module name="TreeWalker">
+
+        <!-- 常量全部用大写-->
+        <module name="ConstantName"/>
+
+        <!-- 避免.*,重复多余的和不使用的import-->
+        <module name="AvoidStarImport"/>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+
+        <!-- 成员变量格式为:m+大写+字母-->
+        <module name="MemberName">
+            <property name="format" value="^m[A-Z][a-zA-Z0-9]*$"/>
+        </module>
+
+        <!-- 检查代码块:起始大括号和if等同行，不能有空的代码块，结束大括号另起一行-->
+        <module name="LeftCurly"/>
+        <module name="NeedBraces"/>
+        <module name="RightCurly"/>
+
+        <!-- 当有多重修饰符时,修饰符采用以下顺序:(public,protected,private,abstract,static,final,transient,volatile,synchronized,native,strictfp) -->
+        <module name="ModifierOrder"/>
+    </module>
+
+</module>
