@@ -2,6 +2,7 @@ package com.tianxia.app.floworld.appreciate;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
 
 import com.tianxia.app.floworld.R;
 import com.tianxia.widget.image.SmartImageView;
@@ -20,5 +21,11 @@ public class AppreciateLatestDetailsActivity extends Activity {
 
         mAppreciateLatestDetailsImageView = (SmartImageView) findViewById(R.id.appreciate_latest_details_image);
         mAppreciateLatestDetailsImageView.setImageUrl(mUrl, R.drawable.app_download_fail, R.drawable.app_download_loading, true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add("收藏");
+        return super.onCreateOptionsMenu(menu);
     }
 }
