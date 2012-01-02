@@ -8,17 +8,17 @@ import com.tianxia.widget.image.SmartImageView;
 
 public class AppreciateLatestDetailsActivity extends Activity {
 
-    private String url = null;
-    private SmartImageView appreciateLatestDetailsImageView = null;
+    private String mUrl = null;
+    private SmartImageView mAppreciateLatestDetailsImageView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.appreciate_latest_details_activity);
 
-        url = getIntent().getStringExtra("url");
+        mUrl = getIntent().getStringExtra("url");
 
-        appreciateLatestDetailsImageView = (SmartImageView) findViewById(R.id.appreciate_latest_details_image);
-        appreciateLatestDetailsImageView.setImageUrl(url, R.drawable.app_download_fail, R.drawable.app_download_loading, true);
+        mAppreciateLatestDetailsImageView = (SmartImageView) findViewById(R.id.appreciate_latest_details_image);
+        mAppreciateLatestDetailsImageView.setImageUrl(mUrl, R.drawable.app_download_fail, R.drawable.app_download_loading, true);
     }
 }
