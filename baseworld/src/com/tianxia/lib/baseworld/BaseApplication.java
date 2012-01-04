@@ -3,29 +3,35 @@ package com.tianxia.lib.baseworld;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
+
 import android.app.Application;
 
 public abstract class BaseApplication extends Application {
 
-    protected List<Class<?>> tabActivitys = new ArrayList<Class<?>>();
-    protected static List<Integer> tabNormalImages = new ArrayList<Integer>();
-    protected static List<Integer> tabPressImages = new ArrayList<Integer>();
-    
+    public BaseSQLiteHelper mSQLiteHelper;
+
+    protected List<Class<?>> mTabActivitys = new ArrayList<Class<?>>();
+    protected static List<Integer> mTabNormalImages = new ArrayList<Integer>();
+    protected static List<Integer> mTabPressImages = new ArrayList<Integer>();
+
     @Override
     public void onCreate() {
         fillTabs();
+
+        initDb();
     }
 
     public List<Class<?>> getTabActivitys(){
-        return tabActivitys;
+        return mTabActivitys;
     }
 
     public List<Integer> getTabNormalImages(){
-        return tabNormalImages;
+        return mTabNormalImages;
     }
     
     public List<Integer> getTabPressImages(){
-        return tabPressImages;
+        return mTabPressImages;
     }
 
     /**
@@ -35,5 +41,6 @@ public abstract class BaseApplication extends Application {
      * <li>tab press background resId</li>
      */
     public abstract void fillTabs();
-    
+
+    public abstract void initDb();
 }
