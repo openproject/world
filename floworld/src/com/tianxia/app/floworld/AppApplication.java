@@ -6,28 +6,38 @@ import com.tianxia.app.floworld.favorite.FavoriteTabActivity;
 import com.tianxia.app.floworld.identification.IdentificationTabActivity;
 import com.tianxia.app.floworld.setting.SettingTabActivity;
 import com.tianxia.lib.baseworld.BaseApplication;
+import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
 
 public class AppApplication extends BaseApplication {
 
+    public static BaseSQLiteHelper mSQLiteHelper;
+
+    private static final String DB_NAME = "floworld.db";
+
     @Override
     public void fillTabs() {
-        tabActivitys.add(AppreciateTabActivity.class);
-        tabActivitys.add(DiscussTabActivity.class);
-        tabActivitys.add(IdentificationTabActivity.class);
-        tabActivitys.add(FavoriteTabActivity.class);
-        tabActivitys.add(SettingTabActivity.class);
+        mTabActivitys.add(AppreciateTabActivity.class);
+        mTabActivitys.add(DiscussTabActivity.class);
+        mTabActivitys.add(IdentificationTabActivity.class);
+        mTabActivitys.add(FavoriteTabActivity.class);
+        mTabActivitys.add(SettingTabActivity.class);
 
-        tabNormalImages.add(R.drawable.appreciate_normal);
-        tabNormalImages.add(R.drawable.discuss_normal);
-        tabNormalImages.add(R.drawable.identification_normal);
-        tabNormalImages.add(R.drawable.favorite_normal);
-        tabNormalImages.add(R.drawable.setting_normal);
+        mTabNormalImages.add(R.drawable.appreciate_normal);
+        mTabNormalImages.add(R.drawable.discuss_normal);
+        mTabNormalImages.add(R.drawable.identification_normal);
+        mTabNormalImages.add(R.drawable.favorite_normal);
+        mTabNormalImages.add(R.drawable.setting_normal);
 
-        tabPressImages.add(R.drawable.appreciate_press);
-        tabPressImages.add(R.drawable.discuss_press);
-        tabPressImages.add(R.drawable.identification_press);
-        tabPressImages.add(R.drawable.favorite_press);
-        tabPressImages.add(R.drawable.setting_press);
+        mTabPressImages.add(R.drawable.appreciate_press);
+        mTabPressImages.add(R.drawable.discuss_press);
+        mTabPressImages.add(R.drawable.identification_press);
+        mTabPressImages.add(R.drawable.favorite_press);
+        mTabPressImages.add(R.drawable.setting_press);
+    }
+
+    @Override
+    public void initDb() {
+        mSQLiteHelper = new AppSQLiteHelper(getApplicationContext(), DB_NAME, 1);
     }
 
 }

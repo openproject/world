@@ -28,4 +28,5 @@ public class AppreciateLatestDetailsActivity extends Activity {
         menu.add("收藏");
         return super.onCreateOptionsMenu(menu);
     }
+
 }
