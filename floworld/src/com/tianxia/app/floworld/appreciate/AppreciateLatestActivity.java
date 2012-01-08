@@ -154,6 +154,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         mAppreciateDetailsIntent = new Intent(AppreciateLatestActivity.this, AppreciateLatestDetailsActivity.class);
         mAppreciateDetailsIntent.putExtra("url", listData.get(position).origin);
+        mAppreciateDetailsIntent.putExtra("title", listData.get(position).title);
         startActivity(mAppreciateDetailsIntent);
     }
 

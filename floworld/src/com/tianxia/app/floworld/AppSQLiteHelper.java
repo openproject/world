@@ -14,6 +14,7 @@ public class AppSQLiteHelper extends BaseSQLiteHelper {
     public void InitCreateSql() {
         mCreateSql = "create table if not exists favorite("
                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                   + "type INTEGER,"
                    + "title TEXT,"
                    + "url TEXT,"
                    + "description TEXT)";
