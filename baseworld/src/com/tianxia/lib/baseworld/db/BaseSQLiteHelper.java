@@ -14,12 +14,9 @@ public class BaseSQLiteHelper extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-    public void InitCreateSql() {
-        
-    }
-    public void InitUpgradeSql() {
-        
-    }
+    public void InitCreateSql() {}
+
+    public void InitUpgradeSql() {}
 
     @Override
     public void onCreate(SQLiteDatabase db) {

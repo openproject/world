@@ -3,9 +3,13 @@ package com.tianxia.lib.baseworld;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
+
 import android.app.Application;
 
 public abstract class BaseApplication extends Application {
+
+    public BaseSQLiteHelper mSQLiteHelper;
 
     protected List<Class<?>> mTabActivitys = new ArrayList<Class<?>>();
     protected static List<Integer> mTabNormalImages = new ArrayList<Integer>();
