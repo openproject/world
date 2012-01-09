@@ -7,10 +7,14 @@ public class AppApplication extends BaseApplication {
 
     @Override
     public void fillTabs() {
-        tabActivitys.add(SettingTabActivity.class);
+        mTabActivitys.add(SettingTabActivity.class);
 
-        tabNormalImages.add(R.drawable.setting_normal);
+        mTabNormalImages.add(R.drawable.setting_normal);
 
-        tabPressImages.add(R.drawable.setting_press);
+        mTabPressImages.add(R.drawable.setting_press);
+    }
+
+    @Override
+    public void initDb() {
     }
 }

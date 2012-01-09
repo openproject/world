@@ -11,4 +11,9 @@
     </string-array>
 
     <string name="discuss_category">"类别:"%s</string>
+
+    <string name="favorite">收藏</string>
+    <string name="unfavorite">删除收藏</string>
+    <string name="favorite_add">收藏成功.</string>
+    <string name="favorite_del">删除收藏.</string>
 </resources>

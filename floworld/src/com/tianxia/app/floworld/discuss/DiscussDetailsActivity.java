@@ -1,7 +1,12 @@
 package com.tianxia.app.floworld.discuss;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebView;
@@ -9,53 +14,116 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.R;
+import com.tianxia.app.floworld.constant.FavoriteType;
 
 public class DiscussDetailsActivity extends Activity{
 
-    String url;
+    private String mTitle = null;
+    private String mUrl = null;
     
     private WebView mWebView;
-    private Button appBackButton;
-    private ProgressBar appLoadingPbar = null;
-    private ImageView appLoadingImage = null;
+    private Button mAppBackButton;
+    private ProgressBar mAppLoadingPbar = null;
+    private ImageView mAppLoadingImage = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discuss_details_activity);
-        url = getIntent().getStringExtra("url");
+        mUrl = getIntent().getStringExtra("url");
+        mTitle = getIntent().getStringExtra("title");
 
-        appBackButton = (Button) findViewById(R.id.app_back);
-        appLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
-        appLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
-        appBackButton.setOnClickListener(new OnClickListener() {
+        mAppBackButton = (Button) findViewById(R.id.app_back);
+        mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
+        mAppLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
+        mAppBackButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 DiscussDetailsActivity.this.onBackPressed();
             }
         });
-        appLoadingImage.setOnClickListener(new OnClickListener() {
+        mAppLoadingImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                appLoadingPbar.setVisibility(View.VISIBLE);
-                appLoadingImage.setVisibility(View.GONE);
-                mWebView.loadUrl(url);
+                mAppLoadingPbar.setVisibility(View.VISIBLE);
+                mAppLoadingImage.setVisibility(View.GONE);
+                mWebView.loadUrl(mUrl);
             }
         });
 
         mWebView = (WebView) findViewById(R.id.discuzz_details_webview);
-        mWebView.loadUrl(url);
+        mWebView.loadUrl(mUrl);
 
         mWebView.setWebViewClient(new WebViewClient(){
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                appLoadingPbar.setVisibility(View.GONE);
-                appLoadingImage.setVisibility(View.VISIBLE);
+                mAppLoadingPbar.setVisibility(View.GONE);
+                mAppLoadingImage.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (isFavorite()) {
+            menu.add(R.string.unfavorite);
+        } else {
+            menu.add(R.string.favorite);
+        }
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        case 0:
+            favorite(item);
+            break;
+
+        default:
+            break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void favorite(MenuItem item) {
+        synchronized (AppApplication.mSQLiteHelper) {
+            SQLiteDatabase db = AppApplication.mSQLiteHelper.getWritableDatabase();
+            if (!isFavorite()) {
+                ContentValues contentValue = new ContentValues();
+                contentValue.put("title", mTitle);
+                contentValue.put("type", FavoriteType.DISCUSS);
+                contentValue.put("url", mUrl);
+                contentValue.put("description", "");
+                db.insert("favorite", null, contentValue);
+                Toast.makeText(this, R.string.favorite_add, Toast.LENGTH_SHORT).show();
+                item.setTitle(R.string.unfavorite);
+            } else {
+                db.execSQL("delete from favorite where url = '" + mUrl + "'");
+                Toast.makeText(this, R.string.favorite_del, Toast.LENGTH_SHORT).show();
+                item.setTitle(R.string.favorite);
+            }
+        }
+    }
+
+    public boolean isFavorite() {
+        boolean result = false;
+        synchronized (AppApplication.mSQLiteHelper) {
+            SQLiteDatabase db = AppApplication.mSQLiteHelper.getWritableDatabase();
+            Cursor cursor = db.query("favorite", new String[]{"url"}, "url = ?", new String[]{mUrl}, null, null, null);
+            if(cursor == null || cursor.getCount() == 0) {
+                result = false;
+            } else {
+                result = true;
+            }
+            cursor.close();
+        }
+        return result;
     }
 }

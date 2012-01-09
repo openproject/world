@@ -34,16 +34,19 @@ public class AppreciateLatestDetailsActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("收藏");
+        if (isFavorite()) {
+            menu.add(R.string.unfavorite);
+        } else {
+            menu.add(R.string.favorite);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        System.out.println("item id:" + item.getItemId());
         switch (item.getItemId()) {
         case 0:
-            favorite();
+            favorite(item);
             break;
 
         default:
@@ -52,22 +55,38 @@ public class AppreciateLatestDetailsActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void favorite() {
+    public void favorite(MenuItem item) {
         synchronized (AppApplication.mSQLiteHelper) {
             SQLiteDatabase db = AppApplication.mSQLiteHelper.getWritableDatabase();
-            Cursor cursor = db.query("favorite", new String[]{"url"}, "url = ?", new String[]{mUrl}, null, null, null);
-            if(cursor == null || cursor.getCount() == 0) {
+            if (!isFavorite()) {
                 ContentValues contentValue = new ContentValues();
                 contentValue.put("title", mTitle);
                 contentValue.put("type", FavoriteType.APPRECIATE);
                 contentValue.put("url", mUrl);
                 contentValue.put("description", "");
                 db.insert("favorite", null, contentValue);
-                Toast.makeText(this, "收藏成功.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.favorite_add, Toast.LENGTH_SHORT).show();
+                item.setTitle(R.string.unfavorite);
             } else {
-                Toast.makeText(this, "删除收藏.", Toast.LENGTH_SHORT).show();
+                db.execSQL("delete from favorite where url = '" + mUrl + "'");
+                Toast.makeText(this, R.string.favorite_del, Toast.LENGTH_SHORT).show();
+                item.setTitle(R.string.favorite);
+            }
+        }
+    }
+
+    public boolean isFavorite() {
+        boolean result = false;
+        synchronized (AppApplication.mSQLiteHelper) {
+            SQLiteDatabase db = AppApplication.mSQLiteHelper.getWritableDatabase();
+            Cursor cursor = db.query("favorite", new String[]{"url"}, "url = ?", new String[]{mUrl}, null, null, null);
+            if(cursor == null || cursor.getCount() == 0) {
+                result = false;
+            } else {
+                result = true;
             }
             cursor.close();
         }
+        return result;
     }
 }
