@@ -16,4 +16,7 @@
     <string name="unfavorite">删除收藏</string>
     <string name="favorite_add">收藏成功.</string>
     <string name="favorite_del">删除收藏.</string>
+
+    <string name="favorite_category_picture">图片</string>
+    <string name="favorite_category_article">文章</string>
 </resources>

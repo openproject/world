@@ -61,7 +61,7 @@ public class AppreciateLatestDetailsActivity extends Activity {
             if (!isFavorite()) {
                 ContentValues contentValue = new ContentValues();
                 contentValue.put("title", mTitle);
-                contentValue.put("type", FavoriteType.APPRECIATE);
+                contentValue.put("type", FavoriteType.PICTURE);
                 contentValue.put("url", mUrl);
                 contentValue.put("description", "");
                 db.insert("favorite", null, contentValue);

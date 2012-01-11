@@ -98,7 +98,7 @@ public class DiscussDetailsActivity extends Activity{
             if (!isFavorite()) {
                 ContentValues contentValue = new ContentValues();
                 contentValue.put("title", mTitle);
-                contentValue.put("type", FavoriteType.DISCUSS);
+                contentValue.put("type", FavoriteType.ARTICLE);
                 contentValue.put("url", mUrl);
                 contentValue.put("description", "");
                 db.insert("favorite", null, contentValue);
