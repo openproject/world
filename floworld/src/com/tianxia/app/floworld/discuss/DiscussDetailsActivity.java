@@ -23,7 +23,10 @@ import com.tianxia.app.floworld.constant.FavoriteType;
 public class DiscussDetailsActivity extends Activity{
 
     private String mTitle = null;
+    private String mThumbnail = null;
     private String mUrl = null;
+    private String mCategory = null;
+    private String mDate = null;
     
     private WebView mWebView;
     private Button mAppBackButton;
@@ -34,8 +37,11 @@ public class DiscussDetailsActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discuss_details_activity);
+        mThumbnail = getIntent().getStringExtra("thumbnail");
         mUrl = getIntent().getStringExtra("url");
         mTitle = getIntent().getStringExtra("title");
+        mCategory = getIntent().getStringExtra("category");
+        mDate = getIntent().getStringExtra("date");
 
         mAppBackButton = (Button) findViewById(R.id.app_back);
         mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
@@ -99,7 +105,10 @@ public class DiscussDetailsActivity extends Activity{
                 ContentValues contentValue = new ContentValues();
                 contentValue.put("title", mTitle);
                 contentValue.put("type", FavoriteType.ARTICLE);
+                contentValue.put("thumbnail", mThumbnail);
                 contentValue.put("url", mUrl);
+                contentValue.put("category", mCategory);
+                contentValue.put("date", mDate);
                 contentValue.put("description", "");
                 db.insert("favorite", null, contentValue);
                 Toast.makeText(this, R.string.favorite_add, Toast.LENGTH_SHORT).show();

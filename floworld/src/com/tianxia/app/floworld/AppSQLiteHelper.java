@@ -16,7 +16,10 @@ public class AppSQLiteHelper extends BaseSQLiteHelper {
                    + "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                    + "type INTEGER,"
                    + "title TEXT,"
+                   + "thumbnail TEXT,"
                    + "url TEXT,"
+                   + "category TEXT,"
+                   + "date TEXT,"
                    + "description TEXT)";
     }
 }

@@ -7,8 +7,8 @@
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_marginTop="4dip"
-        android:layout_marginBottom="4dip">
+        android:padding="2dip"
+        android:background="#FFFFE0">
         <Button android:id="@+id/app_category_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,7 +20,26 @@
             android:background="@drawable/app_category_right"
             android:text="@string/favorite_category_article"></Button>
     </LinearLayout>
-    <View android:layout_width="fill_parent"
+    <ImageView android:layout_width="fill_parent"
         android:layout_height="1px"
-        android:background="@drawable/app_blank_horizontal"/>
+        android:src="@drawable/app_divider_h_gray"/>
+    <ListView android:id="@+id/favorite_tab_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="@drawable/app_divider_h_gray"
+        android:cacheColorHint="#00000000">
+    </ListView>
+    <GridView android:id="@+id/favorite_tab_grid"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fastScrollEnabled="true"
+        android:gravity="center"
+        android:numColumns="3"
+        android:layout_margin="4dip"
+        android:listSelector="@null"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="4dip"
+        android:horizontalSpacing="4dip"
+        android:cacheColorHint="#00000000">
+    </GridView>
 </LinearLayout>

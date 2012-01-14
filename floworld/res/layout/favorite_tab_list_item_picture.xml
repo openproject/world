@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#dddddd"
+    android:padding="1px"
+    android:gravity="center_horizontal">
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="1px"
+        android:orientation="vertical"
+        android:background="#FFFFFA">
+        <com.tianxia.widget.image.SmartImageView android:id="@+id/item_image"
+             android:layout_width="fill_parent"
+             android:layout_height="90dip"
+             android:scaleType="centerCrop" />
+        <TextView android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:singleLine="true"
+            android:ellipsize="end"/>
+    </LinearLayout>
+</LinearLayout>

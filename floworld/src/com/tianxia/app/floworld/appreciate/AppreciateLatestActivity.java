@@ -36,9 +36,8 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
     private ProgressBar mAppLoadingPbar = null;
     private ImageView mAppLoadingImage = null;
 
-    private SmartImageView mAppreciateLatestImageView = null;
-    private TextView mAppreciateLatestTextView = null;
-    private Intent mAppreciateDetailsIntent = null;
+    private SmartImageView mItemImageView = null;
+    private TextView mItemTextView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,22 +139,23 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
             view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.appreciate_latest_list_item, null);
         }
 
-        mAppreciateLatestImageView = (SmartImageView) view.findViewById(R.id.item_image);
+        mItemImageView = (SmartImageView) view.findViewById(R.id.item_image);
         if (listData != null && position < listData.size()){
-            mAppreciateLatestImageView.setImageUrl(listData.get(position).thumbnail, R.drawable.app_download_fail, R.drawable.app_download_loading);
+            mItemImageView.setImageUrl(listData.get(position).thumbnail, R.drawable.app_download_fail, R.drawable.app_download_loading);
         }
 
-        mAppreciateLatestTextView = (TextView) view.findViewById(R.id.item_title);
-        mAppreciateLatestTextView.setText(listData.get(position).title);
+        mItemTextView = (TextView) view.findViewById(R.id.item_title);
+        mItemTextView.setText(listData.get(position).title);
         return view;
     }
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        mAppreciateDetailsIntent = new Intent(AppreciateLatestActivity.this, AppreciateLatestDetailsActivity.class);
-        mAppreciateDetailsIntent.putExtra("url", listData.get(position).origin);
-        mAppreciateDetailsIntent.putExtra("title", listData.get(position).title);
-        startActivity(mAppreciateDetailsIntent);
+        Intent intent = new Intent(AppreciateLatestActivity.this, AppreciateLatestDetailsActivity.class);
+        intent.putExtra("url", listData.get(position).origin);
+        intent.putExtra("title", listData.get(position).title);
+        intent.putExtra("thumbnail", listData.get(position).thumbnail);
+        startActivity(intent);
     }
 
 }

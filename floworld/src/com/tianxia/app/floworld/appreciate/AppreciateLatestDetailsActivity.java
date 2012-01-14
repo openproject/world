@@ -18,6 +18,7 @@ public class AppreciateLatestDetailsActivity extends Activity {
 
     private String mTitle = null;
     private String mUrl = null;
+    private String mThumbnail = null;
     private SmartImageView mAppreciateLatestDetailsImageView = null;
 
     @Override
@@ -27,6 +28,7 @@ public class AppreciateLatestDetailsActivity extends Activity {
 
         mTitle = getIntent().getStringExtra("title");
         mUrl = getIntent().getStringExtra("url");
+        mThumbnail = getIntent().getStringExtra("thumbnail");
 
         mAppreciateLatestDetailsImageView = (SmartImageView) findViewById(R.id.appreciate_latest_details_image);
         mAppreciateLatestDetailsImageView.setImageUrl(mUrl, R.drawable.app_download_fail, R.drawable.app_download_loading, true);
@@ -63,6 +65,7 @@ public class AppreciateLatestDetailsActivity extends Activity {
                 contentValue.put("title", mTitle);
                 contentValue.put("type", FavoriteType.PICTURE);
                 contentValue.put("url", mUrl);
+                contentValue.put("thumbnail", mThumbnail);
                 contentValue.put("description", "");
                 db.insert("favorite", null, contentValue);
                 Toast.makeText(this, R.string.favorite_add, Toast.LENGTH_SHORT).show();
