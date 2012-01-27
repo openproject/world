@@ -114,6 +114,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
 
             for(int i = 0; i < jsonArray.length(); i++){
                 appreciateLatestInfo = new AppreciateLatestInfo();
+                appreciateLatestInfo.prefix = jsonArray.getJSONObject(i).optString("prefix");
                 appreciateLatestInfo.title = jsonArray.getJSONObject(i).optString("title");
                 appreciateLatestInfo.origin = jsonArray.getJSONObject(i).optString("origin");
                 appreciateLatestInfo.thumbnail = jsonArray.getJSONObject(i).optString("thumbnail");
@@ -145,7 +146,11 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
         }
 
         mItemTextView = (TextView) view.findViewById(R.id.item_title);
-        mItemTextView.setText(listData.get(position).title);
+        if (listData.get(position).prefix != null && !"".equals(listData.get(position).prefix)) {
+            mItemTextView.setText(listData.get(position).prefix + ":" + listData.get(position).title);
+        } else {
+            mItemTextView.setText(listData.get(position).title);
+        }
         return view;
     }
 

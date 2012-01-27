@@ -113,7 +113,7 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
             JSONArray jsonArray = json.getJSONArray("list");
             listData = new ArrayList<AppreciateCategoryInfo>();
             AppreciateCategoryInfo appreciateCategoryInfo = null;
-            for(int i = 0; i < jsonArray.length(); i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 appreciateCategoryInfo = new AppreciateCategoryInfo();
                 appreciateCategoryInfo.filename = jsonArray.getJSONObject(i).optString("filename");
                 appreciateCategoryInfo.category = jsonArray.getJSONObject(i).optString("category");

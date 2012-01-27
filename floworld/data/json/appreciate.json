@@ -1,6 +1,6 @@
 {
     "base-url":"http://api.kaiyuanxiangmu.com/floworld/data/json/appreciate/",
-    "latest":{"add":10,"list":"appreciate-latest.json"},
+    "latest":{"add":12,"list":"appreciate-latest.json"},
     "most":{"list":"appreciate-most.json"},
     "category":{"list":"appreciate-category.json"},
     "archiver":{"list":"appreciate-archiver.json"}
