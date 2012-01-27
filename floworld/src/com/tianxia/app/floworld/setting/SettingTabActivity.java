@@ -55,6 +55,7 @@ public class SettingTabActivity extends PreferenceActivity{
         listData.add(map);
         listDatas.add(listData);
 
+
         listData = new ArrayList<Map<String,String>>();
         map = new HashMap<String, String>();
         map.put("text", "检查新版本");
@@ -69,7 +70,16 @@ public class SettingTabActivity extends PreferenceActivity{
         listData.add(map);
         listDatas.add(listData);
 
+
         listData = new ArrayList<Map<String,String>>();
+        map = new HashMap<String, String>();
+        map.put("text", "分享该软件给朋友");
+        listData.add(map);
+
+        map = new HashMap<String, String>();
+        map.put("text", "去为该软件打分");
+        listData.add(map);
+
         map = new HashMap<String, String>();
         map.put("text", "支持我们，请点击这里的广告");
         listData.add(map);

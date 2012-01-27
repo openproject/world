@@ -1,7 +1,5 @@
 package com.tianxia.app.floworld.appreciate;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -18,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.model.AppreciateCategoryInfo;
@@ -118,6 +115,7 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
             AppreciateCategoryInfo appreciateCategoryInfo = null;
             for(int i = 0; i < jsonArray.length(); i++){
                 appreciateCategoryInfo = new AppreciateCategoryInfo();
+                appreciateCategoryInfo.filename = jsonArray.getJSONObject(i).optString("filename");
                 appreciateCategoryInfo.category = jsonArray.getJSONObject(i).optString("category");
                 appreciateCategoryInfo.thumbnail = jsonArray.getJSONObject(i).optString("thumbnail");
                 appreciateCategoryInfo.count = jsonArray.getJSONObject(i).optString("count");
@@ -157,13 +155,7 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         appreciateCategoryIntent = new Intent(AppreciateCategoryActivity.this, AppreciateLatestActivity.class);
-        try {
-        appreciateCategoryIntent.putExtra("url", AppreciateApi.APPRECIATE_CATEGORY_BASE_URL + URLEncoder.encode(listData.get(position).category, "GB2312") + ".json");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        appreciateCategoryIntent.putExtra("url", AppreciateApi.APPRECIATE_CATEGORY_BASE_URL + listData.get(position).filename + ".json");
         appreciateCategoryIntent.putExtra("title", listData.get(position).category);
         startActivity(appreciateCategoryIntent);
     }

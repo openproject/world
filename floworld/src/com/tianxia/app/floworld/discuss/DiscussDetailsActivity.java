@@ -43,6 +43,7 @@ public class DiscussDetailsActivity extends Activity{
         mCategory = getIntent().getStringExtra("category");
         mDate = getIntent().getStringExtra("date");
 
+        System.out.println("url:" + mUrl);
         mAppBackButton = (Button) findViewById(R.id.app_back);
         mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
         mAppLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
@@ -82,18 +83,15 @@ public class DiscussDetailsActivity extends Activity{
         } else {
             menu.add(R.string.favorite);
         }
+        menu.add(R.string.share);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case 0:
+        if (item.getTitle().equals(getString(R.string.unfavorite)) || item.getTitle().equals(getString(R.string.favorite))) {
             favorite(item);
-            break;
-
-        default:
-            break;
+        } else if (item.getTitle().equals(getString(R.string.share))) {
         }
         return super.onOptionsItemSelected(item);
     }

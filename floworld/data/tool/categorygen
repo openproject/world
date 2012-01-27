@@ -4,12 +4,30 @@
 import os
 import json
 
+class pinyin():
+    def __init__(self, data_path='./Mandarin.dat'):
+        self.dict = {}
+        for line in open(data_path):
+            k, v = line.split('\t')
+            self.dict[k] = v
+        self.splitter = ''
+    def pinyin(self, chars):
+        result = []
+        for char in chars:
+            key = "%X" % ord(char)
+            try:
+                result.append(self.dict[key].split(" ")[0].strip()[:-1].lower())
+            except:
+                result.append(char)
+        return self.splitter.join(result)
+
 list = []
 index = []
 countDict = {}
 basePath = "../json/appreciate/"
 categoryBasePath = "../json/appreciate/category/"
 archiverBasePath = "../json/appreciate/archiver/"
+p = pinyin()
 
 #delete the category json files
 def removeCategoryJson():
@@ -61,7 +79,7 @@ def createCategoryIndex():
                     lastStr = categoryIndexFile.read(1)
                     if lastStr == "}" :
                         categoryIndexFile.write(",")
-                    categoryIndexFile.write("{\"category\":\"" + val["category"] + "\",\"count\":\"1\",\"thumbnail\":\"" + val["thumbnail"] + "\"}")
+                    categoryIndexFile.write("{\"filename\":\"" + p.pinyin(val["category"])+ "\",\"category\":\"" + val["category"] + "\",\"count\":\"1\",\"thumbnail\":\"" + val["thumbnail"] + "\"}")
                     #categoryIndexFile.write(json.dumps(val, skipkeys=False, ensure_ascii=False))
                     index[0:0]=[val["category"]]
                     countDict[val["category"]] = 1;
@@ -75,7 +93,7 @@ def createCategoryIndex():
 def createCategoryJson():
     print "4. 生成新版本的分类json数据模板"
     for str in list:
-        f = open(categoryBasePath + str + ".json", "w")
+        f = open(categoryBasePath + p.pinyin(str) + ".json", "w")
         f.write("{\"list\":[")
         f.close()
         
@@ -85,7 +103,7 @@ def fillCategoryContent():
         for name in files:
             jsonVal = json.load(file(archiverBasePath + name));
             for val in jsonVal["list"]:
-                categoryFile = open(categoryBasePath + val["category"] + ".json", "a+");
+                categoryFile = open(categoryBasePath + p.pinyin(val["category"]) + ".json", "a+");
                 categoryFile.seek(0, 2)
                 lastPos = categoryFile.tell() - 1
                 categoryFile.seek(lastPos)
@@ -97,7 +115,7 @@ def fillCategoryContent():
                 
 def endCategoryJson():
     for str in list:
-        f = open(categoryBasePath + str + ".json", "a")
+        f = open(categoryBasePath + p.pinyin(str) + ".json", "a")
         f.write("]}")
         f.close()
     print "6. 完成新版本的分类json数据生成"

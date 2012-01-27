@@ -41,18 +41,15 @@ public class AppreciateLatestDetailsActivity extends Activity {
         } else {
             menu.add(R.string.favorite);
         }
+        menu.add(R.string.share);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case 0:
+        if (item.getTitle().equals(getString(R.string.unfavorite)) || item.getTitle().equals(getString(R.string.favorite))) {
             favorite(item);
-            break;
-
-        default:
-            break;
+        } else if (item.getTitle().equals(getString(R.string.share))) {
         }
         return super.onOptionsItemSelected(item);
     }
