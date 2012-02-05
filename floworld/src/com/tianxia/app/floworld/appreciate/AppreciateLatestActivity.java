@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
+import com.tianxia.app.floworld.cache.ImagePool;
 import com.tianxia.app.floworld.model.AppreciateLatestInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
@@ -156,10 +157,12 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        ImagePool.sImageList = listData;
         Intent intent = new Intent(AppreciateLatestActivity.this, AppreciateLatestDetailsActivity.class);
         intent.putExtra("url", listData.get(position).origin);
         intent.putExtra("title", listData.get(position).title);
         intent.putExtra("thumbnail", listData.get(position).thumbnail);
+        intent.putExtra("position", position);
         startActivity(intent);
     }
 

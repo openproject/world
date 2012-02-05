@@ -21,7 +21,7 @@
 
         <activity android:name=".appreciate.AppreciateTabActivity"></activity>
         <activity android:name=".appreciate.AppreciateLatestActivity"></activity>
-        <activity android:name=".appreciate.AppreciateLatestDetailsActivity"></activity>
+        <activity android:name=".appreciate.AppreciateLatestDetailsActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".appreciate.AppreciateCompanyActivity"></activity>
         <activity android:name=".appreciate.AppreciateCategoryActivity"></activity>
         <activity android:name=".appreciate.AppreciateArchiverActivity"></activity>

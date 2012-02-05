@@ -1,6 +1,8 @@
 package com.tianxia.app.floworld.favorite;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -19,8 +21,10 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.appreciate.AppreciateLatestDetailsActivity;
+import com.tianxia.app.floworld.cache.ImagePool;
 import com.tianxia.app.floworld.constant.FavoriteType;
 import com.tianxia.app.floworld.discuss.DiscussDetailsActivity;
+import com.tianxia.app.floworld.model.AppreciateLatestInfo;
 import com.tianxia.app.floworld.model.FavoriteInfo;
 import com.tianxia.lib.baseworld.R;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
@@ -114,10 +118,20 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = null;
         if (mFavoriteType == FavoriteType.PICTURE) {
+
+            List<AppreciateLatestInfo> list = new ArrayList<AppreciateLatestInfo>();
+            for (FavoriteInfo fi : listData) {
+                AppreciateLatestInfo ali = new AppreciateLatestInfo();
+                ali.origin = fi.url;
+                list.add(ali);
+            }
+            ImagePool.sImageList = list;
+
             intent = new Intent(this, AppreciateLatestDetailsActivity.class);
             intent.putExtra("url", listData.get(position).url);
             intent.putExtra("title", listData.get(position).title);
             intent.putExtra("thumbnail", listData.get(position).thumbnail);
+            intent.putExtra("position", position);
         } else if (mFavoriteType == FavoriteType.ARTICLE) {
             intent = new Intent(this, DiscussDetailsActivity.class);
             intent.putExtra("thumbnail", listData.get(position).thumbnail);

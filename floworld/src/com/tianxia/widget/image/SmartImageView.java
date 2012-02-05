@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.util.AttributeSet;
 
 public class SmartImageView extends ImageView {
-    private static final int LOADING_THREADS = 4;
+    private static final int LOADING_THREADS = 3;
     private static ExecutorService threadPool = Executors.newFixedThreadPool(LOADING_THREADS);
 
     private SmartImageTask currentTask;
