@@ -9,10 +9,17 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tianxia.app.floworld.AppApplication;
@@ -30,7 +37,10 @@ public class AppreciateLatestDetailsActivity extends Activity {
     private String mThumbnail = null;
     private int mPosition = 0;
 
+    public RelativeLayout mAppTitltBar = null;
+    private Button mAppBack = null;
     private SmartImageView mItemSmartImageView = null;
+    private TextView mPicTitleTextView = null;
 
     private PicGallery mAppreciateLatestDetailsGallery = null;
     private LastestAdapter adapter = null;
@@ -47,6 +57,10 @@ public class AppreciateLatestDetailsActivity extends Activity {
         mThumbnail = getIntent().getStringExtra("thumbnail");
         mPosition = getIntent().getIntExtra("position", 0);
 
+        mAppTitltBar = (RelativeLayout) findViewById(R.id.app_titlebar);
+        mAppBack = (Button) findViewById(R.id.app_back);
+        mPicTitleTextView = (TextView) findViewById(R.id.pic_title);
+
         ScreenUtils screenUtils = new ScreenUtils(this);
         mScreenWidth = screenUtils.getWidth();
 
@@ -54,6 +68,34 @@ public class AppreciateLatestDetailsActivity extends Activity {
         adapter = new LastestAdapter();
         mAppreciateLatestDetailsGallery.setAdapter(adapter);
         mAppreciateLatestDetailsGallery.setSelection(mPosition);
+        mAppreciateLatestDetailsGallery.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                if (mAppTitltBar.getVisibility() == View.VISIBLE) {
+                    mAppTitltBar.setVisibility(View.INVISIBLE);
+                    mPicTitleTextView.setVisibility(View.INVISIBLE);
+                } else {
+                    mAppTitltBar.setVisibility(View.VISIBLE);
+                    mPicTitleTextView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        mAppreciateLatestDetailsGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+                mPicTitleTextView.setText(ImagePool.sImageList.get(position).title);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {}
+        });
+        mAppBack.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     @Override

@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
     android:background="#000000">
     <com.tianxia.widget.gallery.PicGallery android:id="@+id/appreciate_latest_details_gallery"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:fadingEdgeLength="2dip"/>
-</LinearLayout>
+    <RelativeLayout android:id="@+id/app_titlebar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip"
+        android:background="@drawable/main_banner_bg">
+        <Button android:id="@+id/app_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/app_back"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/app_btn_back"/>
+        <TextView android:id="@+id/appreciate_latest_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/details_title"
+            android:textSize="20dip"
+            android:textColor="#000000"/>
+    </RelativeLayout>
+    <TextView android:id="@+id/pic_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="50dip"
+        android:background="@drawable/app_tips_bg"/>
+</FrameLayout>

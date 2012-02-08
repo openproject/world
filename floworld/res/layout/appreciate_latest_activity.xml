@@ -12,14 +12,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="返回"
+            android:text="@string/app_back"
             android:layout_alignParentLeft="true"
             android:background="@drawable/app_btn_back"/>
         <TextView android:id="@+id/appreciate_latest_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="最新图片"
+            android:text="@string/latest_title"
             android:textSize="20dip"
             android:textColor="#000000"/>
         <FrameLayout android:layout_width="wrap_content"
@@ -36,8 +36,7 @@
             <ImageView android:id="@+id/app_loading_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_refresh"
                 android:src="@drawable/app_icon_refresh"
                 android:visibility="gone"/>
         </FrameLayout>
@@ -46,7 +45,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:gravity="center"
-            android:text="正在拉取数据..."/>
+            android:text="@string/app_loading"/>
     <GridView android:id="@+id/appreciate_latest_list"
         android:layout_width="fill_parent" 
         android:layout_height="fill_parent"
