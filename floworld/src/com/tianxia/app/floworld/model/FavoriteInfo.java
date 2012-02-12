@@ -9,6 +9,7 @@ public class FavoriteInfo {
     public String thumbnail;
     public String category;
     public String date;
+    public String prefix;
     public String description;
 
 }

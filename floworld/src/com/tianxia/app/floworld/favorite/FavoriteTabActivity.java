@@ -123,6 +123,8 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
             for (FavoriteInfo fi : listData) {
                 AppreciateLatestInfo ali = new AppreciateLatestInfo();
                 ali.origin = fi.url;
+                ali.title = fi.title;
+                ali.prefix = fi.prefix;
                 list.add(ali);
             }
             ImagePool.sImageList = list;
@@ -132,6 +134,7 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
             intent.putExtra("title", listData.get(position).title);
             intent.putExtra("thumbnail", listData.get(position).thumbnail);
             intent.putExtra("position", position);
+            intent.putExtra("prefix", listData.get(position).prefix);
         } else if (mFavoriteType == FavoriteType.ARTICLE) {
             intent = new Intent(this, DiscussDetailsActivity.class);
             intent.putExtra("thumbnail", listData.get(position).thumbnail);
@@ -175,6 +178,7 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
                         favoriteInfo.url = cursor.getString(cursor.getColumnIndex("url"));
                         favoriteInfo.category = cursor.getString(cursor.getColumnIndex("category"));
                         favoriteInfo.date = cursor.getString(cursor.getColumnIndex("date"));
+                        favoriteInfo.prefix = cursor.getString(cursor.getColumnIndex("prefix"));
                         listData.add(favoriteInfo);
                     } while (cursor.moveToNext());
                 }

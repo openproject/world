@@ -20,6 +20,7 @@ public class AppSQLiteHelper extends BaseSQLiteHelper {
                    + "url TEXT,"
                    + "category TEXT,"
                    + "date TEXT,"
+                   + "prefix TEXT,"
                    + "description TEXT)";
     }
 }

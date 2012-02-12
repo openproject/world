@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">花界</string>
+    <string name="app_name">Flower World</string>
     <string name="appreciate_archiver_title">归档</string>
     <string-array name="tab_text">
         <item>花界•欣赏美花</item>
@@ -27,5 +27,4 @@
     <string name="favorite_category_article">文章</string>
 
     <string name="latest_title">最新图片</string>
-    <string name="details_title">最新图片</string>
 </resources>

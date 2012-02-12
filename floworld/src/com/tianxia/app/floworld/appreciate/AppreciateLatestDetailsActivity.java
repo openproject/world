@@ -35,9 +35,11 @@ public class AppreciateLatestDetailsActivity extends Activity {
     private String mTitle = null;
     private String mUrl = null;
     private String mThumbnail = null;
+    private String mPrefix = null;
     private int mPosition = 0;
 
     public RelativeLayout mAppTitltBar = null;
+    private TextView mAppTitleBarText = null;
     private Button mAppBack = null;
     private SmartImageView mItemSmartImageView = null;
     private TextView mPicTitleTextView = null;
@@ -55,9 +57,11 @@ public class AppreciateLatestDetailsActivity extends Activity {
         mTitle = getIntent().getStringExtra("title");
         mUrl = getIntent().getStringExtra("url");
         mThumbnail = getIntent().getStringExtra("thumbnail");
+        mPrefix = getIntent().getStringExtra("prefix");
         mPosition = getIntent().getIntExtra("position", 0);
 
         mAppTitltBar = (RelativeLayout) findViewById(R.id.app_titlebar);
+        mAppTitleBarText = (TextView) findViewById(R.id.appreciate_latest_title);
         mAppBack = (Button) findViewById(R.id.app_back);
         mPicTitleTextView = (TextView) findViewById(R.id.pic_title);
 
@@ -84,7 +88,13 @@ public class AppreciateLatestDetailsActivity extends Activity {
         mAppreciateLatestDetailsGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
-                mPicTitleTextView.setText(ImagePool.sImageList.get(position).title);
+                mPrefix = ImagePool.sImageList.get(position).prefix;
+                if (mPrefix != null && !"".equals(mPrefix)) {
+                    mPicTitleTextView.setText(mPrefix + ":" + ImagePool.sImageList.get(position).title);
+                } else {
+                    mPicTitleTextView.setText(ImagePool.sImageList.get(position).title);
+                }
+                mAppTitleBarText.setText((position + 1) + "/" + ImagePool.sImageList.size());
             }
 
             @Override
@@ -127,6 +137,7 @@ public class AppreciateLatestDetailsActivity extends Activity {
                 contentValue.put("type", FavoriteType.PICTURE);
                 contentValue.put("url", mUrl);
                 contentValue.put("thumbnail", mThumbnail);
+                contentValue.put("prefix", mPrefix);
                 contentValue.put("description", "");
                 db.insert("favorite", null, contentValue);
                 Toast.makeText(this, R.string.favorite_add, Toast.LENGTH_SHORT).show();

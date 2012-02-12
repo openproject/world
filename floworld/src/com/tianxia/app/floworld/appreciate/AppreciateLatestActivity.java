@@ -162,6 +162,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
         intent.putExtra("url", listData.get(position).origin);
         intent.putExtra("title", listData.get(position).title);
         intent.putExtra("thumbnail", listData.get(position).thumbnail);
+        intent.putExtra("prefix", listData.get(position).prefix);
         intent.putExtra("position", position);
         startActivity(intent);
     }
