@@ -14,10 +14,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 
 public class WebImageCache {
-    private static final String DISK_CACHE_PATH = "/web_image_cache/";
-
+    private static final String DISK_CACHE_PATH = "/floworld/image/";
+    private static final String DATA_CACHE_PATH = "/webimage_cache/";
     private ConcurrentHashMap<String, SoftReference<Bitmap>> memoryCache;
     private String diskCachePath;
     private boolean diskCacheEnabled = false;
@@ -28,8 +29,12 @@ public class WebImageCache {
         memoryCache = new ConcurrentHashMap<String, SoftReference<Bitmap>>();
 
         // Set up disk cache store
-        Context appContext = context.getApplicationContext();
-        diskCachePath = appContext.getCacheDir().getAbsolutePath() + DISK_CACHE_PATH;
+        if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+            diskCachePath =  Environment.getExternalStorageDirectory().getPath() + DISK_CACHE_PATH;
+        } else {
+            Context appContext = context.getApplicationContext();
+            diskCachePath = appContext.getCacheDir().getAbsolutePath() + DATA_CACHE_PATH;
+        }
 
         File outFile = new File(diskCachePath);
         outFile.mkdirs();
