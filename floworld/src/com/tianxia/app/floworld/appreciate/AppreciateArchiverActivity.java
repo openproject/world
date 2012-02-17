@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
+import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.model.AppreciateArchiverInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
@@ -28,45 +29,45 @@ import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 
 public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiverInfo> {
 
-    private String appreciateArchivertUrl = null;
+    private String mAppreciateArchivertUrl = null;
 
-    private TextView appreciateArchiverTitle = null;
+    private TextView mAppreciateArchiverTitle = null;
 
-    private Button appBackButton = null;
-    private TextView appLoadingTip = null;
-    private ProgressBar appLoadingPbar = null;
-    private ImageView appLoadingImage = null;
+    private Button mAppBackButton = null;
+    private TextView mAppLoadingTip = null;
+    private ProgressBar mAppLoadingPbar = null;
+    private ImageView mAppLoadingImage = null;
 
-    private ImageView itemImageView = null;
-    private TextView itemIndex = null;
-    private TextView itemDate = null;
-    private TextView itemTitle = null;
+    private ImageView mItemImageView = null;
+    private TextView mItemIndex = null;
+    private TextView mItemDate = null;
+    private TextView mItemTitle = null;
 
-    private Intent appreciateArchiverIntent = null;
+    private Intent mAppreciateArchiverIntent = null;
 
-    private AssetManager assetManager = null;
-    private String[] kindImages = null;
+    private AssetManager mAssetManager = null;
+    private String[] mKindImages = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        appreciateArchivertUrl = getIntent().getStringExtra("url");
+        mAppreciateArchivertUrl = getIntent().getStringExtra("url");
 
-        appreciateArchiverTitle = (TextView) findViewById(R.id.appreciate_archiver_title);
+        mAppreciateArchiverTitle = (TextView) findViewById(R.id.appreciate_archiver_title);
   
-        appBackButton  = (Button) findViewById(R.id.app_back);
-        appLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
-        appLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
-        appLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
+        mAppBackButton  = (Button) findViewById(R.id.app_back);
+        mAppLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
+        mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
+        mAppLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
 
-        appBackButton.setOnClickListener(new OnClickListener() {
+        mAppBackButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onBackPressed();
 			}
 		});
-        appLoadingImage.setOnClickListener(new OnClickListener() {
+        mAppLoadingImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadListView();
@@ -74,45 +75,51 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
         });
         loadListView();
 
-        assetManager = getResources().getAssets();
+        mAssetManager = getResources().getAssets();
         try {
-            kindImages = assetManager.list("kinds");
+            mKindImages = mAssetManager.list("kinds");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     
     private void loadListView(){
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(appreciateArchivertUrl, new AsyncHttpResponseHandler(){
+        String cacheConfigString = ConfigCache.getUrlCache(mAppreciateArchivertUrl);
+        if (cacheConfigString != null) {
+            setAppreciateArchiverList(cacheConfigString);
+            mAppLoadingTip.setVisibility(View.GONE);
+            mAppLoadingPbar.setVisibility(View.GONE);
+            mAppLoadingImage.setVisibility(View.VISIBLE);
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(mAppreciateArchivertUrl, new AsyncHttpResponseHandler(){
 
-            @Override
-            public void onStart() {
-                listView.setAdapter(null);
-                appLoadingTip.setVisibility(View.VISIBLE);
-                appLoadingPbar.setVisibility(View.VISIBLE);
-                appLoadingImage.setVisibility(View.GONE);
-            }
+                @Override
+                public void onStart() {
+                    listView.setAdapter(null);
+                    mAppLoadingTip.setVisibility(View.VISIBLE);
+                    mAppLoadingPbar.setVisibility(View.VISIBLE);
+                    mAppLoadingImage.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onSuccess(String result) {
-                setAppreciateArchiverList(result);
-                adapter = new Adapter(AppreciateArchiverActivity.this);
-                listView.setAdapter(adapter);
-                updateAppreciateTitle(listData.size());
-            }
+                @Override
+                public void onSuccess(String result) {
+                    ConfigCache.setUrlCache(result, mAppreciateArchivertUrl);
+                    setAppreciateArchiverList(result);
+                }
 
-            @Override
-            public void onFailure(Throwable arg0) {
-            }
+                @Override
+                public void onFailure(Throwable arg0) {
+                }
 
-            @Override
-            public void onFinish() {
-                appLoadingTip.setVisibility(View.GONE);
-                appLoadingPbar.setVisibility(View.GONE);
-                appLoadingImage.setVisibility(View.VISIBLE);
-            }
-        });
+                @Override
+                public void onFinish() {
+                    mAppLoadingTip.setVisibility(View.GONE);
+                    mAppLoadingPbar.setVisibility(View.GONE);
+                    mAppLoadingImage.setVisibility(View.VISIBLE);
+                }
+            });
+        }
     }
 
     private void setAppreciateArchiverList(String jsonString){
@@ -132,11 +139,14 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        adapter = new Adapter(AppreciateArchiverActivity.this);
+        listView.setAdapter(adapter);
+        updateAppreciateTitle(listData.size());
     }
 
     private void updateAppreciateTitle(int size){
         if (size > 0) {
-            appreciateArchiverTitle.setText(appreciateArchiverTitle.getText() + "(共" + size + "期)");
+            mAppreciateArchiverTitle.setText(mAppreciateArchiverTitle.getText() + "(共" + size + "期)");
         }
     }
 
@@ -153,30 +163,30 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
             view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.appreciate_archiver_list_item, null);
         }
 
-        itemImageView = (ImageView) view.findViewById(R.id.item_image);
+        mItemImageView = (ImageView) view.findViewById(R.id.item_image);
         try {
-            itemImageView.setImageBitmap(BitmapFactory.decodeStream(assetManager.open("kinds/" + kindImages[position])));
+            mItemImageView.setImageBitmap(BitmapFactory.decodeStream(mAssetManager.open("kinds/" + mKindImages[position])));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        itemIndex = (TextView) view.findViewById(R.id.item_index);
-        itemIndex.setText(listData.get(position).index);
+        mItemIndex = (TextView) view.findViewById(R.id.item_index);
+        mItemIndex.setText(listData.get(position).index);
 
-        itemDate = (TextView) view.findViewById(R.id.item_date);
-        itemDate.setText("日期:" + listData.get(position).date);
+        mItemDate = (TextView) view.findViewById(R.id.item_date);
+        mItemDate.setText("日期:" + listData.get(position).date);
         
-        itemTitle = (TextView) view.findViewById(R.id.item_title);
-        itemTitle.setText("题语:" + listData.get(position).title);
+        mItemTitle = (TextView) view.findViewById(R.id.item_title);
+        mItemTitle.setText("题语:" + listData.get(position).title);
 
         return view;
     }
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        appreciateArchiverIntent = new Intent(AppreciateArchiverActivity.this, AppreciateLatestActivity.class);
-        appreciateArchiverIntent.putExtra("url", listData.get(position).json);
-        appreciateArchiverIntent.putExtra("title", listData.get(position).index);
-        startActivity(appreciateArchiverIntent);
+        mAppreciateArchiverIntent = new Intent(AppreciateArchiverActivity.this, AppreciateLatestActivity.class);
+        mAppreciateArchiverIntent.putExtra("url", listData.get(position).json);
+        mAppreciateArchiverIntent.putExtra("title", listData.get(position).index);
+        startActivity(mAppreciateArchiverIntent);
     }
 }

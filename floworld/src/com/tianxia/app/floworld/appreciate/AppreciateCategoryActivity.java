@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
+import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.model.AppreciateCategoryInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
@@ -26,46 +27,46 @@ import com.tianxia.widget.image.SmartImageView;
 
 public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCategoryInfo> {
 
-    private String appricateCategoryUrl = null;
-    private String appreciateCategoryTitle = null;
+    private String mAppricateCategoryUrl = null;
+    private String mAppreciateCategoryTitle = null;
 
-    private TextView appreciateCategoryTitleView = null;
+    private TextView mAppreciateCategoryTitleView = null;
 
-    private Button appBackButton = null;
-    private TextView appLoadingTip = null;
-    private ProgressBar appLoadingPbar = null;
-    private ImageView appLoadingImage = null;
+    private Button mAppBackButton = null;
+    private TextView mAppLoadingTip = null;
+    private ProgressBar mAppLoadingPbar = null;
+    private ImageView mAppLoadingImage = null;
 
-    private SmartImageView itemImageView = null;
-    private TextView itemTextView = null;
-    private TextView itemCount = null;
+    private SmartImageView mItemImageView = null;
+    private TextView mItemTextView = null;
+    private TextView mItemCount = null;
 
-    private Intent appreciateCategoryIntent = null;
+    private Intent mAppreciateCategoryIntent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        appricateCategoryUrl = getIntent().getStringExtra("url");
-        appreciateCategoryTitle = getIntent().getStringExtra("title");
+        mAppricateCategoryUrl = getIntent().getStringExtra("url");
+        mAppreciateCategoryTitle = getIntent().getStringExtra("title");
 
-        appreciateCategoryTitleView = (TextView) findViewById(R.id.appreciate_category_title);
-        if (appreciateCategoryTitle != null) {
-            appreciateCategoryTitleView.setText(appreciateCategoryTitle);
+        mAppreciateCategoryTitleView = (TextView) findViewById(R.id.appreciate_category_title);
+        if (mAppreciateCategoryTitle != null) {
+            mAppreciateCategoryTitleView.setText(mAppreciateCategoryTitle);
         }
 
-        appBackButton  = (Button) findViewById(R.id.app_back);
-        appLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
-        appLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
-        appLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
+        mAppBackButton  = (Button) findViewById(R.id.app_back);
+        mAppLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
+        mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
+        mAppLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
 
-        appBackButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onBackPressed();
-			}
-		});
-        appLoadingImage.setOnClickListener(new OnClickListener() {
+        mAppBackButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        mAppLoadingImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadGridView();
@@ -76,35 +77,42 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
     }
 
     private void loadGridView(){
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(appricateCategoryUrl, new AsyncHttpResponseHandler(){
+        String cacheConfigString = ConfigCache.getUrlCache(mAppricateCategoryUrl);
+        if (cacheConfigString != null) {
+            setAppreciateCategoryList(cacheConfigString);
+            mAppLoadingTip.setVisibility(View.GONE);
+            mAppLoadingPbar.setVisibility(View.GONE);
+            mAppLoadingImage.setVisibility(View.VISIBLE);
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(mAppricateCategoryUrl, new AsyncHttpResponseHandler(){
 
-            @Override
-            public void onStart() {
-                listView.setAdapter(null);
-                appLoadingTip.setVisibility(View.VISIBLE);
-                appLoadingPbar.setVisibility(View.VISIBLE);
-                appLoadingImage.setVisibility(View.GONE);
-            }
+                @Override
+                public void onStart() {
+                    listView.setAdapter(null);
+                    mAppLoadingTip.setVisibility(View.VISIBLE);
+                    mAppLoadingPbar.setVisibility(View.VISIBLE);
+                    mAppLoadingImage.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onSuccess(String result) {
-                setAppreciateCategoryList(result);
-                adapter = new Adapter(AppreciateCategoryActivity.this);
-                listView.setAdapter(adapter);
-            }
+                @Override
+                public void onSuccess(String result) {
+                    ConfigCache.setUrlCache(result, mAppricateCategoryUrl);
+                    setAppreciateCategoryList(result);
+                }
 
-            @Override
-            public void onFailure(Throwable arg0) {
-            }
+                @Override
+                public void onFailure(Throwable arg0) {
+                }
 
-            @Override
-            public void onFinish() {
-                appLoadingTip.setVisibility(View.GONE);
-                appLoadingPbar.setVisibility(View.GONE);
-                appLoadingImage.setVisibility(View.VISIBLE);
-            }
-        });
+                @Override
+                public void onFinish() {
+                    mAppLoadingTip.setVisibility(View.GONE);
+                    mAppLoadingPbar.setVisibility(View.GONE);
+                    mAppLoadingImage.setVisibility(View.VISIBLE);
+                }
+            });
+        }
     }
 
     private void setAppreciateCategoryList(String jsonString){
@@ -124,6 +132,8 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        adapter = new Adapter(AppreciateCategoryActivity.this);
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -139,24 +149,24 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
             view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.appreciate_category_list_item, null);
         }
 
-        itemImageView = (SmartImageView) view.findViewById(R.id.item_image);
+        mItemImageView = (SmartImageView) view.findViewById(R.id.item_image);
         if (listData != null && position < listData.size()){
-            itemImageView.setImageUrl(listData.get(position).thumbnail, R.drawable.app_download_fail, R.drawable.app_download_loading);
+            mItemImageView.setImageUrl(listData.get(position).thumbnail, R.drawable.app_download_fail, R.drawable.app_download_loading);
         }
 
-        itemTextView = (TextView) view.findViewById(R.id.item_category);
-        itemTextView.setText(listData.get(position).category);
+        mItemTextView = (TextView) view.findViewById(R.id.item_category);
+        mItemTextView.setText(listData.get(position).category);
 
-        itemCount = (TextView) view.findViewById(R.id.item_count);
-        itemCount.setText(listData.get(position).count);
+        mItemCount = (TextView) view.findViewById(R.id.item_count);
+        mItemCount.setText(listData.get(position).count);
         return view;
     }
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        appreciateCategoryIntent = new Intent(AppreciateCategoryActivity.this, AppreciateLatestActivity.class);
-        appreciateCategoryIntent.putExtra("url", AppreciateApi.APPRECIATE_CATEGORY_BASE_URL + listData.get(position).filename + ".json");
-        appreciateCategoryIntent.putExtra("title", listData.get(position).category);
-        startActivity(appreciateCategoryIntent);
+        mAppreciateCategoryIntent = new Intent(AppreciateCategoryActivity.this, AppreciateLatestActivity.class);
+        mAppreciateCategoryIntent.putExtra("url", AppreciateApi.APPRECIATE_CATEGORY_BASE_URL + listData.get(position).filename + ".json");
+        mAppreciateCategoryIntent.putExtra("title", listData.get(position).category);
+        startActivity(mAppreciateCategoryIntent);
     }
 }

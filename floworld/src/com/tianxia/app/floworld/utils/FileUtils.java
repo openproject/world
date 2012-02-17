@@ -1,8 +1,10 @@
 package com.tianxia.app.floworld.utils;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,5 +42,18 @@ public class FileUtils {
             }
         }
         return strbuffer.toString();
+    }
+
+    //将文本内容写入文件
+    public static void writeTextFile(File file, String str) throws IOException {
+        DataOutputStream out = null;
+        try {
+            out = new DataOutputStream(new FileOutputStream(file));
+            out.write(str.getBytes());
+        } finally {
+            if(out != null) {
+                out.close();
+            }
+        }
     }
 }

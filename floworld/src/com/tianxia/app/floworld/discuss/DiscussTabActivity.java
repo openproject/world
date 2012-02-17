@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
+import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.model.DiscussInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.main.MainTabFrame;
@@ -26,76 +27,83 @@ import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 
 public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
 
-    private LinearLayout appLoadingLinearLayout;
-    private ImageView itemImageView;
-    private TextView itemTitleTextView;
-    private TextView itemCategoryTextView;
-    private TextView itemDateTextView;
+    private LinearLayout mAppLoadingLinearLayout;
+    private ImageView mItemImageView;
+    private TextView mItemTitleTextView;
+    private TextView mItemCategoryTextView;
+    private TextView mItemDateTextView;
 
-    private AssetManager assetManager = null;
-    private String[] kindImages = null;
+    private AssetManager mAssetManager = null;
+    private String[] mKindImages = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        appLoadingLinearLayout = (LinearLayout) findViewById(R.id.app_loading);
-        appLoadingLinearLayout.getLayoutParams().height = MainTabFrame.mainTabContainerHeight;
+        mAppLoadingLinearLayout = (LinearLayout) findViewById(R.id.app_loading);
+        mAppLoadingLinearLayout.getLayoutParams().height = MainTabFrame.mainTabContainerHeight;
 
-        assetManager = getResources().getAssets();
+        mAssetManager = getResources().getAssets();
         try {
-            kindImages = assetManager.list("kinds");
+            mKindImages = mAssetManager.list("kinds");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setListData();
     }
 
     @Override
     protected void setLayoutView() {
         setContentView(R.layout.discuss_tab_activity);
         setListView(R.id.discuss_tab_list);
-
-        setListData();
     }
 
     private void setListData(){
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(DiscussApi.DISCUSS_CONFIG_URL, new AsyncHttpResponseHandler(){
+        String cacheConfigString = ConfigCache.getUrlCache(DiscussApi.DISCUSS_CONFIG_URL);
+        if (cacheConfigString != null) {
+            setDiscussConfig(cacheConfigString);
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(DiscussApi.DISCUSS_CONFIG_URL, new AsyncHttpResponseHandler(){
 
-            @Override
-            public void onSuccess(String result){
-                appLoadingLinearLayout.setVisibility(View.GONE);
-                try {
-                    JSONObject discussConfig = new JSONObject(result);
-
-                    String baseUrl = discussConfig.getString("base-url");
-                    JSONArray discussList = discussConfig.getJSONArray("list");
-                    DiscussInfo discussInfo = null;
-                    for (int i = 0; i < discussList.length(); i++) {
-                        discussInfo = new DiscussInfo();
-                        discussInfo.id = discussList.getJSONObject(i).getInt("id");
-                        discussInfo.title = discussList.getJSONObject(i).getString("title");
-                        discussInfo.category = getString(R.string.discuss_category, discussList.getJSONObject(i).getString("category"));
-                        discussInfo.date = discussList.getJSONObject(i).getString("date");
-                        discussInfo.path = baseUrl + discussList.getJSONObject(i).getString("path");
-                        listData.add(discussInfo);
-                    }
-
-                    adapter = new Adapter(DiscussTabActivity.this);
-                    listView.setAdapter(adapter);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                @Override
+                public void onSuccess(String result){
+                    ConfigCache.setUrlCache(result, DiscussApi.DISCUSS_CONFIG_URL);
+                    setDiscussConfig(result);
                 }
-                
-            }
 
-            @Override
-            public void onFailure(Throwable arg0) {
-                appLoadingLinearLayout.setVisibility(View.GONE);
-                listView.setAdapter(null);
-            }
-        });
+                @Override
+                public void onFailure(Throwable arg0) {
+                    mAppLoadingLinearLayout.setVisibility(View.GONE);
+                    listView.setAdapter(null);
+                }
+            });
+        }
     }
 
+    private void setDiscussConfig(String result){
+        mAppLoadingLinearLayout.setVisibility(View.GONE);
+        try {
+            JSONObject discussConfig = new JSONObject(result);
+
+            String baseUrl = discussConfig.getString("base-url");
+            JSONArray discussList = discussConfig.getJSONArray("list");
+            DiscussInfo discussInfo = null;
+            for (int i = 0; i < discussList.length(); i++) {
+                discussInfo = new DiscussInfo();
+                discussInfo.id = discussList.getJSONObject(i).getInt("id");
+                discussInfo.title = discussList.getJSONObject(i).getString("title");
+                discussInfo.category = getString(R.string.discuss_category, discussList.getJSONObject(i).getString("category"));
+                discussInfo.date = discussList.getJSONObject(i).getString("date");
+                discussInfo.path = baseUrl + discussList.getJSONObject(i).getString("path");
+                listData.add(discussInfo);
+            }
+
+            adapter = new Adapter(DiscussTabActivity.this);
+            listView.setAdapter(adapter);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     protected View getView(int position, View convertView) {
         View view = convertView;
@@ -103,28 +111,28 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
             view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.discuss_tab_list_item, null);
         }
 
-        itemImageView = (ImageView) view.findViewById(R.id.item_image);
+        mItemImageView = (ImageView) view.findViewById(R.id.item_image);
         try {
-            itemImageView.setImageBitmap(BitmapFactory.decodeStream(assetManager.open("kinds/" + kindImages[position])));
+            mItemImageView.setImageBitmap(BitmapFactory.decodeStream(mAssetManager.open("kinds/" + mKindImages[position])));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        itemTitleTextView = (TextView) view.findViewById(R.id.item_title);
-        itemTitleTextView.setText(listData.get(position).title);
+        mItemTitleTextView = (TextView) view.findViewById(R.id.item_title);
+        mItemTitleTextView.setText(listData.get(position).title);
 
-        itemCategoryTextView = (TextView) view.findViewById(R.id.item_category);
-        itemCategoryTextView.setText(listData.get(position).category);
+        mItemCategoryTextView = (TextView) view.findViewById(R.id.item_category);
+        mItemCategoryTextView.setText(listData.get(position).category);
 
-        itemDateTextView = (TextView) view.findViewById(R.id.item_date);
-        itemDateTextView.setText(listData.get(position).date);
+        mItemDateTextView = (TextView) view.findViewById(R.id.item_date);
+        mItemDateTextView.setText(listData.get(position).date);
         return view;
     }
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(this, DiscussDetailsActivity.class);
-        intent.putExtra("thumbnail", "kinds/" + kindImages[position]);
+        intent.putExtra("thumbnail", "kinds/" + mKindImages[position]);
         intent.putExtra("url", listData.get(position).path);
         intent.putExtra("title", listData.get(position).title);
         intent.putExtra("category", listData.get(position).category);

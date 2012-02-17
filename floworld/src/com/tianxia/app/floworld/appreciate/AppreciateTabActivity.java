@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
+import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.main.MainTabFrame;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
@@ -94,34 +95,43 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
      * 读取所需的Appreciate基本信息
      */
     protected void getAppreciateConfig(){
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(AppreciateApi.APPRECIATE_CONFIG_URL, new AsyncHttpResponseHandler(){
+        String cacheConfigString = ConfigCache.getUrlCache(AppreciateApi.APPRECIATE_CONFIG_URL);
+        if ( cacheConfigString != null) {
+            showAppreciateConfig(cacheConfigString);
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(AppreciateApi.APPRECIATE_CONFIG_URL, new AsyncHttpResponseHandler(){
 
-            @Override
-            public void onSuccess(String result){
-                try {
-                    JSONObject appreciateConfig = new JSONObject(result);
+                @Override
+                public void onSuccess(String result){
+                    ConfigCache.setUrlCache(result, AppreciateApi.APPRECIATE_CONFIG_URL);
+                    showAppreciateConfig(result);
+                }
 
-                    String baseUrl = appreciateConfig.getString("base-url");
-                    latestNum = appreciateConfig.getJSONObject("latest").getInt("add");
-                    latestListUrl = baseUrl + appreciateConfig.getJSONObject("latest").getString("list");
-                    mostListUrl = baseUrl + appreciateConfig.getJSONObject("most").getString("list");
-                    categoryListUrl = baseUrl + appreciateConfig.getJSONObject("category").getString("list");
-                    archiverListUrl = baseUrl + appreciateConfig.getJSONObject("archiver").getString("list");
-
+                @Override
+                public void onFailure(Throwable arg0) {
                     setListData(true);
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
                 
-            }
+            });
+        }
+    }
 
-            @Override
-            public void onFailure(Throwable arg0) {
-                setListData(true);
-            }
+    private void showAppreciateConfig(String result) {
+        try {
+            JSONObject appreciateConfig = new JSONObject(result);
 
-        });
+            String baseUrl = appreciateConfig.getString("base-url");
+            latestNum = appreciateConfig.getJSONObject("latest").getInt("add");
+            latestListUrl = baseUrl + appreciateConfig.getJSONObject("latest").getString("list");
+            mostListUrl = baseUrl + appreciateConfig.getJSONObject("most").getString("list");
+            categoryListUrl = baseUrl + appreciateConfig.getJSONObject("category").getString("list");
+            archiverListUrl = baseUrl + appreciateConfig.getJSONObject("archiver").getString("list");
+
+            setListData(true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

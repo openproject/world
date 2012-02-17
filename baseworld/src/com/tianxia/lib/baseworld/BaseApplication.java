@@ -20,6 +20,7 @@ public abstract class BaseApplication extends Application {
         fillTabs();
 
         initDb();
+        initEnv();
     }
 
     public List<Class<?>> getTabActivitys(){
@@ -43,4 +44,5 @@ public abstract class BaseApplication extends Application {
     public abstract void fillTabs();
 
     public abstract void initDb();
+    public abstract void initEnv();
 }

@@ -1,5 +1,9 @@
 package com.tianxia.app.floworld;
 
+import java.io.File;
+
+import android.os.Environment;
+
 import com.tianxia.app.floworld.appreciate.AppreciateTabActivity;
 import com.tianxia.app.floworld.discuss.DiscussTabActivity;
 import com.tianxia.app.floworld.favorite.FavoriteTabActivity;
@@ -10,9 +14,11 @@ import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
 
 public class AppApplication extends BaseApplication {
 
+    private static final String DB_NAME = "floworld.db";
+
     public static BaseSQLiteHelper mSQLiteHelper;
 
-    private static final String DB_NAME = "floworld.db";
+    public static String mSdcardDataDir;
 
     @Override
     public void fillTabs() {
@@ -38,6 +44,20 @@ public class AppApplication extends BaseApplication {
     @Override
     public void initDb() {
         mSQLiteHelper = new AppSQLiteHelper(getApplicationContext(), DB_NAME, 1);
+    }
+
+    @Override
+    public void initEnv() {
+        if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+            File file = new File(Environment.getExternalStorageDirectory().getPath() +  "/floworld/config/");
+            if(!file.exists()) {
+                if (file.mkdirs()) {
+                    mSdcardDataDir = file.getAbsolutePath();
+                }
+            } else {
+                mSdcardDataDir = file.getAbsolutePath();
+            }
+        }
     }
 
 }

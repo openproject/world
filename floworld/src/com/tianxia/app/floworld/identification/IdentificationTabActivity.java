@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.appreciate.AppreciateApi;
 import com.tianxia.app.floworld.appreciate.AppreciateLatestActivity;
+import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.model.AppreciateCategoryInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.main.MainTabFrame;
@@ -48,30 +49,34 @@ public class IdentificationTabActivity extends AdapterActivity<AppreciateCategor
     }
 
     private void loadGridView(){
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(IdentificationApi.IDENTIFICATION_CONFIG_URL, new AsyncHttpResponseHandler(){
+        String cacheConfigString = ConfigCache.getUrlCache(IdentificationApi.IDENTIFICATION_CONFIG_URL);
+        if (cacheConfigString != null) {
+            setAppreciateCategoryList(cacheConfigString);
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(IdentificationApi.IDENTIFICATION_CONFIG_URL, new AsyncHttpResponseHandler(){
 
-            @Override
-            public void onStart() {
-                listView.setAdapter(null);
-            }
+                @Override
+                public void onStart() {
+                    listView.setAdapter(null);
+                }
 
-            @Override
-            public void onSuccess(String result) {
-                appLoadingLinearLayout.setVisibility(View.GONE);
-                setAppreciateCategoryList(result);
-                adapter = new Adapter(IdentificationTabActivity.this);
-                listView.setAdapter(adapter);
-            }
+                @Override
+                public void onSuccess(String result) {
+                    ConfigCache.setUrlCache(result, IdentificationApi.IDENTIFICATION_CONFIG_URL);
+                    setAppreciateCategoryList(result);
+                }
 
-            @Override
-            public void onFailure(Throwable arg0) {
-                appLoadingLinearLayout.setVisibility(View.GONE);
-            }
-        });
+                @Override
+                public void onFailure(Throwable arg0) {
+                    appLoadingLinearLayout.setVisibility(View.GONE);
+                }
+            });
+        }
     }
 
     private void setAppreciateCategoryList(String jsonString){
+        appLoadingLinearLayout.setVisibility(View.GONE);
         try {
             JSONObject json = new JSONObject(jsonString);
             JSONArray jsonArray = json.getJSONArray("list");
@@ -87,6 +92,8 @@ public class IdentificationTabActivity extends AdapterActivity<AppreciateCategor
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        adapter = new Adapter(IdentificationTabActivity.this);
+        listView.setAdapter(adapter);
     }
 
     @Override

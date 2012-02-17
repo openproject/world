@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
+import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.cache.ImagePool;
 import com.tianxia.app.floworld.model.AppreciateLatestInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
@@ -75,35 +76,42 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
     }
 
     private void loadGridView(){
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(mAppricateLatestUrl, new AsyncHttpResponseHandler(){
+        String cacheConfigString = ConfigCache.getUrlCache(mAppricateLatestUrl);
+        if (cacheConfigString != null) {
+            setAppreciateLatestList(cacheConfigString);
+            mAppLoadingTip.setVisibility(View.GONE);
+            mAppLoadingPbar.setVisibility(View.GONE);
+            mAppLoadingImage.setVisibility(View.VISIBLE);
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(mAppricateLatestUrl, new AsyncHttpResponseHandler(){
 
-            @Override
-            public void onStart() {
-                listView.setAdapter(null);
-                mAppLoadingTip.setVisibility(View.VISIBLE);
-                mAppLoadingPbar.setVisibility(View.VISIBLE);
-                mAppLoadingImage.setVisibility(View.GONE);
-            }
+                @Override
+                public void onStart() {
+                    listView.setAdapter(null);
+                    mAppLoadingTip.setVisibility(View.VISIBLE);
+                    mAppLoadingPbar.setVisibility(View.VISIBLE);
+                    mAppLoadingImage.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onSuccess(String result) {
-                setAppreciateLatestList(result);
-                adapter = new Adapter(AppreciateLatestActivity.this);
-                listView.setAdapter(adapter);
-            }
+                @Override
+                public void onSuccess(String result) {
+                    ConfigCache.setUrlCache(result, mAppricateLatestUrl);
+                    setAppreciateLatestList(result);
+                }
 
-            @Override
-            public void onFailure(Throwable arg0) {
-            }
+                @Override
+                public void onFailure(Throwable arg0) {
+                }
 
-            @Override
-            public void onFinish() {
-                mAppLoadingTip.setVisibility(View.GONE);
-                mAppLoadingPbar.setVisibility(View.GONE);
-                mAppLoadingImage.setVisibility(View.VISIBLE);
-            }
-        });
+                @Override
+                public void onFinish() {
+                    mAppLoadingTip.setVisibility(View.GONE);
+                    mAppLoadingPbar.setVisibility(View.GONE);
+                    mAppLoadingImage.setVisibility(View.VISIBLE);
+                }
+            });
+        }
     }
 
     private void setAppreciateLatestList(String jsonString){
@@ -126,6 +134,8 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        adapter = new Adapter(AppreciateLatestActivity.this);
+        listView.setAdapter(adapter);
     }
 
     @Override
