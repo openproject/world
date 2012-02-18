@@ -17,4 +17,8 @@ public class AppApplication extends BaseApplication {
     @Override
     public void initDb() {
     }
+
+    @Override
+    public void initEnv() {
+    }
 }

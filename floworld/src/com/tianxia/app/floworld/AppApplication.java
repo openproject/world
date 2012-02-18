@@ -9,6 +9,7 @@ import com.tianxia.app.floworld.discuss.DiscussTabActivity;
 import com.tianxia.app.floworld.favorite.FavoriteTabActivity;
 import com.tianxia.app.floworld.identification.IdentificationTabActivity;
 import com.tianxia.app.floworld.setting.SettingTabActivity;
+import com.tianxia.app.floworld.utils.NetworkUtils;
 import com.tianxia.lib.baseworld.BaseApplication;
 import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
 
@@ -19,6 +20,8 @@ public class AppApplication extends BaseApplication {
     public static BaseSQLiteHelper mSQLiteHelper;
 
     public static String mSdcardDataDir;
+
+    public static int mNetWorkState = NetworkUtils.NETWORN_NONE;
 
     @Override
     public void fillTabs() {
@@ -58,6 +61,8 @@ public class AppApplication extends BaseApplication {
                 mSdcardDataDir = file.getAbsolutePath();
             }
         }
+
+        mNetWorkState = NetworkUtils.getNetworkState(this);
     }
 
 }
