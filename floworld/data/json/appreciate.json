@@ -1,4 +1,7 @@
 {
+    "version-code":2,
+    "version-name":"V1.0",
+    "version-update":"花界V1.0发布了，推荐更新:<br/>1.支持离线下载<br/>2.支持主题皮肤切换。",
     "base-url":"http://api.kaiyuanxiangmu.com/floworld/data/json/appreciate/",
     "latest":{"add":12,"list":"appreciate-latest.json"},
     "most":{"list":"appreciate-most.json"},
