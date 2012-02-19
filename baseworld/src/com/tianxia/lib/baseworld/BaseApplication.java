@@ -3,9 +3,12 @@ package com.tianxia.lib.baseworld;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
-
 import android.app.Application;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+
+import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
 
 public abstract class BaseApplication extends Application {
 
@@ -15,12 +18,16 @@ public abstract class BaseApplication extends Application {
     protected static List<Integer> mTabNormalImages = new ArrayList<Integer>();
     protected static List<Integer> mTabPressImages = new ArrayList<Integer>();
 
+    protected static int mVersionCode;
+    protected static String mVersionName;
+
     @Override
     public void onCreate() {
         fillTabs();
 
         initDb();
         initEnv();
+        initLocalVersion();
     }
 
     public List<Class<?>> getTabActivitys(){
@@ -45,4 +52,15 @@ public abstract class BaseApplication extends Application {
 
     public abstract void initDb();
     public abstract void initEnv();
+
+    public void initLocalVersion(){
+        PackageInfo pinfo;
+        try {
+            pinfo = this.getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+            mVersionCode = pinfo.versionCode;
+            mVersionName = pinfo.versionName;
+        } catch (NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
