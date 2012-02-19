@@ -164,8 +164,12 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        if (latestListUrl == null || categoryListUrl == null || archiverListUrl == null || mostListUrl == null) {
+            setListData(false);
+            getAppreciateConfig();
+            return;
+        }
         switch (position) {
-
         case 0:
             //最新
             appreciateListIntent = new Intent(AppreciateTabActivity.this, AppreciateLatestActivity.class);

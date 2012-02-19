@@ -43,18 +43,9 @@ public class SettingTabActivity extends PreferenceActivity{
         List<Map<String,String>> listData = new ArrayList<Map<String,String>>();
 
         Map<String,String> map = new HashMap<String, String>();
-        map.put("text", "图库更新");
-        listData.add(map);
-
-        map = new HashMap<String, String>();
-        map.put("text", "收藏图片");
-        listData.add(map);
-
-        map = new HashMap<String, String>();
-        map.put("text", "下载目录");
+        map.put("text", "离线下载");
         listData.add(map);
         listDatas.add(listData);
-
 
         listData = new ArrayList<Map<String,String>>();
         map = new HashMap<String, String>();
