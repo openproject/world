@@ -18,8 +18,9 @@ public abstract class BaseApplication extends Application {
     protected static List<Integer> mTabNormalImages = new ArrayList<Integer>();
     protected static List<Integer> mTabPressImages = new ArrayList<Integer>();
 
-    protected static int mVersionCode;
-    protected static String mVersionName;
+    public static int mVersionCode;
+    public static String mVersionName;
+    public static boolean mShowUpdate = true;
 
     @Override
     public void onCreate() {

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="tab_text"></string-array>
+    <string name="app_confirm">确定</string>
+    <string name="app_cancel">取消</string>
+    <string name="check_new_version">发现新版本,确定更新吗?</string>
 </resources>

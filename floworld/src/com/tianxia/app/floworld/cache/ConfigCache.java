@@ -25,8 +25,9 @@ public class ConfigCache {
         if (file.exists() && file.isFile()) {
             long expiredTime = System.currentTimeMillis() - file.lastModified();
             Log.d(TAG, file.getAbsolutePath() + " expiredTime:" + expiredTime/60000 + "min");
-            //in case the system time is incorrect (the time is turn back long ago)
-            if (expiredTime < 0) {
+            //1. in case the system time is incorrect (the time is turn back long ago)
+            //2. when the network is invalid, you can only read the cache
+            if (AppApplication.mNetWorkState != NetworkUtils.NETWORN_NONE && expiredTime < 0) {
                 return null;
             }
             if(AppApplication.mNetWorkState == NetworkUtils.NETWORN_WIFI && expiredTime > CONFIG_CACHE_WIFI_TIMEOUT) {
@@ -46,6 +47,7 @@ public class ConfigCache {
     public static void setUrlCache(String data, String url) {
         File file = new File(AppApplication.mSdcardDataDir + "/" + getCacheDecodeString(url));
         try {
+            //创建缓存数据到磁盘，就是创建文件
             FileUtils.writeTextFile(file, data);
         } catch (IOException e) {
             Log.d(TAG, "write " + file.getAbsolutePath() + " data failed!");
@@ -54,6 +56,8 @@ public class ConfigCache {
     }
 
     public static String getCacheDecodeString(String url) {
+        //1. 处理特殊字符
+        //2. 去除后缀名带来的文件浏览器的视图凌乱(特别是图片更需要如此类似处理，否则有的手机打开图库，全是我们的缓存图片)
         if (url != null) {
             return url.replaceAll("[.:/,%?&=]", "+").replaceAll("[+]+", "+");
         }

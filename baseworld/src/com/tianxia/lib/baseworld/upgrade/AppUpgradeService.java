@@ -14,8 +14,4 @@ public class AppUpgradeService extends Service{
         return null;
     }
 
-    public int check() {
-        return 0;
-    }
-
 }

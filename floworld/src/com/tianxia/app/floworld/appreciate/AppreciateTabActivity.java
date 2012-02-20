@@ -6,6 +6,9 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.cache.ConfigCache;
+import com.tianxia.lib.baseworld.BaseApplication;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.main.MainTabFrame;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
@@ -36,6 +40,9 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
     private ImageView itemImageView = null;
     private int imageHeight = 0;
     private int dividerHeight;
+
+    private int mLatestVersionCode = 0;
+    private String mLatestVersionUpdate = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +103,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
      */
     protected void getAppreciateConfig(){
         String cacheConfigString = ConfigCache.getUrlCache(AppreciateApi.APPRECIATE_CONFIG_URL);
-        if ( cacheConfigString != null) {
+        if (cacheConfigString != null) {
             showAppreciateConfig(cacheConfigString);
         } else {
             AsyncHttpClient client = new AsyncHttpClient();
@@ -106,6 +113,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
                 public void onSuccess(String result){
                     ConfigCache.setUrlCache(result, AppreciateApi.APPRECIATE_CONFIG_URL);
                     showAppreciateConfig(result);
+                    checkNewVersion();
                 }
 
                 @Override
@@ -121,6 +129,8 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
         try {
             JSONObject appreciateConfig = new JSONObject(result);
 
+            mLatestVersionCode = appreciateConfig.getInt("version-code");
+            mLatestVersionUpdate = appreciateConfig.getString("version-update");
             String baseUrl = appreciateConfig.getString("base-url");
             latestNum = appreciateConfig.getJSONObject("latest").getInt("add");
             latestListUrl = baseUrl + appreciateConfig.getJSONObject("latest").getString("list");
@@ -201,6 +211,29 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
         if (appreciateListIntent != null){
             startActivity(appreciateListIntent);
+        }
+    }
+
+    public void checkNewVersion(){
+        if (BaseApplication.mVersionCode < mLatestVersionCode && BaseApplication.mShowUpdate) {
+            new AlertDialog.Builder(this)
+                .setTitle(R.string.check_new_version)
+                .setMessage(mLatestVersionUpdate)
+                .setPositiveButton(R.string.app_confirm, new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setNegativeButton(R.string.app_cancel, new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create()
+                .show();
+            BaseApplication.mShowUpdate = false;
         }
     }
 }
