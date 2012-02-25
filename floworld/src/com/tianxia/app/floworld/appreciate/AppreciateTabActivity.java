@@ -218,7 +218,6 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
     }
 
     public void checkNewVersion(){
-        BaseApplication.mShowUpdate = true;
         if (BaseApplication.mVersionCode < mLatestVersionCode && BaseApplication.mShowUpdate) {
             new AlertDialog.Builder(this)
                 .setTitle(R.string.check_new_version)

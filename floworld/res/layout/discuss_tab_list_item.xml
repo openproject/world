@@ -5,8 +5,8 @@
     <ImageView android:id="@+id/item_image"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_width="84dip"
-            android:layout_height="68dip"
+            android:layout_width="64dip"
+            android:layout_height="52dip"
             android:layout_margin="2dip"
             android:background="@drawable/app_border_rect"/>
     <ImageView android:id="@+id/item_arrow"
@@ -31,12 +31,6 @@
             android:textColor="#192F06">
         </TextView>
         <TextView android:id="@+id/item_category"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14dip"
-            android:textColor="#192F06">
-        </TextView>
-        <TextView android:id="@+id/item_date"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="14dip"

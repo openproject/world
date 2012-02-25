@@ -31,7 +31,6 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
     private ImageView mItemImageView;
     private TextView mItemTitleTextView;
     private TextView mItemCategoryTextView;
-    private TextView mItemDateTextView;
 
     private AssetManager mAssetManager = null;
     private String[] mKindImages = null;
@@ -92,7 +91,7 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
                 discussInfo = new DiscussInfo();
                 discussInfo.id = discussList.getJSONObject(i).getInt("id");
                 discussInfo.title = discussList.getJSONObject(i).getString("title");
-                discussInfo.category = getString(R.string.discuss_category, discussList.getJSONObject(i).getString("category"));
+                discussInfo.category = discussList.getJSONObject(i).getString("category");
                 discussInfo.date = discussList.getJSONObject(i).getString("date");
                 discussInfo.path = baseUrl + discussList.getJSONObject(i).getString("path");
                 listData.add(discussInfo);
@@ -122,10 +121,8 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
         mItemTitleTextView.setText(listData.get(position).title);
 
         mItemCategoryTextView = (TextView) view.findViewById(R.id.item_category);
-        mItemCategoryTextView.setText(listData.get(position).category);
+        mItemCategoryTextView.setText("[" + listData.get(position).category + "][" + listData.get(position).date + "]");
 
-        mItemDateTextView = (TextView) view.findViewById(R.id.item_date);
-        mItemDateTextView.setText(listData.get(position).date);
         return view;
     }
 
