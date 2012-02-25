@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:layout_weight="2"
+    android:baselineAligned="false"
+    android:paddingLeft="5dip">
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="left|center_vertical"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <ImageView android:src="@drawable/icon"
+            android:contentDescription="@string/app_icon_tip"
+            android:layout_width="24dip"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"/>
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:paddingLeft="5dip"
+            android:textSize="16dip"/>
+    </LinearLayout>
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="left"
+        android:orientation="horizontal"
+        android:layout_weight="1">  
+        <TextView android:id="@+id/app_upgrade_progresstext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#8F8F8F"
+            android:layout_marginRight="5dip"
+            android:textSize="14dip"/>
+        <LinearLayout android:id="@+id/app_upgrade_progressblock"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ProgressBar android:id="@+id/app_upgrade_progressbar" 
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleHorizontal"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

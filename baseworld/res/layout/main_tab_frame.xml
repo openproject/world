@@ -14,7 +14,6 @@
         <TextView android:id="@+id/main_tab_banner_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="欣赏美花"
             android:textSize="20dip"
             android:textColor="#000000"/>
     </LinearLayout>

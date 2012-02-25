@@ -25,6 +25,7 @@ import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.main.MainTabFrame;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
+import com.tianxia.lib.baseworld.upgrade.AppUpgradeService;
 
 public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 //    private AppreciateApi appreciateApi = null;
@@ -43,6 +44,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
     private int mLatestVersionCode = 0;
     private String mLatestVersionUpdate = null;
+    private String mLatestVersionDownload = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +133,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
             mLatestVersionCode = appreciateConfig.getInt("version-code");
             mLatestVersionUpdate = appreciateConfig.getString("version-update");
+            mLatestVersionDownload = appreciateConfig.getString("version-download");
             String baseUrl = appreciateConfig.getString("base-url");
             latestNum = appreciateConfig.getJSONObject("latest").getInt("add");
             latestListUrl = baseUrl + appreciateConfig.getJSONObject("latest").getString("list");
@@ -215,17 +218,20 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
     }
 
     public void checkNewVersion(){
+        BaseApplication.mShowUpdate = true;
         if (BaseApplication.mVersionCode < mLatestVersionCode && BaseApplication.mShowUpdate) {
             new AlertDialog.Builder(this)
                 .setTitle(R.string.check_new_version)
                 .setMessage(mLatestVersionUpdate)
-                .setPositiveButton(R.string.app_confirm, new OnClickListener() {
+                .setPositiveButton(R.string.app_upgrade_confirm, new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        Intent intent = new Intent(AppreciateTabActivity.this, AppUpgradeService.class);
+                        intent.putExtra("downloadUrl", mLatestVersionDownload);
+                        startService(intent);
                     }
                 })
-                .setNegativeButton(R.string.app_cancel, new OnClickListener() {
+                .setNegativeButton(R.string.app_upgrade_cancel, new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 

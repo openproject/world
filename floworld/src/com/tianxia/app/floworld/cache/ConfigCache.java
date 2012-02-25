@@ -3,11 +3,13 @@ package com.tianxia.app.floworld.cache;
 import java.io.File;
 import java.io.IOException;
 
+import android.os.Environment;
 import android.util.Log;
 
 import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.utils.FileUtils;
 import com.tianxia.app.floworld.utils.NetworkUtils;
+import com.tianxia.lib.baseworld.utils.StringUtils;
 
 public class ConfigCache {
     private static final String TAG = ConfigCache.class.getName();
@@ -21,7 +23,7 @@ public class ConfigCache {
         }
 
         String result = null;
-        File file = new File(AppApplication.mSdcardDataDir + "/" + getCacheDecodeString(url));
+        File file = new File(AppApplication.mSdcardDataDir + "/" + StringUtils.replaceUrlWithPlus(url));
         if (file.exists() && file.isFile()) {
             long expiredTime = System.currentTimeMillis() - file.lastModified();
             Log.d(TAG, file.getAbsolutePath() + " expiredTime:" + expiredTime/60000 + "min");
@@ -41,11 +43,16 @@ public class ConfigCache {
                 e.printStackTrace();
             }
         }
+        result = null;
         return result;
     }
 
     public static void setUrlCache(String data, String url) {
-        File file = new File(AppApplication.mSdcardDataDir + "/" + getCacheDecodeString(url));
+        File dir = new File(AppApplication.mSdcardDataDir); 
+        if (!dir.exists() && Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+            dir.mkdirs();
+        }
+        File file = new File(AppApplication.mSdcardDataDir + "/" + StringUtils.replaceUrlWithPlus(url));
         try {
             //创建缓存数据到磁盘，就是创建文件
             FileUtils.writeTextFile(file, data);
@@ -53,14 +60,5 @@ public class ConfigCache {
             Log.d(TAG, "write " + file.getAbsolutePath() + " data failed!");
             e.printStackTrace();
         }
-    }
-
-    public static String getCacheDecodeString(String url) {
-        //1. 处理特殊字符
-        //2. 去除后缀名带来的文件浏览器的视图凌乱(特别是图片更需要如此类似处理，否则有的手机打开图库，全是我们的缓存图片)
-        if (url != null) {
-            return url.replaceAll("[.:/,%?&=]", "+").replaceAll("[+]+", "+");
-        }
-        return null;
     }
 }

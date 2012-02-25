@@ -1,4 +1,4 @@
-package com.tianxia.app.floworld.utils;
+package com.tianxia.lib.baseworld.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,13 +17,19 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
-public class HttpUtils {
-
+public class DownloadUtils {
     private static final int CONNECT_TIMEOUT = 10000;
     private static final int DATA_TIMEOUT = 40000;
     private final static int DATA_BUFFER = 8192;
- 
-    public static long download(String urlStr, File dest, boolean append) throws Exception {
+
+    public interface DownloadListener {
+        public void downloading(int progress);
+        public void downloaded();
+    }
+
+    public static long download(String urlStr, File dest, boolean append, DownloadListener downloadListener) throws Exception {
+        int downloadProgress = 0;
+        long remoteSize = 0;
         int currentSize = 0;
         long totalSize = -1;
 
@@ -62,6 +68,7 @@ public class HttpUtils {
             HttpResponse response = httpClient.execute(request);
             if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 is = response.getEntity().getContent();
+                remoteSize = response.getEntity().getContentLength();
                 Header contentEncoding = response.getFirstHeader("Content-Encoding");
                 if(contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
                     is = new GZIPInputStream(is);
@@ -73,6 +80,10 @@ public class HttpUtils {
                     os.write(buffer, 0, readSize);
                     os.flush();
                     totalSize += readSize;
+                    if(downloadListener!= null){
+                        downloadProgress = (int) (totalSize*100/remoteSize);
+                        downloadListener.downloading(downloadProgress);
+                    }
                 }
                 if(totalSize < 0) {
                     totalSize = 0;
@@ -89,6 +100,10 @@ public class HttpUtils {
 
         if(totalSize < 0) {
             throw new Exception("Download file fail: " + urlStr);
+        }
+
+        if(downloadListener!= null){
+            downloadListener.downloaded();
         }
 
         return totalSize;

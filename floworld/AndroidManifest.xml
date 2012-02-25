@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.tianxia.app.floworld"
       android:versionCode="1"
-      android:versionName="V0.9 Beta">
+      android:versionName="V1.0">
     <uses-sdk android:minSdkVersion="7" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -38,5 +38,6 @@
         <activity android:name=".identification.IdentificationTabActivity"></activity>
         <activity android:name=".favorite.FavoriteTabActivity"></activity>
         <activity android:name=".setting.SettingTabActivity"></activity>
+        <service android:name="com.tianxia.lib.baseworld.upgrade.AppUpgradeService"></service>
     </application>
 </manifest>

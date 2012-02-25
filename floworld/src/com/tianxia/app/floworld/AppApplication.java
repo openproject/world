@@ -51,6 +51,7 @@ public class AppApplication extends BaseApplication {
 
     @Override
     public void initEnv() {
+        mDownloadPath = "/floworld/download";
         if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
             File file = new File(Environment.getExternalStorageDirectory().getPath() +  "/floworld/config/");
             if(!file.exists()) {
