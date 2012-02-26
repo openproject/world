@@ -1,10 +1,15 @@
 package com.tianxia.app.floworld.appreciate;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +31,9 @@ import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.cache.ImagePool;
 import com.tianxia.app.floworld.constant.FavoriteType;
+import com.tianxia.app.floworld.utils.FileUtils;
 import com.tianxia.app.floworld.utils.ScreenUtils;
+import com.tianxia.lib.baseworld.utils.StringUtils;
 import com.tianxia.widget.gallery.PicGallery;
 import com.tianxia.widget.image.SmartImageView;
 
@@ -88,6 +95,8 @@ public class AppreciateLatestDetailsActivity extends Activity {
         mAppreciateLatestDetailsGallery.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
+                mUrl = ImagePool.sImageList.get(position).origin;
+                mTitle = ImagePool.sImageList.get(position).title;
                 mPrefix = ImagePool.sImageList.get(position).prefix;
                 if (mPrefix != null && !"".equals(mPrefix)) {
                     mPicTitleTextView.setText(mPrefix + ":" + ImagePool.sImageList.get(position).title);
@@ -124,6 +133,30 @@ public class AppreciateLatestDetailsActivity extends Activity {
         if (item.getTitle().equals(getString(R.string.unfavorite)) || item.getTitle().equals(getString(R.string.favorite))) {
             favorite(item);
         } else if (item.getTitle().equals(getString(R.string.share))) {
+            if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("image/jpeg");
+                    File cacheFile = new File(Environment.getExternalStorageDirectory().getPath() + "/floworld/image/" + StringUtils.replaceUrlWithPlus(mUrl));
+                    if (!cacheFile.exists()) {
+                        Toast.makeText(this, R.string.share_pic_no_data, Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    File shareFile = new File(Environment.getExternalStorageDirectory().getPath() + "/floworld/image/share.jpg");
+                    FileUtils.copyFile(cacheFile, shareFile);
+                    if (shareFile.exists() && shareFile.isFile()) {
+                        Uri shareUri = Uri.fromFile(shareFile);
+                        intent.putExtra(Intent.EXTRA_STREAM, shareUri);
+                        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_pic_title, mTitle));
+                        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_pic_text, mTitle));
+                        startActivity(Intent.createChooser(intent, getString(R.string.app_name)));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(this, R.string.share_pic_no_sdcard, Toast.LENGTH_SHORT).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }

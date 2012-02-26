@@ -2,6 +2,7 @@ package com.tianxia.app.floworld.discuss;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -92,6 +93,11 @@ public class DiscussDetailsActivity extends Activity{
         if (item.getTitle().equals(getString(R.string.unfavorite)) || item.getTitle().equals(getString(R.string.favorite))) {
             favorite(item);
         } else if (item.getTitle().equals(getString(R.string.share))) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_article_title, mTitle));
+            intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_article_text, mTitle) + mUrl);
+            startActivity(Intent.createChooser(intent, getString(R.string.app_name)));
         }
         return super.onOptionsItemSelected(item);
     }

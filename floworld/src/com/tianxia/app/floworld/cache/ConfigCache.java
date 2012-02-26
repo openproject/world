@@ -47,6 +47,9 @@ public class ConfigCache {
     }
 
     public static void setUrlCache(String data, String url) {
+        if (AppApplication.mSdcardDataDir == null) {
+            return;
+        }
         File dir = new File(AppApplication.mSdcardDataDir); 
         if (!dir.exists() && Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
             dir.mkdirs();

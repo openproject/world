@@ -1,5 +1,7 @@
 package com.tianxia.app.floworld.utils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -10,7 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class FileUtils {
-
+    private static final int BUFFER = 8192;
     //读取文件
     public static String readTextFile(File file) throws IOException {
         String text = null;
@@ -53,6 +55,30 @@ public class FileUtils {
         } finally {
             if(out != null) {
                 out.close();
+            }
+        }
+    }
+
+    //复制文件
+    public static void copyFile(File sourceFile, File targetFile)
+            throws IOException {
+        BufferedInputStream inBuff = null;
+        BufferedOutputStream outBuff = null;
+        try {
+            inBuff = new BufferedInputStream(new FileInputStream(sourceFile));
+            outBuff = new BufferedOutputStream(new FileOutputStream(targetFile));
+            byte[] buffer = new byte[BUFFER];
+            int length;
+            while ((length = inBuff.read(buffer)) != -1) {
+                outBuff.write(buffer, 0, length);
+            }
+            outBuff.flush();
+        } finally {
+            if(inBuff != null) {
+                inBuff.close();
+            }
+            if(outBuff != null) {
+                outBuff.close();
             }
         }
     }

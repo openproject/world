@@ -27,4 +27,11 @@
     <string name="favorite_category_article">文章</string>
 
     <string name="latest_title">最新图片</string>
+
+    <string name="share_pic_title">《%s》分享来自《花界》最新精美图片</string>
+    <string name="share_pic_text">#花界#《%s》分享来自《@huajie_mobile》最新精美图片</string>
+    <string name="share_pic_no_data">未找到图片文件，请退出后重新打开再试.</string>
+    <string name="share_pic_no_sdcard">未找到SD卡，无法分享.</string>
+    <string name="share_article_title">《%s》分享来自《花界》最新评花文章</string>
+    <string name="share_article_text">#花界#《%s》分享来自《@huajie_mobile》最新评花文章</string>
 </resources>

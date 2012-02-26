@@ -1,7 +1,5 @@
 package com.tianxia.app.floworld.identification;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.appreciate.AppreciateApi;
@@ -84,6 +81,7 @@ public class IdentificationTabActivity extends AdapterActivity<AppreciateCategor
             AppreciateCategoryInfo appreciateCategoryInfo = null;
             for(int i = 0; i < jsonArray.length(); i++){
                 appreciateCategoryInfo = new AppreciateCategoryInfo();
+                appreciateCategoryInfo.filename = jsonArray.getJSONObject(i).optString("filename");
                 appreciateCategoryInfo.category = jsonArray.getJSONObject(i).optString("category");
                 appreciateCategoryInfo.thumbnail = jsonArray.getJSONObject(i).optString("thumbnail");
                 appreciateCategoryInfo.count = jsonArray.getJSONObject(i).optString("count");
@@ -125,13 +123,7 @@ public class IdentificationTabActivity extends AdapterActivity<AppreciateCategor
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         mIdentificationIntent = new Intent(IdentificationTabActivity.this, AppreciateLatestActivity.class);
-        try {
-            mIdentificationIntent.putExtra("url", AppreciateApi.APPRECIATE_CATEGORY_BASE_URL + URLEncoder.encode(listData.get(position).category, "GB2312") + ".json");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        mIdentificationIntent.putExtra("url", AppreciateApi.APPRECIATE_CATEGORY_BASE_URL + listData.get(position).filename + ".json");
         mIdentificationIntent.putExtra("title", listData.get(position).category);
         startActivity(mIdentificationIntent);
     }

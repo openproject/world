@@ -112,7 +112,7 @@ public class WebImageCache {
                     BufferedOutputStream ostream = null;
                     try {
                         ostream = new BufferedOutputStream(new FileOutputStream(new File(diskCachePath, getCacheKey(url))), 2*1024);
-                        bitmap.compress(CompressFormat.PNG, 100, ostream);
+                        bitmap.compress(CompressFormat.JPEG, 80, ostream);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     } finally {
