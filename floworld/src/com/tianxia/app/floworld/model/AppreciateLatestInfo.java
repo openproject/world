@@ -8,5 +8,4 @@ public class AppreciateLatestInfo {
     public String thumbnail;
     public String tag;
     public String category;
-
 }

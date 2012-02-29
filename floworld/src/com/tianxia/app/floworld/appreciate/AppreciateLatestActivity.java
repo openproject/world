@@ -14,12 +14,14 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.cache.ImagePool;
+import com.tianxia.app.floworld.model.AppreciateAdCompanyInfo;
 import com.tianxia.app.floworld.model.AppreciateLatestInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
@@ -41,6 +43,15 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
     private SmartImageView mItemImageView = null;
     private TextView mItemTextView = null;
 
+    private LinearLayout mAdContainer = null;
+    private AppreciateAdCompanyInfo mAdCompanyInfo;
+    private TextView mAdCompanyName = null;
+    private TextView mAdCompanyContact = null;
+    private TextView mAdCompanyAddress = null;
+    private TextView mAdCompanyTel = null;
+    private TextView mAdCompanyPhone = null;
+    private TextView mAdCompanyBusiness = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +63,12 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
         if (mAppreciateLatestTitle != null) {
             mAppreciateLatestTitleView.setText(mAppreciateLatestTitle);
         }
+        mAdContainer = (LinearLayout) findViewById(R.id.appreciate_ad);
 
         mAppBackButton  = (Button) findViewById(R.id.app_back);
         mAppLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
         mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
         mAppLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
-
         mAppBackButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,6 +128,18 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
     private void setAppreciateLatestList(String jsonString){
         try {
             JSONObject json = new JSONObject(jsonString);
+            JSONObject adCompanyJsonObject = json.optJSONObject("ad-company");
+            if (adCompanyJsonObject != null) {
+                mAdCompanyInfo = new AppreciateAdCompanyInfo();
+                mAdCompanyInfo.name = adCompanyJsonObject.optString("name");
+                mAdCompanyInfo.contact = adCompanyJsonObject.optString("contact");
+                mAdCompanyInfo.address = adCompanyJsonObject.optString("address");
+                mAdCompanyInfo.tel = adCompanyJsonObject.optString("tel");
+                mAdCompanyInfo.phone = adCompanyJsonObject.optString("phone");
+                mAdCompanyInfo.business = adCompanyJsonObject.optString("business");
+                setHeaderView();
+            }
+
             JSONArray jsonArray = json.getJSONArray("list");
             listData = new ArrayList<AppreciateLatestInfo>();
             AppreciateLatestInfo appreciateLatestInfo = null;
@@ -144,6 +167,24 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
         setListView(R.id.appreciate_latest_list);
     }
 
+    private void setHeaderView() {
+        View view = LayoutInflater.from(this).inflate(R.layout.appreciate_ad_company_shop, null);
+        mAdCompanyName = (TextView) view.findViewById(R.id.ad_company_name);
+        mAdCompanyContact = (TextView) view.findViewById(R.id.ad_company_contact);
+        mAdCompanyAddress = (TextView) view.findViewById(R.id.ad_company_address);
+        mAdCompanyTel = (TextView) view.findViewById(R.id.ad_company_tel);
+        mAdCompanyPhone = (TextView) view.findViewById(R.id.ad_company_phone);
+        mAdCompanyBusiness = (TextView) view.findViewById(R.id.ad_company_business);
+
+        mAdCompanyName.setText(mAdCompanyInfo.name);
+        mAdCompanyContact.setText(mAdCompanyInfo.contact);
+        mAdCompanyAddress.setText(mAdCompanyInfo.address);
+        mAdCompanyTel.setText(mAdCompanyInfo.tel);
+        mAdCompanyPhone.setText(mAdCompanyInfo.phone);
+        mAdCompanyBusiness.setText(mAdCompanyInfo.business);
+        mAdContainer.removeAllViews();
+        mAdContainer.addView(view);
+    }
     @Override
     protected View getView(int position, View convertView) {
         View view = convertView;

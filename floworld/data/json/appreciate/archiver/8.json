@@ -1,4 +1,12 @@
 {
+    "ad-company":{
+	        "name":"《花儿朵朵》",
+			"contact":"周小姐",
+			"address":"松江区文翔路文翔名苑3088弄77号",
+			"tel":"0215764850",
+			"phone":"15900685140",
+			"business":"鲜花,仿真花,干花,宠物花束,花车,花篮,礼品,盆花,盆景出租出售"
+	       },
     "list":[
             {"title":"文竹","category":"文竹","origin":"http://t2.qpic.cn/mblogpic/887ec0b6950fcf1cca6a/2000","thumbnail":"http://t2.qpic.cn/mblogpic/887ec0b6950fcf1cca6a/160","tag":""},
             {"title":"凤梨","category":"凤梨","origin":"http://t2.qpic.cn/mblogpic/349cb6c1b41a7e919b88/2000","thumbnail":"http://t2.qpic.cn/mblogpic/349cb6c1b41a7e919b88/160","tag":""},

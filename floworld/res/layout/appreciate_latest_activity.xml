@@ -41,6 +41,13 @@
                 android:visibility="gone"/>
         </FrameLayout>
     </RelativeLayout>
+    <LinearLayout android:id="@+id/appreciate_ad"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dip"
+        android:layout_marginLeft="2dip"
+        android:layout_marginRight="2dip">
+    </LinearLayout>
     <TextView android:id="@+id/app_loading_tip"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -53,6 +60,7 @@
         android:gravity="center"
         android:numColumns="3"
         android:layout_margin="4dip"
+        android:layout_marginTop="0dip"
         android:listSelector="@null"
         android:stretchMode="columnWidth"
         android:verticalSpacing="4dip"  

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ad_company_shop"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="1,3"
+    android:paddingLeft="4dip"
+    android:background="@drawable/ad_company_bg">
+    <TableRow>
+        <TextView
+            android:text="@string/ad_company_name"
+            android:gravity="right"
+            android:layout_column="0"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/ad_company_name"
+            android:gravity="left"
+            android:layout_column="1"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:padding="3dip" />
+        <TextView
+            android:text="@string/ad_company_contact"
+            android:gravity="right"
+            android:layout_column="2"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/ad_company_contact"
+            android:gravity="left"
+            android:layout_column="3"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:padding="3dip" />
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="@string/ad_company_phone"
+            android:gravity="right"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/ad_company_phone"
+            android:gravity="left"
+            android:autoLink="phone"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:padding="3dip" />
+        <TextView
+            android:text="@string/ad_company_tel"
+            android:gravity="right"
+            android:textColor="@color/green_bg_textcolor"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/ad_company_tel"
+            android:gravity="left"
+            android:autoLink="phone"
+            android:textColor="@color/green_bg_textcolor"
+            android:padding="3dip" />
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="@string/ad_company_address"
+            android:gravity="right"
+            android:layout_column="0"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/ad_company_address"
+            android:gravity="left"
+            android:padding="3dip"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:layout_span="3" />
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="@string/ad_company_business"
+            android:gravity="right"
+            android:layout_column="0"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/ad_company_business"
+            android:gravity="left"
+            android:padding="3dip"
+            android:textColor="@color/green_bg_textcolor"
+            android:textSize="10dip"
+            android:maxLines="2"
+            android:layout_span="3" />
+    </TableRow>
+</TableLayout>

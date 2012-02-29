@@ -97,6 +97,7 @@ public class AppreciateLatestDetailsActivity extends Activity {
             public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
                 mUrl = ImagePool.sImageList.get(position).origin;
                 mTitle = ImagePool.sImageList.get(position).title;
+                mThumbnail = ImagePool.sImageList.get(position).thumbnail;
                 mPrefix = ImagePool.sImageList.get(position).prefix;
                 if (mPrefix != null && !"".equals(mPrefix)) {
                     mPicTitleTextView.setText(mPrefix + ":" + ImagePool.sImageList.get(position).title);

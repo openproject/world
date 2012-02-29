@@ -34,4 +34,11 @@
     <string name="share_pic_no_sdcard">未找到SD卡，无法分享.</string>
     <string name="share_article_title">《%s》分享来自《花界》最新评花文章</string>
     <string name="share_article_text">#花界#《%s》分享来自《@huajie_mobile》最新评花文章</string>
+
+    <string name="ad_company_name">店名:</string>
+    <string name="ad_company_contact">联系人:</string>
+    <string name="ad_company_address">地址:</string>
+    <string name="ad_company_tel">联系电话:</string>
+    <string name="ad_company_phone">手机:</string>
+    <string name="ad_company_business">业务:</string>
 </resources>
