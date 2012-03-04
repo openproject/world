@@ -32,6 +32,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
 
     private String mUrl = null;
     private String mAppreciateLatestTitle = null;
+    private int mAppreciateImageScaleType = 0;
 
     private TextView mAppreciateLatestTitleView = null;
 
@@ -128,6 +129,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
     private void setAppreciateLatestList(String jsonString){
         try {
             JSONObject json = new JSONObject(jsonString);
+            mAppreciateImageScaleType = json.optInt("image-scale-type", 0);
             JSONObject adCompanyJsonObject = json.optJSONObject("ad-company");
             if (adCompanyJsonObject != null) {
                 mAdCompanyInfo = new AppreciateAdCompanyInfo();
@@ -216,6 +218,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
         intent.putExtra("thumbnail", listData.get(position).thumbnail);
         intent.putExtra("prefix", listData.get(position).prefix);
         intent.putExtra("position", position);
+        intent.putExtra("imageScaleType", mAppreciateImageScaleType);
         startActivity(intent);
     }
 

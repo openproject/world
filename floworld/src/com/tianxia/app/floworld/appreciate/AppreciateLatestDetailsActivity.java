@@ -54,6 +54,10 @@ public class AppreciateLatestDetailsActivity extends Activity {
     private PicGallery mAppreciateLatestDetailsGallery = null;
     private LastestAdapter adapter = null;
 
+    public static final int IMAGE_SCALE_TYPE_CROP = 0;
+    public static final int IMAGE_SCALE_TYPE_FIT = 1;
+    public int mImageScaleType = 0;
+
     public int mScreenWidth = 0;
 
     @Override
@@ -66,6 +70,7 @@ public class AppreciateLatestDetailsActivity extends Activity {
         mThumbnail = getIntent().getStringExtra("thumbnail");
         mPrefix = getIntent().getStringExtra("prefix");
         mPosition = getIntent().getIntExtra("position", 0);
+        mImageScaleType = getIntent().getIntExtra("imageScaleType", 0);
 
         mAppTitltBar = (RelativeLayout) findViewById(R.id.app_titlebar);
         mAppTitleBarText = (TextView) findViewById(R.id.appreciate_latest_title);
@@ -233,8 +238,14 @@ public class AppreciateLatestDetailsActivity extends Activity {
             view = View.inflate(AppreciateLatestDetailsActivity.this, R.layout.appreciate_latest_details_item, null);
             mItemSmartImageView = (SmartImageView) view.findViewById(R.id.item_image);
             mItemSmartImageView.setLayoutParams(new LinearLayout.LayoutParams(width - 2, height));
-            mItemSmartImageView.setImageUrl(ImagePool.sImageList.get(position).origin, R.drawable.app_download_fail, R.drawable.app_download_loading, true);
-            mItemSmartImageView.setScaleType(ScaleType.CENTER_CROP);
+
+            if (mImageScaleType == 0) {
+                mItemSmartImageView.setScaleType(ScaleType.CENTER_CROP);
+                mItemSmartImageView.setImageUrl(ImagePool.sImageList.get(position).origin, R.drawable.app_download_fail, R.drawable.app_download_loading, true);
+            } else {
+                mItemSmartImageView.setImageUrl(ImagePool.sImageList.get(position).origin, R.drawable.app_download_fail, R.drawable.app_download_loading, false);
+                mItemSmartImageView.setScaleType(ScaleType.FIT_CENTER);
+            }
             return view;
         }
     }

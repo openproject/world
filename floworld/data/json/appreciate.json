@@ -1,10 +1,10 @@
 {
-    "version-code":2,
+    "version-code":1,
     "version-name":"V1.0",
     "version-update":"花界V1.0发布了,增加新特性:\n1. 支持离线下载;\n2. 支持主题皮肤切换;\n3. 其他大量贴心优化.\n强烈推荐更新!",
     "version-download":"http://api.kaiyuanxiangmu.com/floworld/data/download/floworld_1.0_release.apk",
 	"base-url":"http://api.kaiyuanxiangmu.com/floworld/data/json/appreciate/",
-    "latest":{"add":12,"list":"appreciate-latest.json"},
+    "latest":{"add":36,"list":"appreciate-latest.json"},
     "most":{"list":"appreciate-most.json"},
     "category":{"list":"appreciate-category.json"},
     "archiver":{"list":"appreciate-archiver.json"},
