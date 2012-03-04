@@ -44,7 +44,7 @@
     <string name="ad_company_business">业务:</string>
 
     <string name="company_note_details">"       感谢以下网站和花店的友情支持！\n       只要为我们提供过图片,可自拍,网上搜索,即可与我达成合作关系,我们将在软件中免费宣传,诚邀养花网站,养花论坛,花店,养花爱好者等合作！"</string>
-    <string name="company_note_contact">联系人:冯先生</string>
+    <string name="company_note_contact">"       联系人:冯先生"</string>
     <string name="company_note_tel">联系电话:</string>
     <string name="company_note_tel_number">15800413861</string>
 </resources>

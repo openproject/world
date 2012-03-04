@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="DuplicateIncludedIds" severity="ignore" />
+    <issue id="PxUsage" severity="ignore" />
     <issue id="UnusedResources" severity="ignore" />
 </lint>
