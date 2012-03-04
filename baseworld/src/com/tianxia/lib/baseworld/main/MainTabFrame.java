@@ -71,7 +71,7 @@ public class MainTabFrame extends ActivityGroup {
         ImageView tabImageView;
         ImageView splitImageView;
         tabTexts = getResources().getStringArray(R.array.tab_text);
-        LinearLayout.LayoutParams tabLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT, 1);
+        LinearLayout.LayoutParams tabLp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1);
         LinearLayout.LayoutParams splitLp = new LayoutParams(5, LayoutParams.FILL_PARENT);
 
         tabSize = ((BaseApplication) getApplication()).getTabActivitys().size();
@@ -89,8 +89,10 @@ public class MainTabFrame extends ActivityGroup {
                     setContainerView("tab" + tabIndex, ((BaseApplication) getApplication()).getTabActivitys().get(tabIndex));
                     for(int j = 0; j < tabSize; j++){
                         tabImageViews.get(j).setImageResource(((BaseApplication) getApplication()).getTabNormalImages().get(j));
+                        tabImageViews.get(j).setBackgroundResource(R.drawable.tab_item_clear);
                     }
                     tabImageViews.get(tabIndex).setImageResource(((BaseApplication) getApplication()).getTabPressImages().get(tabIndex));
+                    tabImageViews.get(tabIndex).setBackgroundResource(R.drawable.tab_item_front);
                 }
 
             });
@@ -108,6 +110,7 @@ public class MainTabFrame extends ActivityGroup {
         //what's the current focus text and image when first show
         mainTabTitleTextView.setText(tabTexts[0]);
         tabImageViews.get(0).setImageResource(((BaseApplication) getApplication()).getTabPressImages().get(0));
+        tabImageViews.get(0).setBackgroundResource(R.drawable.tab_item_front);
         localActivityManager = getLocalActivityManager();
         setContainerView("tab0", ((BaseApplication) getApplication()).getTabActivitys().get(0));
     }

@@ -112,7 +112,7 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
 
         mItemImageView = (ImageView) view.findViewById(R.id.item_image);
         try {
-            mItemImageView.setImageBitmap(BitmapFactory.decodeStream(mAssetManager.open("kinds/" + mKindImages[position])));
+            mItemImageView.setImageBitmap(BitmapFactory.decodeStream(mAssetManager.open("kinds/" + mKindImages[(listData.size() - position - 1) % mKindImages.length])));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,7 +121,7 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
         mItemTitleTextView.setText(listData.get(position).title);
 
         mItemCategoryTextView = (TextView) view.findViewById(R.id.item_category);
-        mItemCategoryTextView.setText("[" + listData.get(position).category + "][" + listData.get(position).date + "]");
+        mItemCategoryTextView.setText("分类:" + listData.get(position).category + " 日期:" + listData.get(position).date);
 
         return view;
     }

@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:paddingTop="dip"
         android:background="@drawable/tab_bg"
         android:layout_alignParentBottom="true">
     </LinearLayout>

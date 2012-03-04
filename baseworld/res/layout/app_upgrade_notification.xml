@@ -26,7 +26,7 @@
         android:layout_height="fill_parent"
         android:gravity="left"
         android:orientation="horizontal"
-        android:layout_weight="1">  
+        android:layout_weight="1">
         <TextView android:id="@+id/app_upgrade_progresstext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <ProgressBar android:id="@+id/app_upgrade_progressbar" 
+            <ProgressBar android:id="@+id/app_upgrade_progressbar"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 style="?android:attr/progressBarStyleHorizontal"/>

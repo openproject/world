@@ -31,9 +31,9 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 //    private AppreciateApi appreciateApi = null;
     private int latestNum = 0;
     private String latestListUrl = null;
-    private String mostListUrl = null;
     private String categoryListUrl = null;
     private String archiverListUrl = null;
+    private String companyListUrl = null;
 
     private Intent appreciateListIntent = null;
 
@@ -137,9 +137,9 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
             String baseUrl = appreciateConfig.getString("base-url");
             latestNum = appreciateConfig.getJSONObject("latest").getInt("add");
             latestListUrl = baseUrl + appreciateConfig.getJSONObject("latest").getString("list");
-            mostListUrl = baseUrl + appreciateConfig.getJSONObject("most").getString("list");
             categoryListUrl = baseUrl + appreciateConfig.getJSONObject("category").getString("list");
             archiverListUrl = baseUrl + appreciateConfig.getJSONObject("archiver").getString("list");
+            companyListUrl = baseUrl + appreciateConfig.getJSONObject("company").getString("list");
 
             setListData(true);
         } catch (JSONException e) {
@@ -177,7 +177,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        if (latestListUrl == null || categoryListUrl == null || archiverListUrl == null || mostListUrl == null) {
+        if (latestListUrl == null || categoryListUrl == null || archiverListUrl == null || companyListUrl == null) {
             setListData(false);
             getAppreciateConfig();
             return;
@@ -204,7 +204,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
         case 4:
             //合作
             appreciateListIntent = new Intent(AppreciateTabActivity.this, AppreciateCompanyActivity.class);
-            appreciateListIntent.putExtra("url", mostListUrl);
+            appreciateListIntent.putExtra("url", companyListUrl);
             break;
 
         default:

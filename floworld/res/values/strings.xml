@@ -27,6 +27,7 @@
     <string name="favorite_category_article">文章</string>
 
     <string name="latest_title">最新图片</string>
+    <string name="company_title">合作</string>
 
     <string name="share_pic_title">《%s》分享来自《花界》最新精美图片</string>
     <string name="share_pic_text">#花界#《%s》分享来自《@huajie_mobile》最新精美图片</string>
@@ -41,4 +42,9 @@
     <string name="ad_company_tel">联系电话:</string>
     <string name="ad_company_phone">手机:</string>
     <string name="ad_company_business">业务:</string>
+
+    <string name="company_note_details">"       感谢以下网站和花店的友情支持！\n       只要为我们提供过图片,可自拍,网上搜索,即可与我达成合作关系,我们将在软件中免费宣传,诚邀养花网站,养花论坛,花店,养花爱好者等合作！"</string>
+    <string name="company_note_contact">联系人:冯先生</string>
+    <string name="company_note_tel">联系电话:</string>
+    <string name="company_note_tel_number">15800413861</string>
 </resources>

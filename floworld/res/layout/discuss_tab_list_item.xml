@@ -33,7 +33,7 @@
         <TextView android:id="@+id/item_category"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="14dip"
+            android:textSize="10dip"
             android:textColor="#192F06">
         </TextView>
     </LinearLayout>

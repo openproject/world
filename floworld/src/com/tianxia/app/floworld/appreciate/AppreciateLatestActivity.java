@@ -30,7 +30,7 @@ import com.tianxia.widget.image.SmartImageView;
 
 public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestInfo> {
 
-    private String mAppricateLatestUrl = null;
+    private String mUrl = null;
     private String mAppreciateLatestTitle = null;
 
     private TextView mAppreciateLatestTitleView = null;
@@ -56,7 +56,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAppricateLatestUrl = getIntent().getStringExtra("url");
+        mUrl = getIntent().getStringExtra("url");
         mAppreciateLatestTitle = getIntent().getStringExtra("title");
 
         mAppreciateLatestTitleView = (TextView) findViewById(R.id.appreciate_latest_title);
@@ -87,7 +87,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
     }
 
     private void loadGridView(){
-        String cacheConfigString = ConfigCache.getUrlCache(mAppricateLatestUrl);
+        String cacheConfigString = ConfigCache.getUrlCache(mUrl);
         if (cacheConfigString != null) {
             setAppreciateLatestList(cacheConfigString);
             mAppLoadingTip.setVisibility(View.GONE);
@@ -95,7 +95,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
             mAppLoadingImage.setVisibility(View.VISIBLE);
         } else {
             AsyncHttpClient client = new AsyncHttpClient();
-            client.get(mAppricateLatestUrl, new AsyncHttpResponseHandler(){
+            client.get(mUrl, new AsyncHttpResponseHandler(){
 
                 @Override
                 public void onStart() {
@@ -107,7 +107,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
 
                 @Override
                 public void onSuccess(String result) {
-                    ConfigCache.setUrlCache(result, mAppricateLatestUrl);
+                    ConfigCache.setUrlCache(result, mUrl);
                     setAppreciateLatestList(result);
                 }
 
@@ -185,6 +185,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
         mAdContainer.removeAllViews();
         mAdContainer.addView(view);
     }
+
     @Override
     protected View getView(int position, View convertView) {
         View view = convertView;

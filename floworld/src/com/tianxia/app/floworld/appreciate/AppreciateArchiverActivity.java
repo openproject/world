@@ -55,18 +55,18 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
         mAppreciateArchivertUrl = getIntent().getStringExtra("url");
 
         mAppreciateArchiverTitle = (TextView) findViewById(R.id.appreciate_archiver_title);
-  
+
         mAppBackButton  = (Button) findViewById(R.id.app_back);
         mAppLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
         mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
         mAppLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
 
         mAppBackButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onBackPressed();
-			}
-		});
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         mAppLoadingImage.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +82,7 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
             e.printStackTrace();
         }
     }
-    
+
     private void loadListView(){
         String cacheConfigString = ConfigCache.getUrlCache(mAppreciateArchivertUrl);
         if (cacheConfigString != null) {
@@ -165,7 +165,7 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
 
         mItemImageView = (ImageView) view.findViewById(R.id.item_image);
         try {
-            mItemImageView.setImageBitmap(BitmapFactory.decodeStream(mAssetManager.open("kinds/" + mKindImages[position])));
+            mItemImageView.setImageBitmap(BitmapFactory.decodeStream(mAssetManager.open("kinds/" + mKindImages[(listData.size() - position - 1) % mKindImages.length])));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -174,10 +174,10 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
         mItemIndex.setText(listData.get(position).index);
 
         mItemDate = (TextView) view.findViewById(R.id.item_date);
-        mItemDate.setText("日期:" + listData.get(position).date);
-        
+        mItemDate.setText("(" + listData.get(position).date + ")");
+
         mItemTitle = (TextView) view.findViewById(R.id.item_title);
-        mItemTitle.setText("题语:" + listData.get(position).title);
+        mItemTitle.setText(listData.get(position).title);
 
         return view;
     }

@@ -7,5 +7,6 @@
     "latest":{"add":12,"list":"appreciate-latest.json"},
     "most":{"list":"appreciate-most.json"},
     "category":{"list":"appreciate-category.json"},
-    "archiver":{"list":"appreciate-archiver.json"}
+    "archiver":{"list":"appreciate-archiver.json"},
+	"company":{"list":"appreciate-company.json"}
 }
