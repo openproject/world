@@ -43,6 +43,7 @@ public class ConfigCache {
                 e.printStackTrace();
             }
         }
+        result = null;
         return result;
     }
 

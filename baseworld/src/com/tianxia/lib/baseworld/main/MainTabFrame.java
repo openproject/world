@@ -71,7 +71,7 @@ public class MainTabFrame extends ActivityGroup {
         ImageView tabImageView;
         ImageView splitImageView;
         tabTexts = getResources().getStringArray(R.array.tab_text);
-        LinearLayout.LayoutParams tabLp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT, 1);
+        LinearLayout.LayoutParams tabLp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1);
         LinearLayout.LayoutParams splitLp = new LayoutParams(5, LayoutParams.FILL_PARENT);
 
         tabSize = ((BaseApplication) getApplication()).getTabActivitys().size();
