@@ -40,7 +40,10 @@
 
         <activity android:name=".identification.IdentificationTabActivity"></activity>
         <activity android:name=".favorite.FavoriteTabActivity"></activity>
+
         <activity android:name=".setting.SettingTabActivity"></activity>
+        <activity android:name=".setting.SettingAboutActivity"></activity>
+
         <service android:name="com.tianxia.lib.baseworld.upgrade.AppUpgradeService"></service>
 
         <activity android:name="net.youmi.android.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation"/> 

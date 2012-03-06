@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFA">
+    <RelativeLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dip"
+        android:background="@drawable/main_banner_bg">
+        <Button android:id="@+id/app_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/app_back"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/app_btn_back"/>
+        <TextView android:id="@+id/setting_about_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/setting_about_title"
+            android:textSize="20dip"
+            android:textColor="#000000"/>
+    </RelativeLayout>
+    <TextView android:id="@+id/app_loading_tip"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="@string/app_loading"/>
+</LinearLayout>

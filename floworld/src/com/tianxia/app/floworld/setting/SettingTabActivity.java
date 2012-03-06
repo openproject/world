@@ -37,12 +37,12 @@ import com.tianxia.lib.baseworld.widget.CornerListView;
 public class SettingTabActivity extends PreferenceActivity implements OnItemClickListener{
 
     private String Setting_1 = "离线下载";
-    private String Setting_2 = "检查新版本";
-    private String Setting_3 = "反馈意见";
-    private String Setting_4 = "关于我们";
-    private String Setting_5 = "分享该软件给朋友";
-    private String Setting_6 = "去为该软件打分";
-    private String Setting_7 = "支持我们，请点击这里的广告";
+    private String Setting_2 = "分享该软件给朋友";
+    private String Setting_3 = "去为该软件打分";
+    private String Setting_4 = "waiting";
+    private String Setting_5 = "检查新版本";
+    private String Setting_6 = "反馈意见";
+    private String Setting_7 = "关于";
 
     private int mLatestVersionCode = 0;
     private String mLatestVersionUpdate = null;
@@ -121,18 +121,20 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         TextView textView = (TextView) view.findViewById(R.id.setting_list_item_text);
         String settingText = textView.getText().toString();
         if (Setting_1.equals(settingText)) {
-            setting1();
+            setting_offline();
         } else if (Setting_2.equals(settingText)) {
-            setting2();
         } else if (Setting_3.equals(settingText)) {
         } else if (Setting_4.equals(settingText)) {
         } else if (Setting_5.equals(settingText)) {
+            setting_check_new_version();
         } else if (Setting_6.equals(settingText)) {
         } else if (Setting_7.equals(settingText)) {
+            Intent intent = new Intent(this, SettingAboutActivity.class);
+            startActivity(intent);
         }
     }
 
-    private void setting1() {
+    private void setting_offline() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("即将开放，敬请期待!")
                .setPositiveButton("确定", null)
@@ -140,7 +142,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
                .show();
     }
 
-    private void setting2() {
+    private void setting_check_new_version() {
 
         if (AppApplication.mNetWorkState == NetworkUtils.NETWORN_NONE) {
             Toast.makeText(this, R.string.check_new_version_no_network, Toast.LENGTH_SHORT).show();
