@@ -61,15 +61,19 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         for (int i = 0; i < size; i++) {
             cornerListView = new CornerListView(this);
             lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-            lp.setMargins(8, 8, 8, 0);
+            lp.setMargins(8, 8, 8, 8);
             cornerListView.setLayoutParams(lp);
             cornerListView.setCacheColorHint(0);
             cornerListView.setDivider(getResources().getDrawable(R.drawable.app_divider_h_gray));
+            cornerListView.setScrollbarFadingEnabled(false);
             cornerContainer.addView(cornerListView);
 
             adapter = new SimpleAdapter(getApplicationContext(), listDatas.get(i), R.layout.main_tab_setting_list_item , new String[]{"text"}, new int[]{R.id.setting_list_item_text});
             cornerListView.setAdapter(adapter);
             cornerListView.setOnItemClickListener(this);
+            int height = listDatas.get(i).size() * (int) getResources().getDimension(R.dimen.setting_item_height);
+            height += 1;
+            cornerListView.getLayoutParams().height = height;
         }
     }
 
@@ -95,7 +99,6 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         map.put("text", Setting_4);
         listData.add(map);
         listDatas.add(listData);
-
 
         listData = new ArrayList<Map<String,String>>();
         map = new HashMap<String, String>();
