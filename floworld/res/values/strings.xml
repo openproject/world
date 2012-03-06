@@ -10,10 +10,6 @@
         <item>设置</item>
     </string-array>
 
-    <string name="app_back">返回</string>
-    <string name="app_loading">正在拉取数据....</string>
-    <string name="app_refresh">刷新</string>
-
     <string name="discuss_category">"类别:"%s</string>
 
     <string name="favorite">收藏</string>
@@ -27,6 +23,7 @@
     <string name="favorite_category_article">文章</string>
 
     <string name="latest_title">最新图片</string>
+    <string name="category_title">分类图片</string>
     <string name="company_title">合作</string>
 
     <string name="share_pic_title">《%s》分享来自《花界》最新精美图片</string>

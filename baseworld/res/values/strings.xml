@@ -6,6 +6,11 @@
 
     <string-array name="tab_text"></string-array>
 
+
+    <string name="app_back">返回</string>
+    <string name="app_loading">请稍候，正在拉取数据....</string>
+    <string name="app_refresh">刷新</string>
+
     <string name="app_upgrade_confirm">确定</string>
     <string name="app_upgrade_cancel">取消</string>
     <string name="check_new_version">发现新版本,确定更新吗?</string>

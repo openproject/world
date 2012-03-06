@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:padding="1px"
         android:orientation="vertical"
-        android:background="#FFFFE0">
+        android:background="#FFFFFA">
         <com.tianxia.widget.image.SmartImageView android:id="@+id/item_image"
              android:layout_width="fill_parent"
              android:layout_height="90dip"
@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
             android:gravity="center"
+            android:visibility="gone"
             android:background="@drawable/appreciate_category_count_bg"
             android:singleLine="true"/>
 </FrameLayout>

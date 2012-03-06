@@ -51,7 +51,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
     ProgressDialog mProgressDialog;
     @Override
     public void setLayout() {
-        setContentView(R.layout.main_tab_setting);
+        setContentView(R.layout.setting_tab_activity);
         cornerContainer = (LinearLayout) findViewById(R.id.setting);
 
         int size = listDatas.size();
@@ -68,7 +68,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
             cornerListView.setScrollbarFadingEnabled(false);
             cornerContainer.addView(cornerListView);
 
-            adapter = new SimpleAdapter(getApplicationContext(), listDatas.get(i), R.layout.main_tab_setting_list_item , new String[]{"text"}, new int[]{R.id.setting_list_item_text});
+            adapter = new SimpleAdapter(getApplicationContext(), listDatas.get(i), R.layout.setting_tab_list_item , new String[]{"text"}, new int[]{R.id.setting_list_item_text});
             cornerListView.setAdapter(adapter);
             cornerListView.setOnItemClickListener(this);
             int height = listDatas.get(i).size() * (int) getResources().getDimension(R.dimen.setting_item_height);

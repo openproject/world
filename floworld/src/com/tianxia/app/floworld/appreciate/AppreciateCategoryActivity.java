@@ -155,7 +155,7 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
         }
 
         mItemTextView = (TextView) view.findViewById(R.id.item_category);
-        mItemTextView.setText(listData.get(position).category);
+        mItemTextView.setText(listData.get(position).category + "(" + listData.get(position).count + ")");
 
         mItemCount = (TextView) view.findViewById(R.id.item_count);
         mItemCount.setText(listData.get(position).count);
@@ -166,7 +166,7 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         mAppreciateCategoryIntent = new Intent(AppreciateCategoryActivity.this, AppreciateLatestActivity.class);
         mAppreciateCategoryIntent.putExtra("url", AppreciateApi.APPRECIATE_CATEGORY_BASE_URL + listData.get(position).filename + ".json");
-        mAppreciateCategoryIntent.putExtra("title", listData.get(position).category);
+        mAppreciateCategoryIntent.putExtra("title", listData.get(position).category + "(" + listData.get(position).count + ")");
         startActivity(mAppreciateCategoryIntent);
     }
 }

@@ -113,7 +113,7 @@ public class IdentificationTabActivity extends AdapterActivity<AppreciateCategor
         }
 
         mItemTextView = (TextView) view.findViewById(R.id.item_category);
-        mItemTextView.setText(listData.get(position).category);
+        mItemTextView.setText(listData.get(position).category + "(" + listData.get(position).count + ")");
 
         mItemCount = (TextView) view.findViewById(R.id.item_count);
         mItemCount.setText(listData.get(position).count);
