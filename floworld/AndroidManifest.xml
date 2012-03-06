@@ -4,9 +4,11 @@
       android:versionCode="1"
       android:versionName="V1.0">
     <uses-sdk android:minSdkVersion="7" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application android:name=".AppApplication"
         android:icon="@drawable/icon"
@@ -31,6 +33,7 @@
         <activity android:name=".appreciate.AppreciateCompanyActivity"></activity>
         <activity android:name=".appreciate.AppreciateCategoryActivity"></activity>
         <activity android:name=".appreciate.AppreciateArchiverActivity"></activity>
+        <activity android:name=".appreciate.AppreciateSearchActivity"></activity>
 
         <activity android:name=".discuss.DiscussTabActivity"></activity>
         <activity android:name=".discuss.DiscussDetailsActivity"></activity>
@@ -39,5 +42,7 @@
         <activity android:name=".favorite.FavoriteTabActivity"></activity>
         <activity android:name=".setting.SettingTabActivity"></activity>
         <service android:name="com.tianxia.lib.baseworld.upgrade.AppUpgradeService"></service>
+
+        <activity android:name="net.youmi.android.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation"/> 
     </application>
 </manifest>

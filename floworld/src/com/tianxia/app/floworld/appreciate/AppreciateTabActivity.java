@@ -3,6 +3,8 @@ package com.tianxia.app.floworld.appreciate;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.youmi.android.AdManager;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -49,6 +51,8 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AdManager.init(this,"c9329cdab07f3fe8", "b7c1c6a540132372", 30, true);
 
         setListData(false);
         getAppreciateConfig();
@@ -177,32 +181,51 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        if (latestListUrl == null || categoryListUrl == null || archiverListUrl == null || companyListUrl == null) {
-            setListData(false);
-            getAppreciateConfig();
-            return;
-        }
         switch (position) {
         case 0:
             //最新
+            if (latestListUrl == null) {
+                setListData(false);
+                getAppreciateConfig();
+                return;
+            }
             appreciateListIntent = new Intent(AppreciateTabActivity.this, AppreciateLatestActivity.class);
             appreciateListIntent.putExtra("url", latestListUrl);
             break;
 
         case 1:
             //分类
+            if (categoryListUrl == null) {
+                setListData(false);
+                getAppreciateConfig();
+                return;
+            }
             appreciateListIntent = new Intent(AppreciateTabActivity.this, AppreciateCategoryActivity.class);
             appreciateListIntent.putExtra("url", categoryListUrl);
             break;
 
         case 2:
             //归档
+            if (archiverListUrl == null) {
+                setListData(false);
+                getAppreciateConfig();
+                return;
+            }
             appreciateListIntent = new Intent(AppreciateTabActivity.this, AppreciateArchiverActivity.class);
             appreciateListIntent.putExtra("url", archiverListUrl);
             break;
 
+        case 3:
+            appreciateListIntent = new Intent(AppreciateTabActivity.this, AppreciateSearchActivity.class);
+            break;
+
         case 4:
             //合作
+            if (companyListUrl == null) {
+                setListData(false);
+                getAppreciateConfig();
+                return;
+            }
             appreciateListIntent = new Intent(AppreciateTabActivity.this, AppreciateCompanyActivity.class);
             appreciateListIntent.putExtra("url", companyListUrl);
             break;

@@ -44,7 +44,6 @@ public class DiscussDetailsActivity extends Activity{
         mCategory = getIntent().getStringExtra("category");
         mDate = getIntent().getStringExtra("date");
 
-        System.out.println("url:" + mUrl);
         mAppBackButton = (Button) findViewById(R.id.app_back);
         mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
         mAppLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
