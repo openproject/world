@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.lib.baseworld.BaseApplication;
@@ -135,9 +136,13 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
         try {
             JSONObject appreciateConfig = new JSONObject(result);
 
-            mLatestVersionCode = appreciateConfig.getInt("version-code");
-            mLatestVersionUpdate = appreciateConfig.getString("version-update");
-            mLatestVersionDownload = appreciateConfig.getString("version-download");
+            mLatestVersionCode = appreciateConfig.optInt("version-code");
+            mLatestVersionUpdate = appreciateConfig.optString("version-update");
+            mLatestVersionDownload = appreciateConfig.optString("version-download");
+            if (mLatestVersionDownload != null) {
+                AppApplication.mApkDownloadUrl = mLatestVersionDownload;
+            }
+
             String baseUrl = appreciateConfig.getString("base-url");
             latestNum = appreciateConfig.getJSONObject("latest").getInt("add");
             latestListUrl = baseUrl + appreciateConfig.getJSONObject("latest").getString("list");

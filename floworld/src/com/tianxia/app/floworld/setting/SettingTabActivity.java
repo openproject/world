@@ -13,6 +13,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -38,11 +39,14 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
 
     private String Setting_1 = "离线下载";
     private String Setting_2 = "分享该软件给朋友";
-    private String Setting_3 = "去为该软件打分";
-    private String Setting_4 = "waiting";
+    private String Setting_3 = "评分";
+    private String Setting_4 = "投稿";
     private String Setting_5 = "检查新版本";
-    private String Setting_6 = "反馈意见";
+    private String Setting_6 = "意见反馈";
     private String Setting_7 = "关于";
+    private String Setting_8 = "捐赠";
+    private String Setting_9 = "给我们发短信";
+    private String Setting_10 = "电话联系我们";
 
     private int mLatestVersionCode = 0;
     private String mLatestVersionUpdate = null;
@@ -61,7 +65,15 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         for (int i = 0; i < size; i++) {
             cornerListView = new CornerListView(this);
             lp = new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-            lp.setMargins(8, 8, 8, 8);
+            if (i == 0 && i == (size - 1)) {
+                lp.setMargins(8, 8, 8, 8);
+            } else if (i == 0) {
+                lp.setMargins(8, 8, 8, 4);
+            }else if (i == (size - 1)) {
+                lp.setMargins(8, 4, 8, 8);
+            } else {
+                lp.setMargins(8, 4, 8, 4);
+            }
             cornerListView.setLayoutParams(lp);
             cornerListView.setCacheColorHint(0);
             cornerListView.setDivider(getResources().getDrawable(R.drawable.app_divider_h_gray));
@@ -112,6 +124,22 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         map = new HashMap<String, String>();
         map.put("text", Setting_7);
         listData.add(map);
+        listDatas.add(listData);
+
+        listData = new ArrayList<Map<String,String>>();
+        map = new HashMap<String, String>();
+        map.put("text", Setting_9);
+        listData.add(map);
+
+        map = new HashMap<String, String>();
+        map.put("text", Setting_10);
+        listData.add(map);
+        listDatas.add(listData);
+
+        listData = new ArrayList<Map<String,String>>();
+        map = new HashMap<String, String>();
+        map.put("text", Setting_8);
+        listData.add(map);
 
         listDatas.add(listData);
     }
@@ -123,13 +151,25 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         if (Setting_1.equals(settingText)) {
             setting_offline();
         } else if (Setting_2.equals(settingText)) {
+            shareApp();
         } else if (Setting_3.equals(settingText)) {
+            jmupToMarket();
         } else if (Setting_4.equals(settingText)) {
         } else if (Setting_5.equals(settingText)) {
             setting_check_new_version();
         } else if (Setting_6.equals(settingText)) {
+            feedBackSuggestion();
         } else if (Setting_7.equals(settingText)) {
             Intent intent = new Intent(this, SettingAboutActivity.class);
+            startActivity(intent);
+        } else if (Setting_8.equals(settingText)) {
+        } else if (Setting_9.equals(settingText)) {
+            Uri uri = Uri.parse(getString(R.string.setting_contact_smsto));
+            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+            startActivity(intent);
+        } else if (Setting_10.equals(settingText)) {
+            Uri uri = Uri.parse(getString(R.string.setting_contact_tel));
+            Intent intent = new Intent(Intent.ACTION_CALL, uri);
             startActivity(intent);
         }
     }
@@ -224,5 +264,30 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         } else {
             Toast.makeText(this, R.string.check_new_version_latest, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void shareApp() {
+        Intent intent=new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.setting_share_app_subject));
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.setting_share_app_body) + AppApplication.mApkDownloadUrl);
+        startActivity(Intent.createChooser(intent, getString(R.string.setting_share_app_title)));
+    }
+
+    public void jmupToMarket() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=" + getPackageName()));
+        startActivity(intent);
+    }
+
+    public void feedBackSuggestion() {
+        String[] reciver = new String[] {getString(R.string.setting_feedback_mail)};
+        String[] sbuject = new String[] {getString(R.string.setting_feedback_subject)};
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("plain/text");
+        intent.putExtra(android.content.Intent.EXTRA_EMAIL, reciver);
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, sbuject);
+        intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+        startActivity(Intent.createChooser(intent, getString(R.string.setting_feedback_title)));
     }
 }

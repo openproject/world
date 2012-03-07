@@ -130,7 +130,7 @@ public class AppreciateLatestDetailsActivity extends Activity {
         } else {
             menu.add(R.string.favorite);
         }
-        menu.add(R.string.share);
+        menu.add(R.string.app_share);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -138,7 +138,7 @@ public class AppreciateLatestDetailsActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle().equals(getString(R.string.unfavorite)) || item.getTitle().equals(getString(R.string.favorite))) {
             favorite(item);
-        } else if (item.getTitle().equals(getString(R.string.share))) {
+        } else if (item.getTitle().equals(getString(R.string.app_share))) {
             if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_SEND);

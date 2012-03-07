@@ -20,7 +20,7 @@ public class AppApplication extends BaseApplication {
     public static BaseSQLiteHelper mSQLiteHelper;
 
     public static String mSdcardDataDir;
-
+    public static String mApkDownloadUrl = null;
     public static int mNetWorkState = NetworkUtils.NETWORN_NONE;
 
     @Override

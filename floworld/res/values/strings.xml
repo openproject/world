@@ -10,14 +10,10 @@
         <item>设置</item>
     </string-array>
 
-    <string name="discuss_category">"类别:"%s</string>
-
     <string name="favorite">收藏</string>
     <string name="unfavorite">删除收藏</string>
     <string name="favorite_add">收藏成功.</string>
     <string name="favorite_del">删除收藏.</string>
-
-    <string name="share">分享</string>
 
     <string name="favorite_category_picture">图片</string>
     <string name="favorite_category_article">文章</string>
@@ -47,4 +43,13 @@
     <string name="company_note_contact">"       联系人:冯先生"</string>
     <string name="company_note_tel">联系电话:</string>
     <string name="company_note_tel_number">15800413861</string>
+
+    <string name="setting_share_app_title">分享应用</string>
+    <string name="setting_share_app_subject">向你分享一个精彩应用《花界》</string>
+    <string name="setting_share_app_body">向你分享一个精彩应用《花界》,看最新高清花图，学习养花知识，教你赏花，下载地址:</string>
+    <string name="setting_feedback_mail">673592063@qq.com</string>
+    <string name="setting_feedback_title">意见反馈</string>
+    <string name="setting_feedback_subject">《花界》意见箱</string>
+    <string name="setting_contact_smsto">"smsto:15800413861"</string>
+    <string name="setting_contact_tel">"tel:15800413861"</string>
 </resources>
