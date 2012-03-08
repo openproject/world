@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.feedback.NotificationType;
+import com.feedback.UMFeedbackService;
 import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.cache.ConfigCache;
@@ -54,6 +56,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
         super.onCreate(savedInstanceState);
 
         AdManager.init(this,"c9329cdab07f3fe8", "b7c1c6a540132372", 30, true);
+        UMFeedbackService.enableNewReplyNotification(this, NotificationType.NotificationBar);
 
         setListData(false);
         getAppreciateConfig();

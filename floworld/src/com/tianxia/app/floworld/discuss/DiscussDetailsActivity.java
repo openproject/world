@@ -1,6 +1,5 @@
 package com.tianxia.app.floworld.discuss;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,8 +19,9 @@ import android.widget.Toast;
 import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.constant.FavoriteType;
+import com.tianxia.lib.baseworld.activity.BaseActivity;
 
-public class DiscussDetailsActivity extends Activity{
+public class DiscussDetailsActivity extends BaseActivity{
 
     private String mTitle = null;
     private String mThumbnail = null;

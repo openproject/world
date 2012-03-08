@@ -2,7 +2,6 @@ package com.tianxia.app.floworld.appreciate;
 
 import java.io.File;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -33,11 +32,12 @@ import com.tianxia.app.floworld.cache.ImagePool;
 import com.tianxia.app.floworld.constant.FavoriteType;
 import com.tianxia.app.floworld.utils.FileUtils;
 import com.tianxia.app.floworld.utils.ScreenUtils;
+import com.tianxia.lib.baseworld.activity.BaseActivity;
 import com.tianxia.lib.baseworld.utils.StringUtils;
 import com.tianxia.widget.gallery.PicGallery;
 import com.tianxia.widget.image.SmartImageView;
 
-public class AppreciateLatestDetailsActivity extends Activity {
+public class AppreciateLatestDetailsActivity extends BaseActivity {
 
     private String mTitle = null;
     private String mUrl = null;

@@ -3,7 +3,8 @@
     xmlns:umadsdk="http://schemas.android.com/apk/res/com.tianxia.app.floworld"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:background="#FFFFFA">
     <RelativeLayout android:id="@+id/main_banner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

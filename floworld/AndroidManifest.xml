@@ -11,11 +11,14 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application android:name=".AppApplication"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar">
+        <meta-data android:value="4f589f105270154265000096" android:name="UMENG_APPKEY" />
+        <meta-data android:value="Dev" android:name="UMENG_CHANNEL"/>
         <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame"
             android:screenOrientation="portrait"
             android:label="@string/app_name">
@@ -48,6 +51,9 @@
 
         <service android:name="com.tianxia.lib.baseworld.upgrade.AppUpgradeService"></service>
 
-        <activity android:name="net.youmi.android.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation"/> 
+        <activity android:name="net.youmi.android.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity android:name="com.feedback.ui.SendFeedback" android:windowSoftInputMode="adjustResize" />
+        <activity android:name="com.feedback.ui.FeedbackConversations" />
+        <activity android:name="com.feedback.ui.FeedbackConversation" android:configChanges="keyboard" />
     </application>
 </manifest>

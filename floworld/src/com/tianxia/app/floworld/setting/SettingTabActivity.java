@@ -23,6 +23,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.feedback.UMFeedbackService;
 import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.appreciate.AppreciateApi;
@@ -281,13 +282,6 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
     }
 
     public void feedBackSuggestion() {
-        String[] reciver = new String[] {getString(R.string.setting_feedback_mail)};
-        String[] sbuject = new String[] {getString(R.string.setting_feedback_subject)};
-        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("plain/text");
-        intent.putExtra(android.content.Intent.EXTRA_EMAIL, reciver);
-        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, sbuject);
-        intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
-        startActivity(Intent.createChooser(intent, getString(R.string.setting_feedback_title)));
+        UMFeedbackService.openUmengFeedbackSDK(this);
     }
 }

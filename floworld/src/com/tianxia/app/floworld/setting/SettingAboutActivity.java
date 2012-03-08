@@ -1,11 +1,11 @@
 package com.tianxia.app.floworld.setting;
 
-import com.tianxia.app.floworld.R;
-
-import android.app.Activity;
 import android.os.Bundle;
 
-public class SettingAboutActivity extends Activity{
+import com.tianxia.app.floworld.R;
+import com.tianxia.lib.baseworld.activity.BaseActivity;
+
+public class SettingAboutActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

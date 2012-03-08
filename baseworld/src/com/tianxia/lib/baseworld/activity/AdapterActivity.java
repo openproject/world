@@ -3,7 +3,6 @@ package com.tianxia.lib.baseworld.activity;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
 
-public abstract class AdapterActivity<T> extends Activity {
+public abstract class AdapterActivity<T> extends BaseActivity {
     public static final int TYPE_LISTVIEW = 0;
     public static final int TYPE_GRIDVIEW = 0;
     public Adapter adapter;

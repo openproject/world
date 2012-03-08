@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 
-public abstract class PreferenceActivity extends Activity {
+public abstract class PreferenceActivity extends BaseActivity {
 
     public List<List<Map<String,String>>> listDatas = new ArrayList<List<Map<String,String>>>();
     public LinearLayout cornerContainer = null;

@@ -30,7 +30,6 @@ import com.tianxia.lib.baseworld.R;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.widget.image.SmartImageView;
 
-
 public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
 
     public int mFavoriteType = FavoriteType.PICTURE;
