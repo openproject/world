@@ -4,8 +4,8 @@
 	android:orientation="vertical" android:background="#E0E0E0">
 	<TextView android:id="@+id/umeng_analyse_feedback_conversation_title"
 		android:layout_width="fill_parent" android:textColor="#565656"
-		android:layout_height="50dip" android:layout_gravity="center"
-		android:gravity="center" android:text="反馈问题" android:textSize="22dip"
+		android:layout_height="wrap_content" android:layout_gravity="center"
+		android:gravity="center" android:text="反馈问题" android:textSize="20dip"
 		android:background="@drawable/umeng_analyse_feedback_bar_bg" />
 
 	<com.feedback.ui.ThreadView android:id="@+id/android:list"
