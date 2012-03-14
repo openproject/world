@@ -10,6 +10,9 @@
         <item>设置</item>
     </string-array>
 
+    <string name="appreciate_search_text">搜索</string>
+    <string name="appreciate_search_tip">请输入你要搜索的关键字</string>
+
     <string name="favorite">收藏</string>
     <string name="unfavorite">删除收藏</string>
     <string name="favorite_add">收藏成功.</string>
