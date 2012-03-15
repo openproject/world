@@ -225,6 +225,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
         case 3:
             appreciateListIntent = new Intent(AppreciateTabActivity.this, AppreciateSearchActivity.class);
+            appreciateListIntent.putExtra("url", categoryListUrl);
             break;
 
         case 4:

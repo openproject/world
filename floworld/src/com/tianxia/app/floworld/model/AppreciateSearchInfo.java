@@ -13,4 +13,5 @@ public class AppreciateSearchInfo {
 
     public String date;
     public String path;
+    public String count;
 }
