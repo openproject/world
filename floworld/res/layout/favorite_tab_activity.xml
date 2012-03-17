@@ -12,17 +12,14 @@
         <Button android:id="@+id/app_category_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/app_category_left"
+            android:background="@drawable/app_category_left_selected"
             android:text="@string/favorite_category_picture"></Button>
         <Button android:id="@+id/app_category_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/app_category_right"
+            android:background="@drawable/app_category_right_normal"
             android:text="@string/favorite_category_article"></Button>
     </LinearLayout>
-    <ImageView android:layout_width="fill_parent"
-        android:layout_height="1px"
-        android:src="@drawable/app_divider_h_gray"/>
     <ListView android:id="@+id/favorite_tab_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

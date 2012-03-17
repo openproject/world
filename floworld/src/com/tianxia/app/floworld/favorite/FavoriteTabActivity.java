@@ -14,10 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.appreciate.AppreciateLatestDetailsActivity;
@@ -56,6 +56,8 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
         mAppCategotyLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAppCategotyLeft.setBackgroundResource(R.drawable.app_category_left_selected);
+                mAppCategotyRight.setBackgroundResource(R.drawable.app_category_right_normal);
                 if (mFavoriteType == FavoriteType.ARTICLE) {
                     mFavoriteType = FavoriteType.PICTURE;
                     showFavoriteList(mFavoriteType);
@@ -65,6 +67,8 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
         mAppCategotyRight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAppCategotyLeft.setBackgroundResource(R.drawable.app_category_left_normal);
+                mAppCategotyRight.setBackgroundResource(R.drawable.app_category_right_selected);
                 if (mFavoriteType == FavoriteType.PICTURE) {
                     mFavoriteType = FavoriteType.ARTICLE;
                     showFavoriteList(mFavoriteType);
