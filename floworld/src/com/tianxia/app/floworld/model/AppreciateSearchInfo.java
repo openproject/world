@@ -10,6 +10,7 @@ public class AppreciateSearchInfo {
     public String thumbnail;
     public String tag;
     public String category;
+    public String filename;
 
     public String date;
     public String path;

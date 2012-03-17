@@ -12,6 +12,9 @@
 
     <string name="appreciate_search_text">搜索</string>
     <string name="appreciate_search_tip">请输入你要搜索的关键字</string>
+    <string name="appreciate_search_empty">输入为空,请输入你要搜素的关键字.</string>
+    <string name="appreciate_search_too_wide">你要搜索的内容太广，请重新搜素.</string>
+    <string name="appreciate_search_wide_word">花|的|</string>
 
     <string name="favorite">收藏</string>
     <string name="unfavorite">删除收藏</string>

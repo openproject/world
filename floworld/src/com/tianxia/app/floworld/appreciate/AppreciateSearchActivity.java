@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -15,12 +16,14 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.discuss.DiscussApi;
+import com.tianxia.app.floworld.discuss.DiscussDetailsActivity;
 import com.tianxia.app.floworld.model.AppreciateSearchInfo;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
@@ -40,6 +43,10 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
     private SmartImageView mItemImageView;
     private TextView mItemTitleTextView;
     private TextView mItemCategoryTextView;
+    private Intent mItemIntent;
+
+    private Button mAppBackButton;
+    private TextView mAppLoadingTip;
 
     private AssetManager mAssetManager = null;
     private String[] mKindImages = null;
@@ -56,10 +63,21 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
             @Override
             public void onClick(View v) {
                 String keyword = mAppreciateSearchEditText.getText().toString();
-                listData.clear();
-                if (keyword != null && !"".equals(keyword)) {
-                    setListData(keyword);
+                if(keyword != null) {
+                    keyword = keyword.trim();
                 }
+                if (keyword == null || "".equals(keyword)) {
+                    Toast.makeText(AppreciateSearchActivity.this, R.string.appreciate_search_empty, Toast.LENGTH_SHORT).show();
+                    mAppLoadingTip.setText(R.string.appreciate_search_empty);
+                    return;
+                }
+                if (getString(R.string.appreciate_search_wide_word).indexOf(keyword + "|") > -1) {
+                    Toast.makeText(AppreciateSearchActivity.this, R.string.appreciate_search_too_wide, Toast.LENGTH_SHORT).show();
+                    mAppLoadingTip.setText(R.string.appreciate_search_too_wide);
+                    return;
+                }
+                listData.clear();
+                setListData(keyword);
             }
         });
 
@@ -69,9 +87,23 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        mAppBackButton = (Button) findViewById(R.id.app_back);
+        mAppLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
+        mAppBackButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     public void setListData(final String keyword){
+        listView.setAdapter(null);
+        mAppLoadingTip.setVisibility(View.VISIBLE);
+        mAppLoadingTip.setText(R.string.app_loading);
+
         String discussConfigString = ConfigCache.getUrlCache(DiscussApi.DISCUSS_CONFIG_URL);
         if (discussConfigString != null) {
             setDiscussConfig(discussConfigString, keyword);
@@ -87,8 +119,9 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
 
                 @Override
                 public void onFailure(Throwable arg0) {
-                    listView.setAdapter(null);
+                    mAppLoadingTip.setText(R.string.app_loading_fail);
                 }
+
             });
         }
 
@@ -107,11 +140,9 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
 
                 @Override
                 public void onFailure(Throwable arg0) {
+                    mAppLoadingTip.setText(R.string.app_loading_fail);
                 }
 
-                @Override
-                public void onFinish() {
-                }
             });
         }
     }
@@ -136,6 +167,12 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
                 }
             }
 
+            if (listData != null && listData.size() > 0) {
+                mAppLoadingTip.setVisibility(View.GONE);
+            } else {
+                mAppLoadingTip.setText(R.string.app_loading_none);
+            }
+
             adapter = new Adapter(AppreciateSearchActivity.this);
             listView.setAdapter(adapter);
         } catch (JSONException e) {
@@ -156,6 +193,7 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
                     searchInfo.type = SEARCH_TYPE_PIC;
                     searchInfo.category = searchList.getJSONObject(i).getString("category");
                     searchInfo.thumbnail = searchList.getJSONObject(i).optString("thumbnail");
+                    searchInfo.filename = searchList.getJSONObject(i).optString("filename");
                     searchInfo.count = searchList.getJSONObject(i).optString("count");
                     listData.add(searchInfo);
                 }
@@ -163,6 +201,13 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        if (listData != null && listData.size() > 0) {
+            mAppLoadingTip.setVisibility(View.GONE);
+        } else {
+            mAppLoadingTip.setText(R.string.app_loading_none);
+        }
+
         adapter = new Adapter(AppreciateSearchActivity.this);
         listView.setAdapter(adapter);
     }
@@ -192,7 +237,7 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else if (listData.get(position).type == SEARCH_TYPE_PIC){
+        } else if (listData.get(position).type == SEARCH_TYPE_PIC) {
             mItemImageView.setScaleType(ScaleType.FIT_XY);
             mItemImageView.setImageUrl(listData.get(position).thumbnail, R.drawable.app_download_fail, R.drawable.app_download_loading);
             mItemTitleTextView.setText(listData.get(position).category);
@@ -204,5 +249,17 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        if (listData.get(position).type == SEARCH_TYPE_DISCUSS) {
+            mItemIntent = new Intent(this, DiscussDetailsActivity.class);
+            mItemIntent.putExtra("url", listData.get(position).path);
+            mItemIntent.putExtra("title", listData.get(position).title);
+            mItemIntent.putExtra("category", listData.get(position).category);
+            startActivity(mItemIntent);
+        } else if (listData.get(position).type == SEARCH_TYPE_PIC) {
+            mItemIntent = new Intent(this, AppreciateLatestActivity.class);
+            mItemIntent.putExtra("url", AppreciateApi.APPRECIATE_CATEGORY_BASE_URL + listData.get(position).filename + ".json");
+            mItemIntent.putExtra("title", listData.get(position).category + "(" + listData.get(position).count + ")");
+            startActivity(mItemIntent);
+        }
     }
 }
