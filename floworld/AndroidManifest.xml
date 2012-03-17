@@ -47,7 +47,7 @@
         <activity android:name=".favorite.FavoriteTabActivity"></activity>
 
         <activity android:name=".setting.SettingTabActivity"></activity>
-        <activity android:name=".setting.SettingAboutActivity"></activity>
+        <activity android:name="com.tianxia.lib.baseworld.activity.SettingAboutActivity"></activity>
 
         <service android:name="com.tianxia.lib.baseworld.upgrade.AppUpgradeService"></service>
 

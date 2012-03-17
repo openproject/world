@@ -26,4 +26,10 @@
     <string name="app_upgrade_download_sucess">新版本下载成功,开始安装.</string>
     <string name="app_upgrade_download_fail">新版本下载失败，请稍后再试.</string>
 
+    <string name="setting_about_title">关于</string>
+    <string name="setting_about_subject">花界\nFlower World</string>
+    <string name="setting_about_description">看花，议花，识花，提高您的赏花素养！</string>
+    <string name="setting_about_copyright_1">开源项目 版权所有</string>
+    <string name="setting_about_copyright_2">Copyright © 2011~2012 杰风工作室.</string>
+    <string name="setting_about_copyright_3">All Rights Reserved.</string>
 </resources>

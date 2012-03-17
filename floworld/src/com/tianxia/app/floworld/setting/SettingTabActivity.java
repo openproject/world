@@ -31,6 +31,7 @@ import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.utils.NetworkUtils;
 import com.tianxia.lib.baseworld.BaseApplication;
 import com.tianxia.lib.baseworld.activity.PreferenceActivity;
+import com.tianxia.lib.baseworld.activity.SettingAboutActivity;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 import com.tianxia.lib.baseworld.upgrade.AppUpgradeService;
