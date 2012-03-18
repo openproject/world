@@ -141,17 +141,16 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
             mLatestVersionCode = appreciateConfig.optInt("version-code");
             mLatestVersionUpdate = appreciateConfig.optString("version-update");
-            mLatestVersionDownload = appreciateConfig.optString("version-download");
+            mLatestVersionDownload = AppApplication.domain + appreciateConfig.optString("version-download");
             if (mLatestVersionDownload != null) {
                 AppApplication.mApkDownloadUrl = mLatestVersionDownload;
             }
 
-            String baseUrl = appreciateConfig.getString("base-url");
             latestNum = appreciateConfig.getJSONObject("latest").getInt("add");
-            latestListUrl = baseUrl + appreciateConfig.getJSONObject("latest").getString("list");
-            categoryListUrl = baseUrl + appreciateConfig.getJSONObject("category").getString("list");
-            archiverListUrl = baseUrl + appreciateConfig.getJSONObject("archiver").getString("list");
-            companyListUrl = baseUrl + appreciateConfig.getJSONObject("company").getString("list");
+            latestListUrl = AppApplication.domain + appreciateConfig.getJSONObject("latest").getString("list");
+            categoryListUrl = AppApplication.domain + appreciateConfig.getJSONObject("category").getString("list");
+            archiverListUrl = AppApplication.domain + appreciateConfig.getJSONObject("archiver").getString("list");
+            companyListUrl = AppApplication.domain + appreciateConfig.getJSONObject("company").getString("list");
 
             setListData(true);
         } catch (JSONException e) {

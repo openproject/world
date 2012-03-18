@@ -2,11 +2,10 @@
     "version-code":3,
     "version-name":"V1.0_Base(20120318)",
     "version-update":"花界V1.0 Base(20120318)版本发布了,增加新特性:\n1. 完善搜索模块;\n2. 增加关于界面;\n3. 修复评花的点击出错的重大bug;\n4. 其它若干贴心功能优化.\n强烈推荐更新!",
-    "version-download":"http://api.kaiyuanxiangmu.com/floworld/data/download/floworld_v1.0_base(20100318).apk",
-	"base-url":"http://api.kaiyuanxiangmu.com/floworld/data/json/appreciate/",
-    "latest":{"add":11,"list":"appreciate-latest.json"},
-    "most":{"list":"appreciate-most.json"},
-    "category":{"list":"appreciate-category.json"},
-    "archiver":{"list":"appreciate-archiver.json"},
-	"company":{"list":"appreciate-company.json"}
+    "version-download":"floworld/data/download/floworld_v1.0_base(20100318).apk",
+    "latest":{"add":10,"list":"floworld/data/json/appreciate/appreciate-latest.json"},
+    "most":{"list":"floworld/data/json/appreciate/appreciate-most.json"},
+    "category":{"list":"floworld/data/json/appreciate/appreciate-category.json"},
+    "archiver":{"list":"floworld/data/json/appreciate/appreciate-archiver.json"},
+	"company":{"list":"floworld/data/json/appreciate/appreciate-company.json"}
 }

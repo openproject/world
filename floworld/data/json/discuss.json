@@ -1,5 +1,5 @@
 {
-    "base-url":"http://api.kaiyuanxiangmu.com/floworld/data/json/discuss/",
+    "base-url":"floworld/data/json/discuss/",
     "list":[
             {"id":"15","title":"生日花语(8月)","date":"2012-03-12","path":"language/2012-03-04-000507.html","category":"花语"},
             {"id":"14","title":"生日花语(7月)","date":"2012-03-11","path":"language/2012-03-04-000507.html","category":"花语"},

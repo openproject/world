@@ -233,7 +233,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
             JSONObject appreciateConfig = new JSONObject(result);
             mLatestVersionCode = appreciateConfig.getInt("version-code");
             mLatestVersionUpdate = appreciateConfig.getString("version-update");
-            mLatestVersionDownload = appreciateConfig.getString("version-download");
+            mLatestVersionDownload = AppApplication.domain + appreciateConfig.getString("version-download");
         } catch (JSONException e) {
             e.printStackTrace();
             mProgressDialog.cancel();

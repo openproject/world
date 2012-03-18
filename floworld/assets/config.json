@@ -3,6 +3,6 @@
            "version-code":1,
             "version-name":"0.0.1"
           },
-     "net":{"config":"http://api.kaiyuanxiangmu.com/floworld/assets/config.json"
+     "net":{"config":"http://1.kaiyuanxiangmu.sinaapp.com/floworld/assets/config.json"
            }
 }

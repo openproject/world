@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.model.AppreciateArchiverInfo;
@@ -185,7 +186,7 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         mAppreciateArchiverIntent = new Intent(AppreciateArchiverActivity.this, AppreciateLatestActivity.class);
-        mAppreciateArchiverIntent.putExtra("url", listData.get(position).json);
+        mAppreciateArchiverIntent.putExtra("url", AppApplication.domain + listData.get(position).json);
         mAppreciateArchiverIntent.putExtra("title", listData.get(position).index);
         startActivity(mAppreciateArchiverIntent);
     }

@@ -2,12 +2,13 @@ package com.tianxia.app.floworld.appreciate;
 
 import android.content.Context;
 
+import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.utils.FileUtils;
 
 public class AppreciateApi {
 
-    public static String APPRECIATE_CONFIG_URL = "http://api.kaiyuanxiangmu.com/floworld/data/json/appreciate.json";
-    public static String APPRECIATE_CATEGORY_BASE_URL = "http://api.kaiyuanxiangmu.com/floworld/data/json/appreciate/category/";
+    public static String APPRECIATE_CONFIG_URL = AppApplication.domain + "floworld/data/json/appreciate.json";
+    public static String APPRECIATE_CATEGORY_BASE_URL = AppApplication.domain + "floworld/data/json/appreciate/category/";
     /**
      * deprecated
      * 读取本地Config

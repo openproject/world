@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.model.DiscussInfo;
@@ -84,7 +85,7 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
         try {
             JSONObject discussConfig = new JSONObject(result);
 
-            String baseUrl = discussConfig.getString("base-url");
+            String baseUrl = AppApplication.domain + discussConfig.getString("base-url");
             JSONArray discussList = discussConfig.getJSONArray("list");
             DiscussInfo discussInfo = null;
             for (int i = 0; i < discussList.length(); i++) {

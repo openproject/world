@@ -15,6 +15,7 @@ import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
 
 public class AppApplication extends BaseApplication {
 
+    public static final String domain = "http://1.kaiyuanxiangmu.sinaapp.com/";
     private static final String DB_NAME = "floworld.db";
 
     public static BaseSQLiteHelper mSQLiteHelper;
