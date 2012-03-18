@@ -129,7 +129,6 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(this, DiscussDetailsActivity.class);
-        intent.putExtra("thumbnail", "kinds/" + mKindImages[position]);
         intent.putExtra("url", listData.get(position).path);
         intent.putExtra("title", listData.get(position).title);
         intent.putExtra("category", listData.get(position).category);
