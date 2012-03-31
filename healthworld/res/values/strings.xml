@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">养生</string>
+    <string name="app_name">养生世界</string>
     <string-array name="tab_text">
-        <item>天天养生</item>
-        <item>养生书籍</item>
-        <item>养生节目</item>
-        <item>我的收藏</item>
+        <item>资讯</item>
+        <item>分类</item>
+        <item>文摘</item>
+        <item>收藏</item>
         <item>设置</item>
     </string-array>
 </resources>

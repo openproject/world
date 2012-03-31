@@ -7,8 +7,8 @@ import com.tianxia.app.floworld.utils.FileUtils;
 
 public class AppreciateApi {
 
-    public static String APPRECIATE_CONFIG_URL = AppApplication.domain + "floworld/data/json/appreciate.json";
-    public static String APPRECIATE_CATEGORY_BASE_URL = AppApplication.domain + "floworld/data/json/appreciate/category/";
+    public static String APPRECIATE_CONFIG_URL = AppApplication.mDomain + "floworld/data/json/appreciate.json";
+    public static String APPRECIATE_CATEGORY_BASE_URL = AppApplication.mDomain + "floworld/data/json/appreciate/category/";
     /**
      * deprecated
      * 读取本地Config

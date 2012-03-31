@@ -32,6 +32,7 @@ import com.tianxia.app.floworld.utils.NetworkUtils;
 import com.tianxia.lib.baseworld.BaseApplication;
 import com.tianxia.lib.baseworld.activity.PreferenceActivity;
 import com.tianxia.lib.baseworld.activity.SettingAboutActivity;
+import com.tianxia.lib.baseworld.alipay.AlixPay;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 import com.tianxia.lib.baseworld.upgrade.AppUpgradeService;
@@ -165,6 +166,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
             Intent intent = new Intent(this, SettingAboutActivity.class);
             startActivity(intent);
         } else if (Setting_8.equals(settingText)) {
+            setting_donate();
         } else if (Setting_9.equals(settingText)) {
             Uri uri = Uri.parse(getString(R.string.setting_contact_smsto));
             Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
@@ -182,6 +184,11 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
                .setPositiveButton("确定", null)
                .create()
                .show();
+    }
+
+    private void setting_donate() {
+        AlixPay alixPay = new AlixPay(SettingTabActivity.this);
+        alixPay.pay();
     }
 
     private void setting_check_new_version() {
@@ -233,7 +240,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
             JSONObject appreciateConfig = new JSONObject(result);
             mLatestVersionCode = appreciateConfig.getInt("version-code");
             mLatestVersionUpdate = appreciateConfig.getString("version-update");
-            mLatestVersionDownload = AppApplication.domain + appreciateConfig.getString("version-download");
+            mLatestVersionDownload = AppApplication.mDomain + appreciateConfig.getString("version-download");
         } catch (JSONException e) {
             e.printStackTrace();
             mProgressDialog.cancel();

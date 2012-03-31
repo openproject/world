@@ -85,7 +85,7 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
         try {
             JSONObject discussConfig = new JSONObject(result);
 
-            String baseUrl = AppApplication.domain + discussConfig.getString("base-url");
+            String baseUrl = AppApplication.mDomain + discussConfig.getString("base-url");
             JSONArray discussList = discussConfig.getJSONArray("list");
             DiscussInfo discussInfo = null;
             for (int i = 0; i < discussList.length(); i++) {
@@ -130,6 +130,7 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         Intent intent = new Intent(this, DiscussDetailsActivity.class);
+        intent.putExtra("thumbnail", "kinds/" + mKindImages[(listData.size() - position - 1) % mKindImages.length]);
         intent.putExtra("url", listData.get(position).path);
         intent.putExtra("title", listData.get(position).title);
         intent.putExtra("category", listData.get(position).category);

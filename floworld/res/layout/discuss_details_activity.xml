@@ -55,6 +55,5 @@
         android:layout_above="@id/adView"
         android:layout_below="@id/main_banner"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scrollbars="none"></WebView>
+        android:layout_height="fill_parent"></WebView>
 </RelativeLayout>

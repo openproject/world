@@ -55,7 +55,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AdManager.init(this,"c9329cdab07f3fe8", "b7c1c6a540132372", 30, true);
+        AdManager.init(this,"c9329cdab07f3fe8", "b7c1c6a540132372", 30, false);
         UMFeedbackService.enableNewReplyNotification(this, NotificationType.NotificationBar);
 
         setListData(false);
@@ -141,16 +141,16 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
             mLatestVersionCode = appreciateConfig.optInt("version-code");
             mLatestVersionUpdate = appreciateConfig.optString("version-update");
-            mLatestVersionDownload = AppApplication.domain + appreciateConfig.optString("version-download");
+            mLatestVersionDownload = AppApplication.mDomain + appreciateConfig.optString("version-download");
             if (mLatestVersionDownload != null) {
                 AppApplication.mApkDownloadUrl = mLatestVersionDownload;
             }
 
             latestNum = appreciateConfig.getJSONObject("latest").getInt("add");
-            latestListUrl = AppApplication.domain + appreciateConfig.getJSONObject("latest").getString("list");
-            categoryListUrl = AppApplication.domain + appreciateConfig.getJSONObject("category").getString("list");
-            archiverListUrl = AppApplication.domain + appreciateConfig.getJSONObject("archiver").getString("list");
-            companyListUrl = AppApplication.domain + appreciateConfig.getJSONObject("company").getString("list");
+            latestListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("latest").getString("list");
+            categoryListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("category").getString("list");
+            archiverListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("archiver").getString("list");
+            companyListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("company").getString("list");
 
             setListData(true);
         } catch (JSONException e) {

@@ -147,7 +147,7 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
 
     private void updateAppreciateTitle(int size){
         if (size > 0) {
-            mAppreciateArchiverTitle.setText(mAppreciateArchiverTitle.getText() + "(共" + size + "期)");
+            mAppreciateArchiverTitle.setText(getString(R.string.appreciate_archiver_title) + "(共" + size + "期)");
         }
     }
 
@@ -186,7 +186,7 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         mAppreciateArchiverIntent = new Intent(AppreciateArchiverActivity.this, AppreciateLatestActivity.class);
-        mAppreciateArchiverIntent.putExtra("url", AppApplication.domain + listData.get(position).json);
+        mAppreciateArchiverIntent.putExtra("url", AppApplication.mDomain + listData.get(position).json);
         mAppreciateArchiverIntent.putExtra("title", listData.get(position).index);
         startActivity(mAppreciateArchiverIntent);
     }

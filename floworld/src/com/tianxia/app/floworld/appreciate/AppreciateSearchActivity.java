@@ -20,6 +20,7 @@ import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 
+import com.tianxia.app.floworld.AppApplication;
 import com.tianxia.app.floworld.R;
 import com.tianxia.app.floworld.cache.ConfigCache;
 import com.tianxia.app.floworld.discuss.DiscussApi;
@@ -151,7 +152,7 @@ public class AppreciateSearchActivity extends AdapterActivity<AppreciateSearchIn
         try {
             JSONObject discussConfig = new JSONObject(result);
 
-            String baseUrl = discussConfig.getString("base-url");
+            String baseUrl = AppApplication.mDomain + discussConfig.getString("base-url");
             JSONArray searchList = discussConfig.getJSONArray("list");
             AppreciateSearchInfo searchInfo = null;
             String searchTitle = null;

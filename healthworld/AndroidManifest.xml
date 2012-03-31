@@ -2,20 +2,33 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tianxia.app.healthworld"
     android:versionCode="1"
-    android:versionName="1.0" >
-
+    android:versionName="0.1" >
     <uses-sdk android:minSdkVersion="7" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
 
     <application android:name=".AppApplication"
         android:label="@string/app_name"
         android:icon="@drawable/icon"
         android:theme="@android:style/Theme.Black.NoTitleBar">
-        <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame" >
+        <meta-data android:value="4f672e2352701550360000c9" android:name="UMENG_APPKEY" />
+        <meta-data android:value="Dev" android:name="UMENG_CHANNEL"/>
+        <activity android:name="com.tianxia.lib.baseworld.alipay.AlixDemo" >
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".infomation.InfomationTabActivity"></activity>
+        <activity android:name=".category.CategoryTabActivity"></activity>
+        <activity android:name=".digest.DigestTabActivity"></activity>
+        <activity android:name=".favorite.FavoriteTabActivity"></activity>
         <activity android:name=".setting.SettingTabActivity"></activity>
     </application>
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/AlipayTitle" android:layout_width="fill_parent"
+	android:layout_height="wrap_content" android:background="@drawable/title_bg"
+	android:padding="10dip">
+
+	<ImageView android:id="@+id/AlipayTitleIcon"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:src="@drawable/title_logo">
+	</ImageView>
+
+	<TextView android:id="@+id/AlipayTitleItemName"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:textSize="19sp" android:textColor="@color/TextColorWhite"
+		android:layout_alignParentRight="true">
+	</TextView>
+</RelativeLayout>

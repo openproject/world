@@ -99,7 +99,9 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
             view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.favorite_tab_list_item_article, null);
             mItemImageView = (ImageView) view.findViewById(R.id.item_image);
             try {
-                mItemImageView.setImageBitmap(BitmapFactory.decodeStream(assetManager.open(listData.get(position).thumbnail)));
+                if (listData.get(position).thumbnail != null) {
+                    mItemImageView.setImageBitmap(BitmapFactory.decodeStream(assetManager.open(listData.get(position).thumbnail)));
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
