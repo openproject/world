@@ -149,9 +149,9 @@ public class AlixPay {
         strOrderInfo += "&";
         strOrderInfo += "out_trade_no=" + "\"" + getOutTradeNo() + "\"";
         strOrderInfo += "&";
-        strOrderInfo += "subject=" + "\"" + "感谢捐赠" + "\"";
+        strOrderInfo += "subject=" + "\"" + mActivity.getString(R.string.donate_subject) + "\"";
         strOrderInfo += "&";
-        strOrderInfo += "body=" + "\"" + "您对开源项目花界的支持，让我们做的更好！" + "\"";
+        strOrderInfo += "body=" + "\"" + mActivity.getString(R.string.donate_body) + "\"";
         strOrderInfo += "&";
         strOrderInfo += "total_fee=" + "\"" + "10.00" + "\"";
         strOrderInfo += "&";
