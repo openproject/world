@@ -18,11 +18,15 @@ import com.tianxia.lib.baseworld.BaseApplication;
 import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
+import com.tianxia.lib.baseworld.utils.PreferencesUtils;
 
 public class AppApplication extends BaseApplication {
 
+    public static final String DOMAIN = "domain";
+    public static final String DOMAIN_URL = "url";
     public static String mDomain = "http://www.kaiyuanxiangmu.com/";
     public static String mBakeDomain = "http://1.kaiyuanxiangmu.sinaapp.com/";
+
     private static final String DB_NAME = "floworld.db";
 
     public static BaseSQLiteHelper mSQLiteHelper;
@@ -76,6 +80,7 @@ public class AppApplication extends BaseApplication {
     }
 
     public void checkDomain(final String domain, final boolean stop){
+        AppApplication.mDomain = PreferencesUtils.getStringPreference(getApplicationContext(), DOMAIN, DOMAIN_URL, mDomain);
         String cacheConfigString = ConfigCache.getUrlCache(domain + "host.json");
         if (cacheConfigString != null) {
             updateDomain(cacheConfigString);
@@ -113,6 +118,7 @@ public class AppApplication extends BaseApplication {
             String domain = appreciateConfig.optString("domain");
             if (domain != null && !"".equals(domain)) {
                 AppApplication.mDomain = domain;
+                PreferencesUtils.setStringPreferences(getApplicationContext(), DOMAIN, DOMAIN_URL, domain);
             }
         } catch (JSONException e) {
             e.printStackTrace();
