@@ -110,9 +110,9 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         map.put("text", Setting_3);
         listData.add(map);
 
-        map = new HashMap<String, String>();
-        map.put("text", Setting_4);
-        listData.add(map);
+//        map = new HashMap<String, String>();
+//        map.put("text", Setting_4);
+//        listData.add(map);
         listDatas.add(listData);
 
         listData = new ArrayList<Map<String,String>>();
@@ -173,7 +173,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
             startActivity(intent);
         } else if (Setting_10.equals(settingText)) {
             Uri uri = Uri.parse(getString(R.string.setting_contact_tel));
-            Intent intent = new Intent(Intent.ACTION_CALL, uri);
+            Intent intent = new Intent(Intent.ACTION_DIAL, uri);
             startActivity(intent);
         }
     }
