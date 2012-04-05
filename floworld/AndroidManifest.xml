@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.tianxia.app.floworld"
-      android:versionCode="3"
-      android:versionName="V1.0.20120318">
+      android:versionCode="4"
+      android:versionName="V1.0 Beta">
     <uses-sdk android:minSdkVersion="7" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,7 +18,8 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar">
         <meta-data android:value="4f589f105270154265000096" android:name="UMENG_APPKEY" />
-        <meta-data android:value="Dev" android:name="UMENG_CHANNEL"/>
+        <!-- <meta-data android:value="Offical" android:name="UMENG_CHANNEL"/> -->
+        <meta-data android:value="Google" android:name="UMENG_CHANNEL"/>
         <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame"
             android:screenOrientation="portrait"
             android:label="@string/app_name">

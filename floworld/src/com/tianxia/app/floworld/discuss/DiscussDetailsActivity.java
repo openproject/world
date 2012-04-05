@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -64,6 +65,7 @@ public class DiscussDetailsActivity extends BaseActivity{
         });
 
         mWebView = (WebView) findViewById(R.id.discuzz_details_webview);
+        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         mWebView.loadUrl(mUrl);
 
         mWebView.setWebViewClient(new WebViewClient(){
