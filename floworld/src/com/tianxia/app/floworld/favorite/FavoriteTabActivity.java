@@ -43,13 +43,19 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
     private TextView mItemCategoryTextView = null;
     private TextView mItemDateTextView = null;
 
-    private AssetManager assetManager = null;
+    private AssetManager mAssetManager = null;
+    private String[] mKindImages = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        assetManager = getResources().getAssets();
+        mAssetManager = getResources().getAssets();
+        try {
+            mKindImages = mAssetManager.list("kinds");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         mAppCategotyLeft = (Button) findViewById(R.id.app_category_left);
         mAppCategotyRight = (Button) findViewById(R.id.app_category_right);
@@ -99,9 +105,7 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
             view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.favorite_tab_list_item_article, null);
             mItemImageView = (ImageView) view.findViewById(R.id.item_image);
             try {
-                if (listData.get(position).thumbnail != null) {
-                    mItemImageView.setImageBitmap(BitmapFactory.decodeStream(assetManager.open(listData.get(position).thumbnail)));
-                }
+                mItemImageView.setImageBitmap(BitmapFactory.decodeStream(mAssetManager.open("kinds/" + mKindImages[(listData.size() - position - 1) % mKindImages.length])));
             } catch (IOException e) {
                 e.printStackTrace();
             }

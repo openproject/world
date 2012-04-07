@@ -168,9 +168,14 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         } else if (Setting_8.equals(settingText)) {
             setting_donate();
         } else if (Setting_9.equals(settingText)) {
-            Uri uri = Uri.parse(getString(R.string.setting_contact_smsto));
-            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
-            startActivity(intent);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("机锋网版本暂不支持发短信!")
+                   .setPositiveButton("确定", null)
+                   .create()
+                   .show();
+//            Uri uri = Uri.parse(getString(R.string.setting_contact_smsto));
+//            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
+//            startActivity(intent);
         } else if (Setting_10.equals(settingText)) {
             Uri uri = Uri.parse(getString(R.string.setting_contact_tel));
             Intent intent = new Intent(Intent.ACTION_DIAL, uri);
