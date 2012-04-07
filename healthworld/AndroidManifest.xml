@@ -19,7 +19,7 @@
         android:theme="@android:style/Theme.Black.NoTitleBar">
         <meta-data android:value="4f672e2352701550360000c9" android:name="UMENG_APPKEY" />
         <meta-data android:value="Dev" android:name="UMENG_CHANNEL"/>
-        <activity android:name="com.tianxia.lib.baseworld.alipay.AlixDemo" >
+        <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
