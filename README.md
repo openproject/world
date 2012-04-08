@@ -9,6 +9,6 @@
 
 技术支持
 ------------------------------------
-- Member: 冯建
+- Member: 冯建 李静
 -   Site: <https://github.com/openproject/world/>
 -     QQ: 673592063
