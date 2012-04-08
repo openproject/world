@@ -53,4 +53,8 @@
 
     <string name="donate_subject">为开源项目捐赠</string>
     <string name="donate_body">你的支持，让我们做的更好！</string>
+
+    <string name="setting_share_app_title">分享应用</string>
+    <string name="setting_share_app_subject">向你分享一个精彩应用《花界》</string>
+    <string name="setting_share_app_body">向你分享一个精彩应用《花界》,看最新高清花图，学习养花知识，教你赏花，下载地址:</string>
 </resources>

@@ -1,6 +1,6 @@
 package com.tianxia.app.floworld;
 
-import com.tianxia.app.floworld.utils.NetworkUtils;
+import com.tianxia.lib.baseworld.utils.NetworkUtils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

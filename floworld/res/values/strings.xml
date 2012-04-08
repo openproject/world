@@ -49,9 +49,6 @@
     <string name="company_note_tel">联系电话:</string>
     <string name="company_note_tel_number">15800413861</string>
 
-    <string name="setting_share_app_title">分享应用</string>
-    <string name="setting_share_app_subject">向你分享一个精彩应用《花界》</string>
-    <string name="setting_share_app_body">向你分享一个精彩应用《花界》,看最新高清花图，学习养花知识，教你赏花，下载地址:</string>
     <string name="setting_feedback_mail">673592063@qq.com</string>
     <string name="setting_feedback_title">意见反馈</string>
     <string name="setting_feedback_subject">《花界》意见箱</string>

@@ -13,11 +13,11 @@ import com.tianxia.app.floworld.discuss.DiscussTabActivity;
 import com.tianxia.app.floworld.favorite.FavoriteTabActivity;
 import com.tianxia.app.floworld.identification.IdentificationTabActivity;
 import com.tianxia.app.floworld.setting.SettingTabActivity;
-import com.tianxia.app.floworld.utils.NetworkUtils;
 import com.tianxia.lib.baseworld.BaseApplication;
 import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
+import com.tianxia.lib.baseworld.utils.NetworkUtils;
 import com.tianxia.lib.baseworld.utils.PreferencesUtils;
 
 public class AppApplication extends BaseApplication {

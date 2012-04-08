@@ -9,6 +9,8 @@ import com.tianxia.lib.baseworld.BaseApplication;
 
 public class AppApplication extends BaseApplication {
 
+    public static String mApkDownloadUrl = null;
+
     @Override
     public void fillTabs() {
         mTabActivitys.add(InfomationTabActivity.class);
