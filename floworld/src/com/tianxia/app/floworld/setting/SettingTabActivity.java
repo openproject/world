@@ -1,5 +1,6 @@
 package com.tianxia.app.floworld.setting;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,16 +41,29 @@ import com.tianxia.lib.baseworld.widget.CornerListView;
 
 public class SettingTabActivity extends PreferenceActivity implements OnItemClickListener{
 
-    private String Setting_1 = "离线下载";
-    private String Setting_2 = "分享该软件给朋友";
-    private String Setting_3 = "评分";
-    private String Setting_4 = "投稿";
-    private String Setting_5 = "检查新版本";
-    private String Setting_6 = "意见反馈";
-    private String Setting_7 = "关于";
-    private String Setting_8 = "捐赠";
-    private String Setting_9 = "给我们发短信";
-    private String Setting_10 = "电话联系我们";
+    private String[] mSettingItems = {"离线下载",
+                                       "",
+                                       "分享该软件给朋友",
+                                       "评分",
+                                       "",
+                                       "检查新版本",
+                                       "意见反馈",
+                                       "电话联系我们",
+                                       "关于",
+                                       "",
+                                       "捐赠"};
+    private String[] mSettingItemMethods = {"setting_offline",
+                                            "",
+                                            "shareApp",
+                                            "jmupToMarket",
+                                            "",
+                                            "setting_check_new_version",
+                                            "feedBackSuggestion",
+                                            "callUs",
+                                            "about",
+                                            "",
+                                            "setting_donate"};
+    private HashMap<String, String> mSettingItemMethodMap = new HashMap<String, String>();
 
     private int mLatestVersionCode = 0;
     private String mLatestVersionUpdate = null;
@@ -60,6 +74,10 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
     public void setLayout() {
         setContentView(R.layout.setting_tab_activity);
         cornerContainer = (LinearLayout) findViewById(R.id.setting);
+
+        for (int i = 0; i < mSettingItems.length; i++) {
+            mSettingItemMethodMap.put(mSettingItems[i], mSettingItemMethods[i]);
+        }
 
         int size = listDatas.size();
         CornerListView cornerListView;
@@ -96,53 +114,18 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
     public void setListDatas() {
         List<Map<String,String>> listData = new ArrayList<Map<String,String>>();
 
-        Map<String,String> map = new HashMap<String, String>();
-        map.put("text", Setting_1);
-        listData.add(map);
-        listDatas.add(listData);
+        Map<String,String> map;
 
-        listData = new ArrayList<Map<String,String>>();
-        map = new HashMap<String, String>();
-        map.put("text", Setting_2);
-        listData.add(map);
-
-        map = new HashMap<String, String>();
-        map.put("text", Setting_3);
-        listData.add(map);
-
-//        map = new HashMap<String, String>();
-//        map.put("text", Setting_4);
-//        listData.add(map);
-        listDatas.add(listData);
-
-        listData = new ArrayList<Map<String,String>>();
-        map = new HashMap<String, String>();
-        map.put("text", Setting_5);
-        listData.add(map);
-
-        map = new HashMap<String, String>();
-        map.put("text", Setting_6);
-        listData.add(map);
-
-        map = new HashMap<String, String>();
-        map.put("text", Setting_7);
-        listData.add(map);
-        listDatas.add(listData);
-
-        listData = new ArrayList<Map<String,String>>();
-        map = new HashMap<String, String>();
-        map.put("text", Setting_9);
-        listData.add(map);
-
-        map = new HashMap<String, String>();
-        map.put("text", Setting_10);
-        listData.add(map);
-        listDatas.add(listData);
-
-        listData = new ArrayList<Map<String,String>>();
-        map = new HashMap<String, String>();
-        map.put("text", Setting_8);
-        listData.add(map);
+        for(int i = 0; i < mSettingItems.length; i++) {
+            if ("".equals(mSettingItems[i])) {
+                listDatas.add(listData);
+                listData = new ArrayList<Map<String,String>>();
+            } else {
+                map = new HashMap<String, String>();
+                map.put("text", mSettingItems[i]);
+                listData.add(map);
+            }
+        }
 
         listDatas.add(listData);
     }
@@ -150,40 +133,17 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         TextView textView = (TextView) view.findViewById(R.id.setting_list_item_text);
-        String settingText = textView.getText().toString();
-        if (Setting_1.equals(settingText)) {
-            setting_offline();
-        } else if (Setting_2.equals(settingText)) {
-            shareApp();
-        } else if (Setting_3.equals(settingText)) {
-            jmupToMarket();
-        } else if (Setting_4.equals(settingText)) {
-        } else if (Setting_5.equals(settingText)) {
-            setting_check_new_version();
-        } else if (Setting_6.equals(settingText)) {
-            feedBackSuggestion();
-        } else if (Setting_7.equals(settingText)) {
-            Intent intent = new Intent(this, SettingAboutActivity.class);
-            startActivity(intent);
-        } else if (Setting_8.equals(settingText)) {
-            setting_donate();
-        } else if (Setting_9.equals(settingText)) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("机锋网版本暂不支持发短信!")
-                   .setPositiveButton("确定", null)
-                   .create()
-                   .show();
-//            Uri uri = Uri.parse(getString(R.string.setting_contact_smsto));
-//            Intent intent = new Intent(Intent.ACTION_SENDTO, uri);
-//            startActivity(intent);
-        } else if (Setting_10.equals(settingText)) {
-            Uri uri = Uri.parse(getString(R.string.setting_contact_tel));
-            Intent intent = new Intent(Intent.ACTION_DIAL, uri);
-            startActivity(intent);
+        String key = textView.getText().toString();
+        Class<? extends SettingTabActivity> clazz = this.getClass();
+        try {
+            Method method = clazz.getMethod(mSettingItemMethodMap.get(key));
+            method.invoke(SettingTabActivity.this);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private void setting_offline() {
+    public void setting_offline() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("即将开放，敬请期待!")
                .setPositiveButton("确定", null)
@@ -191,12 +151,12 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
                .show();
     }
 
-    private void setting_donate() {
+    public void setting_donate() {
         AlixPay alixPay = new AlixPay(SettingTabActivity.this);
         alixPay.pay();
     }
 
-    private void setting_check_new_version() {
+    public void setting_check_new_version() {
 
         if (AppApplication.mNetWorkState == NetworkUtils.NETWORN_NONE) {
             Toast.makeText(this, R.string.check_new_version_no_network, Toast.LENGTH_SHORT).show();
@@ -286,6 +246,17 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.setting_share_app_subject));
         intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.setting_share_app_body) + AppApplication.mApkDownloadUrl);
         startActivity(Intent.createChooser(intent, getString(R.string.setting_share_app_title)));
+    }
+
+    public void about() {
+        Intent intent = new Intent(this, SettingAboutActivity.class);
+        startActivity(intent);
+    }
+
+    public void callUs() {
+        Uri uri = Uri.parse(getString(R.string.setting_contact_tel));
+      Intent intent = new Intent(Intent.ACTION_DIAL, uri);
+      startActivity(intent);
     }
 
     public void jmupToMarket() {
