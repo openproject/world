@@ -3,6 +3,9 @@
 
 import sys
 import time
+import codecs
+import json
+import shutil
 
 print "please enter the article categoty name:"
 print "1. baike"
@@ -13,21 +16,35 @@ category = raw_input("choose the number:")
 now = time.strftime('%Y-%m-%d-%H%M%S',time.localtime(time.time()))
 filename = now + ".html"
 filepath = "";
+filetype=""
+filecategory=""
 
 result = True
 if category == str(1):
-    filepath = '../json/discuss/baike/' + filename
+    filetype = "baike"
+    filecategory = u"百科"
 elif category == str(2):
-    filepath = '../json/discuss/language/' + filename
+    filetype = "language"
+    filecategory = u"花语"
 elif category == str(3):
-    filepath = '../json/discuss/prose/' + filename
+    filetype = "prose"
+    filecategory = u"文章"
 else:
     result = False
+filepath = '../json/discuss/prose/' + filename
 
 if result :
-    file = open(filepath, 'w')
-    file.write("<html>\n")
-    file.write("<body>\n")
-    file.write("</body>\n")
-    file.write("</html>")
-    file.close()
+    shutil.copy("timegen.html",filepath)
+
+list = []
+jsonVal = json.load(file("../json/discuss.json"))
+baseUrl = jsonVal["base-url"]
+data = codecs.open("../json/discuss.json", "w", "utf-8")
+data.write("{\n")
+data.write("\"base-url\":\"floworld/data/json/discuss/\",\n")
+data.write("\"list\":[\n")
+data.write(u"{\"id\":\"\",\"title\":\"\",\"date\":\"" + time.strftime('%Y-%m-%d',time.localtime(time.time())) + "\",\"path\":\"" + filetype+ "/" + filename+ "\",\"category\":\"" + filecategory + "\"}")
+for val in jsonVal["list"]:
+    data.write(u",\n{\"id\":\"" + val["id"] + "\",\"title\":\"" + val["title"] + "\",\"date\":\"" + val["date"]+ "\",\"path\":\"" + val["path"]+ "\",\"category\":\"" + val["category"] + "\"}")
+data.write("]\n}")
+data.close()
