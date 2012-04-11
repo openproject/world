@@ -31,6 +31,7 @@ import com.tianxia.lib.baseworld.main.MainTabFrame;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 import com.tianxia.lib.baseworld.upgrade.AppUpgradeService;
+import com.tianxia.lib.baseworld.utils.PreferencesUtils;
 
 public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 //    private AppreciateApi appreciateApi = null;
@@ -44,6 +45,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
     private TextView itemTextView = null;
     private ImageView itemImageView = null;
+    private ImageView itemNewImageView = null;
     private int imageHeight = 0;
     private int dividerHeight;
 
@@ -153,6 +155,12 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
             companyListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("company").getString("list");
 
             setListData(true);
+
+            //server time id
+            String time = appreciateConfig.getJSONObject("latest").optString("time");
+            if (time != null) {
+                PreferencesUtils.setStringPreferences(this, "config", "serverTime", time);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -183,6 +191,13 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
         itemTextView = (TextView) view.findViewById(R.id.item_text);
         itemTextView.setText(listData.get(position).get("name"));
+
+        if (position == 0
+                && !(PreferencesUtils.getStringPreference(this, "config", "localTime", "0")
+                        .equals(PreferencesUtils.getStringPreference(this, "config", "serverTime", "0")))) {
+            itemNewImageView = (ImageView) view.findViewById(R.id.item_new_image);
+            itemNewImageView.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
@@ -198,6 +213,12 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
             }
             appreciateListIntent = new Intent(AppreciateTabActivity.this, AppreciateLatestActivity.class);
             appreciateListIntent.putExtra("url", latestListUrl);
+            if (!PreferencesUtils.getStringPreference(this, "config", "localTime", "0")
+                    .equals(PreferencesUtils.getStringPreference(this, "config", "serverTime", "0"))) {
+                PreferencesUtils.setStringPreferences(this, "config", "localTime", 
+                        PreferencesUtils.getStringPreference(this, "config", "serverTime", "0"));
+                getAppreciateConfig();
+            }
             break;
 
         case 1:

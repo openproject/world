@@ -6,5 +6,6 @@
     <issue id="Overdraw" severity="ignore" />
     <issue id="PxUsage" severity="ignore" />
     <issue id="UnusedResources" severity="ignore" />
+    <issue id="UseCompoundDrawables" severity="ignore" />
     <issue id="UselessParent" severity="ignore" />
 </lint>
