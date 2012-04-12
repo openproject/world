@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.AppApplication;
@@ -29,6 +30,9 @@ import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
 
     private LinearLayout mAppLoadingLinearLayout;
+    private TextView mAppLoadingTip = null;
+    private ProgressBar mAppLoadingPbar = null;
+
     private ImageView mItemImageView;
     private TextView mItemTitleTextView;
     private TextView mItemCategoryTextView;
@@ -41,6 +45,8 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
 
         mAppLoadingLinearLayout = (LinearLayout) findViewById(R.id.app_loading);
         mAppLoadingLinearLayout.getLayoutParams().height = MainTabFrame.mainTabContainerHeight;
+        mAppLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
+        mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
 
         mAssetManager = getResources().getAssets();
         try {
@@ -61,27 +67,37 @@ public class DiscussTabActivity extends AdapterActivity<DiscussInfo> {
         String cacheConfigString = ConfigCache.getUrlCache(DiscussApi.DISCUSS_CONFIG_URL);
         if (cacheConfigString != null) {
             setDiscussConfig(cacheConfigString);
+            mAppLoadingLinearLayout.setVisibility(View.GONE);
         } else {
             AsyncHttpClient client = new AsyncHttpClient();
             client.get(DiscussApi.DISCUSS_CONFIG_URL, new AsyncHttpResponseHandler(){
 
                 @Override
+                public void onStart() {
+                    mAppLoadingLinearLayout.setVisibility(View.VISIBLE);
+                    mAppLoadingTip.setVisibility(View.VISIBLE);
+                    mAppLoadingPbar.setVisibility(View.VISIBLE);
+                }
+
+                @Override
                 public void onSuccess(String result){
+                    mAppLoadingLinearLayout.setVisibility(View.GONE);
                     ConfigCache.setUrlCache(result, DiscussApi.DISCUSS_CONFIG_URL);
                     setDiscussConfig(result);
                 }
 
                 @Override
                 public void onFailure(Throwable arg0) {
-                    mAppLoadingLinearLayout.setVisibility(View.GONE);
+                    mAppLoadingPbar.setVisibility(View.GONE);
+                    mAppLoadingTip.setText(R.string.app_loading_fail);
                     listView.setAdapter(null);
                 }
+
             });
         }
     }
 
     private void setDiscussConfig(String result){
-        mAppLoadingLinearLayout.setVisibility(View.GONE);
         try {
             JSONObject discussConfig = new JSONObject(result);
 

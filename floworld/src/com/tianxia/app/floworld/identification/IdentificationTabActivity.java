@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tianxia.app.floworld.R;
@@ -27,7 +28,9 @@ import com.tianxia.widget.image.SmartImageView;
 
 public class IdentificationTabActivity extends AdapterActivity<AppreciateCategoryInfo> {
 
-    private LinearLayout appLoadingLinearLayout;
+    private LinearLayout mAppLoadingLinearLayout;
+    private TextView mAppLoadingTip = null;
+    private ProgressBar mAppLoadingPbar = null;
 
     private SmartImageView mItemImageView = null;
     private TextView mItemTextView = null;
@@ -39,8 +42,10 @@ public class IdentificationTabActivity extends AdapterActivity<AppreciateCategor
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        appLoadingLinearLayout = (LinearLayout) findViewById(R.id.app_loading);
-        appLoadingLinearLayout.getLayoutParams().height = MainTabFrame.mainTabContainerHeight;
+        mAppLoadingLinearLayout = (LinearLayout) findViewById(R.id.app_loading);
+        mAppLoadingLinearLayout.getLayoutParams().height = MainTabFrame.mainTabContainerHeight;
+        mAppLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
+        mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
 
         loadGridView();
     }
@@ -49,31 +54,37 @@ public class IdentificationTabActivity extends AdapterActivity<AppreciateCategor
         String cacheConfigString = ConfigCache.getUrlCache(IdentificationApi.IDENTIFICATION_CONFIG_URL);
         if (cacheConfigString != null) {
             setAppreciateCategoryList(cacheConfigString);
+            mAppLoadingLinearLayout.setVisibility(View.GONE);
         } else {
             AsyncHttpClient client = new AsyncHttpClient();
             client.get(IdentificationApi.IDENTIFICATION_CONFIG_URL, new AsyncHttpResponseHandler(){
 
                 @Override
                 public void onStart() {
+                    mAppLoadingLinearLayout.setVisibility(View.VISIBLE);
+                    mAppLoadingTip.setVisibility(View.VISIBLE);
+                    mAppLoadingPbar.setVisibility(View.VISIBLE);
                     listView.setAdapter(null);
                 }
 
                 @Override
                 public void onSuccess(String result) {
+                    mAppLoadingLinearLayout.setVisibility(View.GONE);
                     ConfigCache.setUrlCache(result, IdentificationApi.IDENTIFICATION_CONFIG_URL);
                     setAppreciateCategoryList(result);
                 }
 
                 @Override
                 public void onFailure(Throwable arg0) {
-                    appLoadingLinearLayout.setVisibility(View.GONE);
+                    mAppLoadingPbar.setVisibility(View.GONE);
+                    mAppLoadingTip.setText(R.string.app_loading_fail);
                 }
             });
         }
     }
 
     private void setAppreciateCategoryList(String jsonString){
-        appLoadingLinearLayout.setVisibility(View.GONE);
+        mAppLoadingLinearLayout.setVisibility(View.GONE);
         try {
             JSONObject json = new JSONObject(jsonString);
             JSONArray jsonArray = json.getJSONArray("list");

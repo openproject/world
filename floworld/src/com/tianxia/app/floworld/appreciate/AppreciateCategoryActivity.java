@@ -77,6 +77,7 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
     }
 
     private void loadGridView(){
+        mAppLoadingTip.setText(R.string.app_loading);
         String cacheConfigString = ConfigCache.getUrlCache(mAppricateCategoryUrl);
         if (cacheConfigString != null) {
             setAppreciateCategoryList(cacheConfigString);
@@ -97,17 +98,18 @@ public class AppreciateCategoryActivity extends AdapterActivity<AppreciateCatego
 
                 @Override
                 public void onSuccess(String result) {
+                    mAppLoadingTip.setVisibility(View.GONE);
                     ConfigCache.setUrlCache(result, mAppricateCategoryUrl);
                     setAppreciateCategoryList(result);
                 }
 
                 @Override
                 public void onFailure(Throwable arg0) {
+                    mAppLoadingTip.setText(R.string.app_loading_fail);
                 }
 
                 @Override
                 public void onFinish() {
-                    mAppLoadingTip.setVisibility(View.GONE);
                     mAppLoadingPbar.setVisibility(View.GONE);
                     mAppLoadingImage.setVisibility(View.VISIBLE);
                 }

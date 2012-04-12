@@ -85,6 +85,7 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
     }
 
     private void loadListView(){
+        mAppLoadingTip.setText(R.string.app_loading);
         String cacheConfigString = ConfigCache.getUrlCache(mAppreciateArchivertUrl);
         if (cacheConfigString != null) {
             setAppreciateArchiverList(cacheConfigString);
@@ -105,17 +106,18 @@ public class AppreciateArchiverActivity extends AdapterActivity<AppreciateArchiv
 
                 @Override
                 public void onSuccess(String result) {
+                    mAppLoadingTip.setVisibility(View.GONE);
                     ConfigCache.setUrlCache(result, mAppreciateArchivertUrl);
                     setAppreciateArchiverList(result);
                 }
 
                 @Override
                 public void onFailure(Throwable arg0) {
+                    mAppLoadingTip.setText(R.string.app_loading_fail);
                 }
 
                 @Override
                 public void onFinish() {
-                    mAppLoadingTip.setVisibility(View.GONE);
                     mAppLoadingPbar.setVisibility(View.GONE);
                     mAppLoadingImage.setVisibility(View.VISIBLE);
                 }

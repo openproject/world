@@ -94,6 +94,7 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
     }
 
     private void loadGridView(){
+        mAppLoadingTip.setText(R.string.app_loading);
         String cacheConfigString = ConfigCache.getUrlCache(mUrl);
         if (cacheConfigString != null) {
             setAppreciateLatestList(cacheConfigString);
@@ -114,17 +115,18 @@ public class AppreciateLatestActivity extends AdapterActivity<AppreciateLatestIn
 
                 @Override
                 public void onSuccess(String result) {
+                    mAppLoadingTip.setVisibility(View.GONE);
                     ConfigCache.setUrlCache(result, mUrl);
                     setAppreciateLatestList(result);
                 }
 
                 @Override
                 public void onFailure(Throwable arg0) {
+                    mAppLoadingTip.setText(R.string.app_loading_fail);
                 }
 
                 @Override
                 public void onFinish() {
-                    mAppLoadingTip.setVisibility(View.GONE);
                     mAppLoadingPbar.setVisibility(View.GONE);
                     mAppLoadingImage.setVisibility(View.VISIBLE);
                 }
