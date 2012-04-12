@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
@@ -262,7 +263,12 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
     public void jmupToMarket() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("market://details?id=" + getPackageName()));
-        startActivity(intent);
+        try{
+            startActivity(intent);
+        } catch (ActivityNotFoundException e){
+            Toast.makeText(this, R.string.setting_market_none, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     public void feedBackSuggestion() {

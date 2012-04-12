@@ -57,4 +57,5 @@
     <string name="setting_share_app_title">分享应用</string>
     <string name="setting_share_app_subject">向你分享一个精彩应用《花界》</string>
     <string name="setting_share_app_body">向你分享一个精彩应用《花界》,看最新高清花图，学习养花知识，教你赏花，下载地址:</string>
+    <string name="setting_market_none">未找到可用的应用市场.</string>
 </resources>
