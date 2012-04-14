@@ -1,6 +1,6 @@
 {
     "app":{"name":"花界",
-           "version-code":1,
+           "version-code":4,
             "version-name":"0.0.1"
           },
      "net":{"config":"http://1.kaiyuanxiangmu.sinaapp.com/floworld/assets/config.json"
