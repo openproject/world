@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.tianxia.app.starworld"
+      android:versionCode="4"
+      android:versionName="V1.0 Beta">
+      
+    <uses-sdk android:minSdkVersion="7" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+
+    <application android:name=".AppApplication"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Black.NoTitleBar">
+        <meta-data android:value="4f589f105270154265000096" android:name="UMENG_APPKEY" />
+        <meta-data android:value="Dev" android:name="UMENG_CHANNEL"/>
+        <!-- <meta-data android:value="Gfan" android:name="UMENG_CHANNEL"/>
+        <meta-data android:value="AppChina" android:name="UMENG_CHANNEL"/>
+        <meta-data android:value="Official" android:name="UMENG_CHANNEL"/>
+        <meta-data android:value="Google" android:name="UMENG_CHANNEL"/> -->
+        <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver android:name=".AppBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <activity android:name=".appreciate.AppreciateTabActivity"></activity>
+        <activity android:name=".appreciate.AppreciateLatestActivity"></activity>
+        <activity android:name=".appreciate.AppreciateLatestDetailsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".appreciate.AppreciateCompanyActivity"></activity>
+        <activity android:name=".appreciate.AppreciateCategoryActivity"></activity>
+        <activity android:name=".appreciate.AppreciateArchiverActivity"></activity>
+        <activity android:name=".appreciate.AppreciateSearchActivity"></activity>
+
+        <activity android:name=".discuss.DiscussTabActivity"></activity>
+        <activity android:name=".discuss.DiscussDetailsActivity"></activity>
+
+        <activity android:name=".identification.IdentificationTabActivity"></activity>
+        <activity android:name=".favorite.FavoriteTabActivity"></activity>
+
+        <activity android:name=".setting.SettingTabActivity"></activity>
+        <activity android:name="com.tianxia.lib.baseworld.activity.SettingAboutActivity"></activity>
+
+        <service android:name="com.tianxia.lib.baseworld.upgrade.AppUpgradeService"></service>
+
+        <activity android:name="net.youmi.android.AdActivity" android:configChanges="keyboard|keyboardHidden|orientation"/>
+        <activity android:name="com.feedback.ui.SendFeedback" android:windowSoftInputMode="adjustResize" />
+        <activity android:name="com.feedback.ui.FeedbackConversations" />
+        <activity android:name="com.feedback.ui.FeedbackConversation" android:configChanges="keyboard" />
+    </application>
+</manifest>
