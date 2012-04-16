@@ -36,6 +36,8 @@ import com.tianxia.lib.baseworld.utils.PreferencesUtils;
 public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 //    private AppreciateApi appreciateApi = null;
     private int latestNum = 0;
+    private int categoryNum = 0;
+    private int archiverNum = 0;
     private String latestListUrl = null;
     private String categoryListUrl = null;
     private String archiverListUrl = null;
@@ -88,12 +90,20 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.appreciate_tab_list_item_category));
-        map.put("name", "分类");
+        if (categoryNum == 0) {            
+            map.put("name", "分类");
+        } else {
+            map.put("name", "分类(" + categoryNum + "种)");
+        }
         listData.add(map);
 
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.appreciate_tab_list_item_archive));
-        map.put("name", "归档");
+        if (archiverNum == 0) {
+            map.put("name", "归档");
+        } else {
+            map.put("name", "归档(共" + archiverNum + "期)");
+        }
         listData.add(map);
 
         map = new HashMap<String, String>();
@@ -148,7 +158,9 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
                 AppApplication.mApkDownloadUrl = mLatestVersionDownload;
             }
 
-            latestNum = appreciateConfig.getJSONObject("latest").getInt("add");
+            latestNum = appreciateConfig.getJSONObject("latest").optInt("add");
+            categoryNum = appreciateConfig.getJSONObject("category").optInt("num");
+            archiverNum = appreciateConfig.getJSONObject("archiver").optInt("num");
             latestListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("latest").getString("list");
             categoryListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("category").getString("list");
             archiverListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("archiver").getString("list");
