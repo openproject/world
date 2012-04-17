@@ -241,9 +241,9 @@ public class AppreciateLatestDetailsActivity extends BaseActivity {
 
             if (mImageScaleType == 0) {
                 mItemSmartImageView.setScaleType(ScaleType.CENTER_CROP);
-                mItemSmartImageView.setImageUrl(ImagePool.sImageList.get(position).origin, R.drawable.app_download_fail_large, R.drawable.app_download_loading, true);
+                mItemSmartImageView.setImageUrl(ImagePool.sImageList.get(position).origin, R.drawable.app_download_fail_large, R.drawable.app_download_loading_large, true);
             } else {
-                mItemSmartImageView.setImageUrl(ImagePool.sImageList.get(position).origin, R.drawable.app_download_fail_large, R.drawable.app_download_loading, false);
+                mItemSmartImageView.setImageUrl(ImagePool.sImageList.get(position).origin, R.drawable.app_download_fail_large, R.drawable.app_download_loading_large, false);
                 mItemSmartImageView.setScaleType(ScaleType.FIT_CENTER);
             }
             return view;
