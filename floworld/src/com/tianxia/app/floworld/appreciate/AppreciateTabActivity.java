@@ -36,6 +36,7 @@ import com.tianxia.lib.baseworld.utils.PreferencesUtils;
 public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 //    private AppreciateApi appreciateApi = null;
     private int latestNum = 0;
+    private String latestTitle = "";
     private int categoryNum = 0;
     private int archiverNum = 0;
     private String latestListUrl = null;
@@ -46,6 +47,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
     private Intent appreciateListIntent = null;
 
     private TextView itemTextView = null;
+    private TextView itemDescriptionTextView = null;
     private ImageView itemImageView = null;
     private ImageView itemNewImageView = null;
     private int imageHeight = 0;
@@ -85,15 +87,20 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
                 map.put("name", "最新(本期:" + latestNum + ")");
             }
         }
-
+        if (latestTitle != null && !"".equals(latestTitle)) {
+            map.put("description", "本期主题:" + latestTitle);
+        } else {
+            map.put("description", "");
+        }
         listData.add(map);
 
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.appreciate_tab_list_item_category));
-        if (categoryNum == 0) {            
-            map.put("name", "分类");
+        map.put("name", "分类");
+        if (categoryNum == 0) {
+            map.put("description", "花卉高清图片,百花真艳!");
         } else {
-            map.put("name", "分类(" + categoryNum + "种)");
+            map.put("description", "共" + categoryNum + "种花卉,百花真艳!");
         }
         listData.add(map);
 
@@ -104,16 +111,19 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
         } else {
             map.put("name", "归档(共" + archiverNum + "期)");
         }
+        map.put("description", "每期一个主题,期期精彩!");
         listData.add(map);
 
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.appreciate_tab_list_item_search));
         map.put("name", "搜索");
+        map.put("description", "搜索花卉,花语,百科,美文...");
         listData.add(map);
 
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.appreciate_tab_list_item_hot));
         map.put("name", "合作");
+        map.put("description", "精诚合作 ,互惠互利!");
         listData.add(map);
 
         adapter = new Adapter(this);
@@ -159,6 +169,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
             }
 
             latestNum = appreciateConfig.getJSONObject("latest").optInt("add");
+            latestTitle = appreciateConfig.getJSONObject("latest").optString("title");
             categoryNum = appreciateConfig.getJSONObject("category").optInt("num");
             archiverNum = appreciateConfig.getJSONObject("archiver").optInt("num");
             latestListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("latest").getString("list");
@@ -203,6 +214,8 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
         itemTextView = (TextView) view.findViewById(R.id.item_text);
         itemTextView.setText(listData.get(position).get("name"));
+        itemDescriptionTextView = (TextView) view.findViewById(R.id.item_text_description);
+        itemDescriptionTextView.setText(listData.get(position).get("description"));
 
         if (position == 0
                 && !(PreferencesUtils.getStringPreference(this, "config", "localTime", "0")
