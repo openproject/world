@@ -60,6 +60,7 @@ public class DiscussDetailsActivity extends BaseActivity{
             public void onClick(View v) {
                 mAppLoadingPbar.setVisibility(View.VISIBLE);
                 mAppLoadingImage.setVisibility(View.GONE);
+                mWebView.clearCache(true);
                 mWebView.loadUrl(mUrl);
             }
         });
