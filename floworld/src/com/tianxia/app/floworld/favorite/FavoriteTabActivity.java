@@ -41,7 +41,6 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
     private ImageView mItemImageView = null;
     private TextView mItemTextView = null;
     private TextView mItemCategoryTextView = null;
-    private TextView mItemDateTextView = null;
 
     private AssetManager mAssetManager = null;
     private String[] mKindImages = null;
@@ -114,10 +113,7 @@ public class FavoriteTabActivity extends AdapterActivity<FavoriteInfo>{
             mItemTextView.setText(listData.get(position).title);
 
             mItemCategoryTextView = (TextView) view.findViewById(R.id.item_category);
-            mItemCategoryTextView.setText(listData.get(position).category);
-
-            mItemDateTextView = (TextView) view.findViewById(R.id.item_date);
-            mItemDateTextView.setText(listData.get(position).date);
+            mItemCategoryTextView.setText("分类:" + listData.get(position).category + " 日期:" + listData.get(position).date);
         }
 
         return view;
