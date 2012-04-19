@@ -90,7 +90,7 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
         if (latestTitle != null && !"".equals(latestTitle)) {
             map.put("description", "本期主题:" + latestTitle);
         } else {
-            map.put("description", "");
+            map.put("description", "最新推荐，最给力图片欣赏!");
         }
         listData.add(map);
 
