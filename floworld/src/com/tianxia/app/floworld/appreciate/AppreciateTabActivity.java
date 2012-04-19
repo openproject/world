@@ -170,8 +170,8 @@ public class AppreciateTabActivity extends AdapterActivity<Map<String,String>> {
 
             latestNum = appreciateConfig.getJSONObject("latest").optInt("add");
             latestTitle = appreciateConfig.getJSONObject("latest").optString("title");
-            categoryNum = appreciateConfig.getJSONObject("category").optInt("num");
-            archiverNum = appreciateConfig.getJSONObject("archiver").optInt("num");
+            categoryNum = appreciateConfig.getJSONObject("category").optInt("c_num");
+            archiverNum = appreciateConfig.getJSONObject("archiver").optInt("a_num");
             latestListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("latest").getString("list");
             categoryListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("category").getString("list");
             archiverListUrl = AppApplication.mDomain + appreciateConfig.getJSONObject("archiver").getString("list");
