@@ -14,7 +14,6 @@ import com.tianxia.app.floworld.favorite.FavoriteTabActivity;
 import com.tianxia.app.floworld.identification.IdentificationTabActivity;
 import com.tianxia.app.floworld.setting.SettingTabActivity;
 import com.tianxia.lib.baseworld.BaseApplication;
-import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 import com.tianxia.lib.baseworld.utils.NetworkUtils;
@@ -28,8 +27,6 @@ public class AppApplication extends BaseApplication {
     public static String mBakeDomain = "http://1.kaiyuanxiangmu.sinaapp.com/";
 
     private static final String DB_NAME = "floworld.db";
-
-    public static BaseSQLiteHelper mSQLiteHelper;
 
     public static String mSdcardDataDir;
     public static String mApkDownloadUrl = null;

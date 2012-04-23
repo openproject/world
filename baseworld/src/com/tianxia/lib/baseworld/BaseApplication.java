@@ -12,7 +12,7 @@ import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
 
 public abstract class BaseApplication extends Application {
 
-    public BaseSQLiteHelper mSQLiteHelper;
+    public static BaseSQLiteHelper mSQLiteHelper;
 
     protected List<Class<?>> mTabActivitys = new ArrayList<Class<?>>();
     protected static List<Integer> mTabNormalImages = new ArrayList<Integer>();
