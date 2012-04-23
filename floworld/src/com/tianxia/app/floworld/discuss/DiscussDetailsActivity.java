@@ -15,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tianxia.app.floworld.AppApplication;
@@ -34,6 +35,9 @@ public class DiscussDetailsActivity extends BaseActivity{
     private Button mAppBackButton;
     private ProgressBar mAppLoadingPbar = null;
     private ImageView mAppLoadingImage = null;
+    private TextView mAppLoadingTip = null;
+
+    private boolean mWebViewLoadError = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,7 @@ public class DiscussDetailsActivity extends BaseActivity{
         mAppBackButton = (Button) findViewById(R.id.app_back);
         mAppLoadingPbar = (ProgressBar) findViewById(R.id.app_loading_pbar);
         mAppLoadingImage = (ImageView) findViewById(R.id.app_loading_btn);
+        mAppLoadingTip = (TextView) findViewById(R.id.app_loading_tip);
         mAppBackButton.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -62,6 +67,7 @@ public class DiscussDetailsActivity extends BaseActivity{
                 mAppLoadingImage.setVisibility(View.GONE);
                 mWebView.clearCache(true);
                 mWebView.loadUrl(mUrl);
+                mWebViewLoadError = false;
             }
         });
 
@@ -72,10 +78,25 @@ public class DiscussDetailsActivity extends BaseActivity{
         mWebView.setWebViewClient(new WebViewClient(){
 
             @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                mWebViewLoadError = true;
+                mAppLoadingTip.setVisibility(View.VISIBLE);
+                mAppLoadingTip.setText(R.string.app_loading_fail_web);
+            }
+
+            @Override
             public void onPageFinished(WebView view, String url) {
                 mAppLoadingPbar.setVisibility(View.GONE);
                 mAppLoadingImage.setVisibility(View.VISIBLE);
+                if (mWebViewLoadError) {
+                    mWebView.setVisibility(View.INVISIBLE);
+                } else {
+                    mAppLoadingTip.setVisibility(View.INVISIBLE);
+                    mWebView.setVisibility(View.VISIBLE);
+                }
             }
+
+
         });
     }
 

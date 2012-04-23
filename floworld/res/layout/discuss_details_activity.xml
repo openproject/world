@@ -51,9 +51,19 @@
         umadsdk:textColor="#ffffff"
         umadsdk:backgroundColor="#4076AA"
         umadsdk:backgroundTransparent="155"/>
-    <WebView android:id="@+id/discuzz_details_webview"
+    <FrameLayout android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_above="@id/adView"
-        android:layout_below="@id/main_banner"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"></WebView>
+        android:layout_below="@id/main_banner">
+        <WebView android:id="@+id/discuzz_details_webview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        </WebView>
+        <TextView android:id="@+id/app_loading_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="@string/app_loading"/>
+    </FrameLayout>
 </RelativeLayout>

@@ -11,6 +11,7 @@
     <string name="app_loading">请稍候，正在拉取数据....</string>
     <string name="app_loading_none">未找到数据.</string>
     <string name="app_loading_fail">数据加载失败，请稍后再试.</string>
+    <string name="app_loading_fail_web">网页加载失败，请稍后再试.</string>
     <string name="app_refresh">刷新</string>
     <string name="app_share">分享</string>
 
