@@ -9,14 +9,19 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.tianxia.lib.baseworld.db.BaseSQLiteHelper;
+import com.tianxia.lib.baseworld.utils.NetworkUtils;
 
 public abstract class BaseApplication extends Application {
 
     public static BaseSQLiteHelper mSQLiteHelper;
 
+    public static String mAppName;
+
     protected List<Class<?>> mTabActivitys = new ArrayList<Class<?>>();
     protected static List<Integer> mTabNormalImages = new ArrayList<Integer>();
     protected static List<Integer> mTabPressImages = new ArrayList<Integer>();
+
+    public static int mNetWorkState = NetworkUtils.NETWORN_NONE;
 
     public static String mDownloadPath;
     public static int mVersionCode;

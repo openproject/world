@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">养生世界</string>
+    <string name="app_name">养生视线</string>
     <string-array name="tab_text">
-        <item>资讯</item>
+        <item>养生视线</item>
         <item>分类</item>
         <item>文摘</item>
         <item>收藏</item>
         <item>设置</item>
     </string-array>
+    <string name="item_avatar">avatar</string>
 </resources>

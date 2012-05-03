@@ -1,14 +1,32 @@
 package com.tianxia.app.healthworld;
 
+import java.io.File;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.os.Environment;
+
+import com.tianxia.app.healthworld.cache.ConfigCache;
 import com.tianxia.app.healthworld.category.CategoryTabActivity;
 import com.tianxia.app.healthworld.digest.DigestTabActivity;
 import com.tianxia.app.healthworld.favorite.FavoriteTabActivity;
 import com.tianxia.app.healthworld.infomation.InfomationTabActivity;
 import com.tianxia.app.healthworld.setting.SettingTabActivity;
 import com.tianxia.lib.baseworld.BaseApplication;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
+import com.tianxia.lib.baseworld.utils.NetworkUtils;
+import com.tianxia.lib.baseworld.utils.PreferencesUtils;
 
 public class AppApplication extends BaseApplication {
 
+    public static final String DOMAIN = "domain";
+    public static final String DOMAIN_URL = "url";
+    public static String mDomain = "http://www.kaiyuanxiangmu.com/";
+    public static String mBakeDomain = "http://1.kaiyuanxiangmu.sinaapp.com/";
+
+    public static String mSdcardDataDir;
     public static String mApkDownloadUrl = null;
 
     @Override
@@ -38,5 +56,66 @@ public class AppApplication extends BaseApplication {
 
     @Override
     public void initEnv() {
+        mAppName = "healthworld";
+        mDownloadPath = "/healthworld/download";
+        if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
+            File file = new File(Environment.getExternalStorageDirectory().getPath() +  "/healthworld/config/");
+            if(!file.exists()) {
+                if (file.mkdirs()) {
+                    mSdcardDataDir = file.getAbsolutePath();
+                }
+            } else {
+                mSdcardDataDir = file.getAbsolutePath();
+            }
+        }
+
+        mNetWorkState = NetworkUtils.getNetworkState(this);
+        checkDomain(mDomain, false);
+    }
+
+    public void checkDomain(final String domain, final boolean stop){
+        AppApplication.mDomain = PreferencesUtils.getStringPreference(getApplicationContext(), DOMAIN, DOMAIN_URL, mDomain);
+        String cacheConfigString = ConfigCache.getUrlCache(domain + "host.json");
+        if (cacheConfigString != null) {
+            updateDomain(cacheConfigString);
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(domain + "host.json", new AsyncHttpResponseHandler(){
+
+                @Override
+                public void onStart() {
+                }
+
+                @Override
+                public void onSuccess(String result) {
+                    ConfigCache.setUrlCache(result, domain + "host.json");
+                    updateDomain(result);
+                }
+
+                @Override
+                public void onFailure(Throwable arg0) {
+                    if (!stop) {
+                        checkDomain(mBakeDomain, true);
+                    }
+                }
+
+                @Override
+                public void onFinish() {
+                }
+            });
+        }
+    }
+
+    public void updateDomain(String result) {
+        try {
+            JSONObject appreciateConfig = new JSONObject(result);
+            String domain = appreciateConfig.optString("domain");
+            if (domain != null && !"".equals(domain)) {
+                AppApplication.mDomain = domain;
+                PreferencesUtils.setStringPreferences(getApplicationContext(), DOMAIN, DOMAIN_URL, domain);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -30,7 +30,6 @@ public class AppApplication extends BaseApplication {
 
     public static String mSdcardDataDir;
     public static String mApkDownloadUrl = null;
-    public static int mNetWorkState = NetworkUtils.NETWORN_NONE;
 
     @Override
     public void fillTabs() {
@@ -60,6 +59,7 @@ public class AppApplication extends BaseApplication {
 
     @Override
     public void initEnv() {
+        mAppName = "floworld";
         mDownloadPath = "/floworld/download";
         if (Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
             File file = new File(Environment.getExternalStorageDirectory().getPath() +  "/floworld/config/");

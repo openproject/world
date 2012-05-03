@@ -25,6 +25,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name="com.tianxia.lib.baseworld.BaseBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
         <activity android:name=".infomation.InfomationTabActivity"></activity>
         <activity android:name=".category.CategoryTabActivity"></activity>
         <activity android:name=".digest.DigestTabActivity"></activity>

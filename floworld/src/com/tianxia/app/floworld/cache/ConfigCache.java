@@ -7,7 +7,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.tianxia.app.floworld.AppApplication;
-import com.tianxia.app.floworld.utils.FileUtils;
+import com.tianxia.lib.baseworld.utils.FileUtils;
 import com.tianxia.lib.baseworld.utils.NetworkUtils;
 import com.tianxia.lib.baseworld.utils.StringUtils;
 
