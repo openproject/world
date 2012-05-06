@@ -1,0 +1,149 @@
+﻿#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import json
+import codecs
+import urllib2
+
+import urllib
+import cookielib
+import base64
+import re
+import hashlib
+
+#login weibo
+cj = cookielib.LWPCookieJar()
+cookie_support = urllib2.HTTPCookieProcessor(cj)
+opener = urllib2.build_opener(cookie_support, urllib2.HTTPHandler)
+urllib2.install_opener(opener)
+postdata = {
+    'entry': 'weibo',
+    'gateway': '1',
+    'from': '',
+    'savestate': '7',
+    'userticket': '1',
+    'ssosimplelogin': '1',
+    'vsnf': '1',
+    'vsnval': '',
+    'su': '',
+    'service': 'miniblog',
+    'servertime': '',
+    'nonce': '',
+    'pwencode': 'wsse',
+    'sp': '',
+    'encoding': 'UTF-8',
+    'url': 'http://weibo.com/ajaxlogin.php?framelogin=1&callback=parent.sinaSSOController.feedBackUrlCallBack',
+    'returntype': 'META'
+}
+
+def get_servertime():
+    url = 'http://login.sina.com.cn/sso/prelogin.php?entry=weibo&callback=sinaSSOController.preloginCallBack&su=dW5kZWZpbmVk&client=ssologin.js(v1.3.18)&_=1329806375939'
+    data = urllib2.urlopen(url).read()
+    p = re.compile('\((.*)\)')
+    try:
+        json_data = p.search(data).group(1)
+        data = json.loads(json_data)
+        servertime = str(data['servertime'])
+        nonce = data['nonce']
+        return servertime, nonce
+    except:
+        print 'Get severtime error!'
+        return None
+
+def get_pwd(pwd, servertime, nonce):
+    pwd1 = hashlib.sha1(pwd).hexdigest()
+    pwd2 = hashlib.sha1(pwd1).hexdigest()
+    pwd3_ = pwd2 + servertime + nonce
+    pwd3 = hashlib.sha1(pwd3_).hexdigest()
+    return pwd3
+
+def get_user(username):
+    username_ = urllib.quote(username)
+    username = base64.encodestring(username_)[:-1]
+    return username
+
+
+def login():
+    username = 'xxx'
+    pwd = 'xxxx'
+    url = 'http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.3.18)'
+    try:
+        servertime, nonce = get_servertime()
+    except:
+        return
+    global postdata
+    postdata['servertime'] = servertime
+    postdata['nonce'] = nonce
+    postdata['su'] = get_user(username)
+    postdata['sp'] = get_pwd(pwd, servertime, nonce)
+    postdata = urllib.urlencode(postdata)
+    headers = {'User-Agent':'Mozilla/5.0 (X11; Linux i686; rv:8.0) Gecko/20100101 Firefox/8.0'}
+    req  = urllib2.Request(
+        url = url,
+        data = postdata,
+        headers = headers
+    )
+    result = urllib2.urlopen(req)
+    text = result.read()
+    p = re.compile('location\.replace\(\'(.*?)\'\)')
+    try:
+        login_url = p.search(text).group(1)
+        #print login_url
+        urllib2.urlopen(login_url)
+        print "Login Success!"
+    except:
+        print 'Login error!'
+
+login()
+
+#get the data
+idset=[]
+results = None
+weibo = ""
+html = ""
+jsonResult = None
+jsonLatestPath = "../json/all_data.json"
+jsonLatestFile = None
+
+weibo = urllib2.urlopen("https://api.weibo.com/2/statuses/user_timeline.json?count=50&source=4183006623")
+html = weibo.read()
+weibo.close()
+jsonResult = json.loads(html)
+
+if os.path.exists("idset.dat") == True:
+    with codecs.open("idset.dat", "r",'utf-8') as f:
+        idset = json.load(f)
+        print len(idset)
+
+jsonLatestFile = codecs.open(jsonLatestPath, "r+",'utf-8')
+jsonLatestFile.seek(0,2);
+jsonLatestFile.seek(jsonLatestFile.tell() - 3,0)
+
+count = len(jsonResult["statuses"])
+index = 0;
+for i in range(count-1, -1, -1):
+    status = jsonResult["statuses"][i]
+    if (idset.count(status["retweeted_status"]["idstr"]) == 0):
+        idset.append(status["retweeted_status"]["idstr"])
+        jsonLatestFile.write(",")
+        jsonLatestFile.write("\n")
+        jsonLatestFile.write("{\"avatar\":\"" + status["retweeted_status"]["user"]["profile_image_url"] + "\",")
+        jsonLatestFile.write("\"name\":\"" + status["retweeted_status"]["user"]["name"] + "\",")
+        jsonLatestFile.write("\"author\":\"" + status["retweeted_status"]["user"]["profile_url"] + "\",")
+        jsonLatestFile.write("\"id\":" + status["retweeted_status"]["idstr"] + ",")
+        jsonLatestFile.write("\"text\":\"" + status["retweeted_status"]["text"] + "\"}")
+        print u'写入第',
+        print str(index + 1),
+        print u'条数据'
+    else:
+        print u'忽略第',
+        print str(index + 1),
+        print u'条数据(重复)'
+    index += 1
+jsonLatestFile.write("\n]}")
+jsonLatestFile.close()
+
+with codecs.open("idset.dat", "w",'utf-8') as f:
+    json.dump(idset, f,indent = 2)
+    print len(idset)

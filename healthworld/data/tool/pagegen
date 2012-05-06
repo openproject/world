@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import json
+import codecs
+import urllib2
+
+json_cursor = 0
+page_size = 20
+page_num = None
+page_index = 1
+pageFile = None
+latestFile = None
+jsonAllDataPath = "../json/all_data.json"
+
+jsonAllDataResult = None
+jsonAllDataResult = json.load(file(jsonAllDataPath))
+
+count = len(jsonAllDataResult["statuses"])
+page_num = count/20;
+print page_num 
+
+for jsonData in jsonAllDataResult["statuses"]:
+    if (json_cursor % page_size == 0):
+        pageFile = codecs.open("../json/pages/" + str(page_index) + ".json", "w",'utf-8')
+        if (page_index == page_num):
+            latestFile = codecs.open("../json/latest.json", "w",'utf-8')
+            latestFile.write("{\"statuses\":[\n")
+        page_index += 1
+        pageFile.write("{\"statuses\":[\n")
+    pageFile.write("{")
+    pageFile.write("\"avatar\":" + "\"" + jsonData["avatar"] + "\",")
+    pageFile.write("\"name\":" + "\"" + jsonData["name"] + "\",")
+    pageFile.write("\"author\":" + "\"" + jsonData["author"] + "\",")
+    pageFile.write("\"id\":" + "\"" + str(jsonData["id"]) + "\",")
+    pageFile.write("\"text\":" + "\"" + jsonData["text"] + "\"")
+    pageFile.write("}")
+
+    if (page_index > page_num):
+        latestFile.write("{")
+        latestFile.write("\"avatar\":" + "\"" + jsonData["avatar"] + "\",")
+        latestFile.write("\"name\":" + "\"" + jsonData["name"] + "\",")
+        latestFile.write("\"author\":" + "\"" + jsonData["author"] + "\",")
+        latestFile.write("\"id\":" + "\"" + str(jsonData["id"]) + "\",")
+        latestFile.write("\"text\":" + "\"" + jsonData["text"] + "\"")
+        latestFile.write("}")
+    if (page_index > page_num and json_cursor != (count - 1)):
+        latestFile.write(",")
+    if (page_index > page_num):
+        latestFile.write("\n")
+    if (json_cursor == (count - 1)):
+        latestFile.write("]}")
+        latestFile.close()
+
+    if (json_cursor % page_size != (page_size - 1) and json_cursor != (count - 1)):
+        pageFile.write(",")
+    pageFile.write("\n")
+    if (json_cursor % page_size == (page_size - 1) or json_cursor == (count - 1)):
+        pageFile.write("]}")
+        pageFile.close()
+    json_cursor += 1
+print page_index

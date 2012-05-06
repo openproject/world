@@ -90,7 +90,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo>{
 
             JSONArray statusList = statusConfig.getJSONArray("statuses");
             StatusInfo statusInfo = null;
-            for (int i = 0; i < statusList.length(); i++) {
+            for (int i = statusList.length() - 1; i >= 0; i--) {
                 statusInfo = new StatusInfo();
                 statusInfo.avatar = statusList.getJSONObject(i).getString("avatar");
                 statusInfo.name = statusList.getJSONObject(i).getString("name");
@@ -99,7 +99,6 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo>{
                 statusInfo.id = statusList.getJSONObject(i).getLong("id");
                 listData.add(statusInfo);
             }
-
             adapter = new Adapter(InfomationTabActivity.this);
             listView.setAdapter(adapter);
         } catch (JSONException e) {
