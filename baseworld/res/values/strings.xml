@@ -6,7 +6,6 @@
 
     <string-array name="tab_text"></string-array>
 
-
     <string name="app_back">返回</string>
     <string name="app_loading">请稍候，正在拉取数据....</string>
     <string name="app_loading_none">未找到数据.</string>
@@ -14,6 +13,9 @@
     <string name="app_loading_fail_web">网页加载失败，请稍后再试.</string>
     <string name="app_refresh">刷新</string>
     <string name="app_share">分享</string>
+
+    <string name="app_list_footer_more">更多</string>
+    <string name="app_list_footer_loading">正在加载....</string>
 
     <string name="app_upgrade_confirm">确定</string>
     <string name="app_upgrade_cancel">取消</string>
