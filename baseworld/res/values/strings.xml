@@ -14,6 +14,9 @@
     <string name="app_refresh">刷新</string>
     <string name="app_share">分享</string>
 
+    <string name="app_list_header_refresh_down">下拉刷新</string>
+    <string name="app_list_header_refreshing">正在刷新</string>
+    <string name="app_list_header_refresh_up">松开刷新</string>
     <string name="app_list_footer_more">更多</string>
     <string name="app_list_footer_loading">正在加载....</string>
 

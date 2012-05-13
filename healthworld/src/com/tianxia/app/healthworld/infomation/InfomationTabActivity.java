@@ -7,11 +7,9 @@ import org.json.JSONObject;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -30,9 +28,6 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo>{
     private LinearLayout mAppLoadingLinearLayout = null;
     private ProgressBar mAppLoadingProgressBar = null;
     private TextView mAppLoadingTextView = null;
-
-    private LinearLayout mFooterLinearLayout = null;
-    private TextView mFooterTextView;
 
     private SmartImageView mItemAvatar;
     private TextView mItemName;
@@ -116,15 +111,6 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo>{
     protected void setLayoutView() {
         setContentView(R.layout.infomation_tab_activity);
         setListView(R.id.infomation_tab_list);
-        mFooterLinearLayout = (LinearLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.infomation_tab_list_footer, null);
-        ((ListView)listView).addFooterView(mFooterLinearLayout);
-        mFooterTextView = (TextView) mFooterLinearLayout.findViewById(R.id.infomation_tab_list_footer_text);
-        mFooterTextView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFooterTextView.setText(R.string.app_list_footer_loading);
-            }
-        });
     }
 
     @Override
