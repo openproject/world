@@ -1,5 +1,7 @@
 package com.tianxia.app.healthworld.infomation;
 
+import java.io.File;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.tianxia.app.healthworld.AppApplication;
 import com.tianxia.app.healthworld.AppApplicationApi;
 import com.tianxia.app.healthworld.R;
 import com.tianxia.app.healthworld.cache.ConfigCache;
@@ -21,9 +24,14 @@ import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.main.MainTabFrame;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
+import com.tianxia.lib.baseworld.utils.DownloadUtils;
+import com.tianxia.lib.baseworld.utils.FileUtils;
+import com.tianxia.lib.baseworld.utils.StringUtils;
+import com.tianxia.lib.baseworld.widget.RefreshListView;
+import com.tianxia.lib.baseworld.widget.RefreshListView.RefreshListener;
 import com.tianxia.widget.image.SmartImageView;
 
-public class InfomationTabActivity extends AdapterActivity<StatusInfo>{
+public class InfomationTabActivity extends AdapterActivity<StatusInfo> implements RefreshListener{
 
     private LinearLayout mAppLoadingLinearLayout = null;
     private ProgressBar mAppLoadingProgressBar = null;
@@ -111,6 +119,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo>{
     protected void setLayoutView() {
         setContentView(R.layout.infomation_tab_activity);
         setListView(R.id.infomation_tab_list);
+        ((RefreshListView) listView).setOnRefreshListener(this);
     }
 
     @Override
@@ -135,5 +144,33 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo>{
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+    }
+
+    @Override
+    public Object refreshing() {
+        String result = null;
+        File file = new File(AppApplication.mSdcardDataDir + "/" + StringUtils.replaceUrlWithPlus(AppApplicationApi.INFOMATION_URL));
+        if (file.exists() && file.isFile()) {
+            file.delete();
+            try {
+                DownloadUtils.download(AppApplicationApi.INFOMATION_URL, file, false, null);
+                result = FileUtils.readTextFile(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public void refreshed(Object obj) {
+        if (obj != null) {
+            listData.clear();
+            showInfomationList((String)obj);
+        }
+    };
+
+    @Override
+    public void more() {
     }
 }

@@ -3,6 +3,7 @@
     <issue id="ContentDescription" severity="ignore" />
     <issue id="DuplicateIds" severity="ignore" />
     <issue id="DuplicateIncludedIds" severity="ignore" />
+    <issue id="MissingTranslation" severity="ignore" />
     <issue id="Overdraw" severity="ignore" />
     <issue id="PxUsage" severity="ignore" />
     <issue id="UnusedResources" severity="ignore" />

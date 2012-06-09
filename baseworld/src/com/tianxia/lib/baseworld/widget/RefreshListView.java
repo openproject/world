@@ -1,6 +1,8 @@
 package com.tianxia.lib.baseworld.widget;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -8,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.tianxia.lib.baseworld.R;
@@ -23,16 +27,34 @@ public class RefreshListView extends ListView implements OnScrollListener{
 
     private float mDownY;
     private float mMoveY;
-    private float mUpY;
 
-    private int mHeaderInitTopPadding;
-    private int mHeaderTopPadding;
+    private int mHeaderHeight;
 
     private int mCurrentScrollState;
 
+    private final static int NONE_PULL_REFRESH = 0;
+    private final static int ENTER_PULL_REFRESH = 1;
+    private final static int OVER_PULL_REFRESH = 2;
+    private final static int EXIT_PULL_REFRESH = 3;
+    private int mPullRefreshState = 0;
+
+    private final static int REFRESH_BACKING = 0;
+    private final static int REFRESH_BACED = 1;
+    private final static int REFRESH_DONE = 2;
+
     private LinearLayout mHeaderLinearLayout = null;
     private LinearLayout mFooterLinearLayout = null;
-    private TextView mFooterTextView;
+    private TextView mHeaderTextView = null;
+    private TextView mFooterTextView = null;
+    private ImageView mHeaderPullDownImageView = null;
+    private ImageView mHeaderReleaseDownImageView = null;
+    private ProgressBar mHeaderProgressBar = null;
+
+    private Object mRefreshObject = null;
+    private RefreshListener mRefreshListener = null;
+    public void setOnRefreshListener(RefreshListener refreshListener) {
+        this.mRefreshListener = refreshListener;
+    }
 
     public RefreshListView(Context context) {
         this(context, null);
@@ -45,6 +67,10 @@ public class RefreshListView extends ListView implements OnScrollListener{
     void init(Context context) {
         mHeaderLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.refresh_list_header, null);
         addHeaderView(mHeaderLinearLayout);
+        mHeaderTextView = (TextView) findViewById(R.id.refresh_list_header_text);
+        mHeaderPullDownImageView = (ImageView) findViewById(R.id.refresh_list_header_pull_down);
+        mHeaderReleaseDownImageView = (ImageView) findViewById(R.id.refresh_list_header_release_up);
+        mHeaderProgressBar = (ProgressBar) findViewById(R.id.refresh_list_header_progressbar);
 
         mFooterLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.refresh_list_footer, null);
         addFooterView(mFooterLinearLayout);
@@ -58,7 +84,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
         setSelection(1);
         setOnScrollListener(this);
         measureView(mHeaderLinearLayout);
-        mHeaderInitTopPadding = mHeaderLinearLayout.getMeasuredHeight();
+        mHeaderHeight = mHeaderLinearLayout.getMeasuredHeight();
     }
 
     @Override
@@ -66,24 +92,74 @@ public class RefreshListView extends ListView implements OnScrollListener{
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mDownY = ev.getY();
+                break;
             case MotionEvent.ACTION_MOVE:
                 mMoveY = ev.getY();
-                mHeaderTopPadding++;
+                if (mPullRefreshState == OVER_PULL_REFRESH) {
+                    mHeaderLinearLayout.setPadding(mHeaderLinearLayout.getPaddingLeft(),
+                            (int)((mMoveY - mDownY)/3),
+                            mHeaderLinearLayout.getPaddingRight(),
+                            mHeaderLinearLayout.getPaddingBottom());
+                }
+                break;
             case MotionEvent.ACTION_UP:
-                mHeaderTopPadding = 0;
-                mHeaderLinearLayout.setPadding(mHeaderLinearLayout.getPaddingLeft(),
-                        0,
-                        mHeaderLinearLayout.getPaddingRight(),
-                        mHeaderLinearLayout.getPaddingBottom());
+                //when you action up, it will do these:
+                //1. roll back util header topPadding is 0
+                //2. hide the header by setSelection(1)
+                if (mPullRefreshState == OVER_PULL_REFRESH || mPullRefreshState == ENTER_PULL_REFRESH) {
+                    new Thread() {
+                        public void run() {
+                            Message msg;
+                            while(mHeaderLinearLayout.getPaddingTop() > 1) {
+                                msg = mHandler.obtainMessage();
+                                msg.what = REFRESH_BACKING;
+                                mHandler.sendMessage(msg);
+                                try {
+                                    sleep(5);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            msg = mHandler.obtainMessage();
+                            if (mPullRefreshState == OVER_PULL_REFRESH) {
+                                msg.what = REFRESH_BACED;
+                            } else {
+                                msg.what = REFRESH_DONE;
+                            }
+                            mHandler.sendMessage(msg);
+                        };
+                    }.start();
+                }
+                break;
         }
-        System.out.println("MotionEvent.action:" + ev.getAction());
         return super.onTouchEvent(ev);
     }
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL) {
-            
+        System.out.println("bottom:" + mHeaderLinearLayout.getBottom() + ",top:" + mHeaderLinearLayout.getTop());
+        if (mCurrentScrollState ==SCROLL_STATE_TOUCH_SCROLL
+                && firstVisibleItem == 0
+                && (mHeaderLinearLayout.getBottom() >= 0 && mHeaderLinearLayout.getBottom() < mHeaderHeight)) {
+            if (mPullRefreshState == NONE_PULL_REFRESH) {
+                mPullRefreshState = ENTER_PULL_REFRESH;
+            }
+        } else if (mCurrentScrollState ==SCROLL_STATE_TOUCH_SCROLL
+                && firstVisibleItem == 0
+                && (mHeaderLinearLayout.getBottom() >= mHeaderHeight)) {
+            if (mPullRefreshState == ENTER_PULL_REFRESH || mPullRefreshState == NONE_PULL_REFRESH) {
+                mPullRefreshState = OVER_PULL_REFRESH;
+                mDownY = mMoveY;
+                mHeaderTextView.setText("松手刷新");
+                mHeaderPullDownImageView.setVisibility(View.GONE);
+                mHeaderReleaseDownImageView.setVisibility(View.VISIBLE);
+            }
+        } else if (mCurrentScrollState ==SCROLL_STATE_TOUCH_SCROLL && firstVisibleItem != 0) {
+            if (mPullRefreshState == ENTER_PULL_REFRESH) {
+                mPullRefreshState = NONE_PULL_REFRESH;
+            }
+        } else if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL) {
+            System.out.println("getTopPadding:" + mHeaderLinearLayout.getPaddingTop());
         } else if (mCurrentScrollState == SCROLL_STATE_FLING && firstVisibleItem == 0) {
             setSelection(1);
         }
@@ -91,14 +167,6 @@ public class RefreshListView extends ListView implements OnScrollListener{
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         mCurrentScrollState = scrollState;
-
-        if (mCurrentScrollState == SCROLL_STATE_IDLE) {
-            mHeaderLinearLayout.setPadding(mHeaderLinearLayout.getPaddingLeft(),
-                    0,
-                    mHeaderLinearLayout.getPaddingRight(),
-                    mHeaderLinearLayout.getPaddingBottom());
-        }
-        System.out.println("scroll:" + scrollState);
     }
 
     @Override
@@ -125,5 +193,58 @@ public class RefreshListView extends ListView implements OnScrollListener{
                     MeasureSpec.UNSPECIFIED);
         }
         child.measure(childWidthSpec, childHeightSpec);
+    }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case REFRESH_BACKING:
+                mHeaderLinearLayout.setPadding(mHeaderLinearLayout.getPaddingLeft(),
+                        (int) (mHeaderLinearLayout.getPaddingTop()*0.75f),
+                        mHeaderLinearLayout.getPaddingRight(),
+                        mHeaderLinearLayout.getPaddingBottom());
+                break;
+            case REFRESH_BACED:
+                mHeaderTextView.setText("正在加载...");
+                mHeaderProgressBar.setVisibility(View.VISIBLE);
+                mHeaderPullDownImageView.setVisibility(View.GONE);
+                mHeaderReleaseDownImageView.setVisibility(View.GONE);
+                mPullRefreshState = EXIT_PULL_REFRESH;
+                new Thread() {
+                    public void run() {
+                        if (mRefreshListener != null) {
+                            mRefreshObject = mRefreshListener.refreshing();
+                        }
+                        Message msg = mHandler.obtainMessage();
+                        msg.what = REFRESH_DONE;
+                        mHandler.sendMessage(msg);
+                    };
+                }.start();
+                break;
+            case REFRESH_DONE:
+                mHeaderTextView.setText("下拉刷新");
+                mHeaderProgressBar.setVisibility(View.INVISIBLE);
+                mHeaderPullDownImageView.setVisibility(View.VISIBLE);
+                mHeaderReleaseDownImageView.setVisibility(View.GONE);
+                mHeaderLinearLayout.setPadding(mHeaderLinearLayout.getPaddingLeft(),
+                        0,
+                        mHeaderLinearLayout.getPaddingRight(),
+                        mHeaderLinearLayout.getPaddingBottom());
+                mPullRefreshState = NONE_PULL_REFRESH;
+                setSelection(1);
+                if (mRefreshListener != null) {
+                    mRefreshListener.refreshed(mRefreshObject);
+                }
+                break;
+            default:
+                break;
+            }
+        }
+    };
+    public interface RefreshListener {
+        Object refreshing();
+        void refreshed(Object obj);
+        void more();
     }
 }

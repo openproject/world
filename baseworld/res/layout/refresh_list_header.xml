@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/infomation_tab_list_header"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <TextView android:id="@+id/infomation_tab_list_header_text"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    android:layout_height="50dip"
+    android:gravity="center">
+    <ProgressBar android:id="@+id/refresh_list_header_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="?android:attr/progressBarStyleSmall"
+        android:visibility="gone">
+    </ProgressBar>
+    <ImageView android:id="@+id/refresh_list_header_pull_down"
+        android:layout_width="9dip"
+        android:layout_height="25dip"
+        android:layout_gravity="center"
+        android:src="@drawable/refresh_list_pull_down" />
+    <ImageView android:id="@+id/refresh_list_header_release_up"
+        android:layout_width="9dip"
+        android:layout_height="25dip"
+        android:layout_gravity="center"
+        android:src="@drawable/refresh_list_release_up"
+        android:visibility="gone" />
+    <TextView android:id="@+id/refresh_list_header_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_gravity="center"
         android:textSize="20dip"
         android:textColor="#192F06"
         android:padding="12dip"

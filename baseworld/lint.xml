@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="ContentDescription" severity="ignore" />
     <issue id="DuplicateIncludedIds" severity="ignore" />
+    <issue id="ExtraTranslation" severity="ignore" />
+    <issue id="MissingTranslation" severity="ignore" />
     <issue id="PxUsage" severity="ignore" />
     <issue id="UnusedResources" severity="ignore" />
 </lint>
