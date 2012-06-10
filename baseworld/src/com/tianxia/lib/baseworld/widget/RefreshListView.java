@@ -1,5 +1,8 @@
 package com.tianxia.lib.baseworld.widget;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -40,15 +43,19 @@ public class RefreshListView extends ListView implements OnScrollListener{
 
     private final static int REFRESH_BACKING = 0;
     private final static int REFRESH_BACED = 1;
-    private final static int REFRESH_DONE = 2;
+    private final static int REFRESH_RETURN = 2;
+    private final static int REFRESH_DONE = 3;
 
     private LinearLayout mHeaderLinearLayout = null;
     private LinearLayout mFooterLinearLayout = null;
     private TextView mHeaderTextView = null;
+    private TextView mHeaderUpdateText = null;
     private TextView mFooterTextView = null;
     private ImageView mHeaderPullDownImageView = null;
     private ImageView mHeaderReleaseDownImageView = null;
     private ProgressBar mHeaderProgressBar = null;
+
+    private SimpleDateFormat mSimpleDateFormat;
 
     private Object mRefreshObject = null;
     private RefreshListener mRefreshListener = null;
@@ -68,6 +75,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
         mHeaderLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.refresh_list_header, null);
         addHeaderView(mHeaderLinearLayout);
         mHeaderTextView = (TextView) findViewById(R.id.refresh_list_header_text);
+        mHeaderUpdateText = (TextView) findViewById(R.id.refresh_list_header_last_update);
         mHeaderPullDownImageView = (ImageView) findViewById(R.id.refresh_list_header_pull_down);
         mHeaderReleaseDownImageView = (ImageView) findViewById(R.id.refresh_list_header_release_up);
         mHeaderProgressBar = (ProgressBar) findViewById(R.id.refresh_list_header_progressbar);
@@ -85,6 +93,9 @@ public class RefreshListView extends ListView implements OnScrollListener{
         setOnScrollListener(this);
         measureView(mHeaderLinearLayout);
         mHeaderHeight = mHeaderLinearLayout.getMeasuredHeight();
+
+        mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+        mHeaderUpdateText.setText(context.getString(R.string.app_list_header_refresh_last_update, mSimpleDateFormat.format(new Date())));
     }
 
     @Override
@@ -124,7 +135,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
                             if (mPullRefreshState == OVER_PULL_REFRESH) {
                                 msg.what = REFRESH_BACED;
                             } else {
-                                msg.what = REFRESH_DONE;
+                                msg.what = REFRESH_RETURN;
                             }
                             mHandler.sendMessage(msg);
                         };
@@ -137,7 +148,6 @@ public class RefreshListView extends ListView implements OnScrollListener{
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        System.out.println("bottom:" + mHeaderLinearLayout.getBottom() + ",top:" + mHeaderLinearLayout.getTop());
         if (mCurrentScrollState ==SCROLL_STATE_TOUCH_SCROLL
                 && firstVisibleItem == 0
                 && (mHeaderLinearLayout.getBottom() >= 0 && mHeaderLinearLayout.getBottom() < mHeaderHeight)) {
@@ -158,10 +168,11 @@ public class RefreshListView extends ListView implements OnScrollListener{
             if (mPullRefreshState == ENTER_PULL_REFRESH) {
                 mPullRefreshState = NONE_PULL_REFRESH;
             }
-        } else if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL) {
-            System.out.println("getTopPadding:" + mHeaderLinearLayout.getPaddingTop());
         } else if (mCurrentScrollState == SCROLL_STATE_FLING && firstVisibleItem == 0) {
-            setSelection(1);
+            //只在正常情况下才纠正位置
+            if (mPullRefreshState == NONE_PULL_REFRESH) {
+                setSelection(1);
+            }
         }
     }
     @Override
@@ -222,11 +233,24 @@ public class RefreshListView extends ListView implements OnScrollListener{
                     };
                 }.start();
                 break;
+            case REFRESH_RETURN:
+                mHeaderTextView.setText("下拉刷新");
+                mHeaderProgressBar.setVisibility(View.INVISIBLE);
+                mHeaderPullDownImageView.setVisibility(View.VISIBLE);
+                mHeaderReleaseDownImageView.setVisibility(View.GONE);
+                mHeaderLinearLayout.setPadding(mHeaderLinearLayout.getPaddingLeft(),
+                        0,
+                        mHeaderLinearLayout.getPaddingRight(),
+                        mHeaderLinearLayout.getPaddingBottom());
+                mPullRefreshState = NONE_PULL_REFRESH;
+                setSelection(1);
+                break;
             case REFRESH_DONE:
                 mHeaderTextView.setText("下拉刷新");
                 mHeaderProgressBar.setVisibility(View.INVISIBLE);
                 mHeaderPullDownImageView.setVisibility(View.VISIBLE);
                 mHeaderReleaseDownImageView.setVisibility(View.GONE);
+                mHeaderUpdateText.setText(getContext().getString(R.string.app_list_header_refresh_last_update, mSimpleDateFormat.format(new Date())));
                 mHeaderLinearLayout.setPadding(mHeaderLinearLayout.getPaddingLeft(),
                         0,
                         mHeaderLinearLayout.getPaddingRight(),

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="50dip"
+    android:layout_height="wrap_content"
     android:gravity="center">
     <ProgressBar android:id="@+id/refresh_list_header_progressbar"
         android:layout_width="wrap_content"
@@ -21,13 +21,25 @@
         android:layout_gravity="center"
         android:src="@drawable/refresh_list_release_up"
         android:visibility="gone" />
-    <TextView android:id="@+id/refresh_list_header_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textSize="20dip"
-        android:textColor="#192F06"
-        android:padding="12dip"
-        android:text="@string/app_list_header_refresh_down"/>
+    <RelativeLayout android:layout_width="180dip"
+        android:layout_height="wrap_content">
+        <TextView android:id="@+id/refresh_list_header_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:textSize="12dip"
+            android:textColor="#192F06"
+            android:paddingTop="8dip"
+            android:text="@string/app_list_header_refresh_down"/>
+        <TextView android:id="@+id/refresh_list_header_last_update"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@id/refresh_list_header_text"
+            android:textSize="12dip"
+            android:textColor="#192F06"
+            android:paddingBottom="8dip"
+            android:text="@string/app_list_header_refresh_last_update"/>
+    </RelativeLayout>
 </LinearLayout>
