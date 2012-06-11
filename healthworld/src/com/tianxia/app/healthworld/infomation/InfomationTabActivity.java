@@ -1,6 +1,11 @@
 package com.tianxia.app.healthworld.infomation;
 
 import java.io.File;
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +44,11 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
 
     private SmartImageView mItemAvatar;
     private TextView mItemName;
+    private TextView mItemDate;
     private TextView mItemText;
+
+    private SimpleDateFormat mSinaWeiboDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", new DateFormatSymbols(Locale.US));
+    private SimpleDateFormat mSimpleDateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +66,8 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
                 }
             }
         });
+
+        mSimpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
     }
 
     private void setInfomationList() {
@@ -101,6 +112,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
             StatusInfo statusInfo = null;
             for (int i = statusList.length() - 1; i >= 0; i--) {
                 statusInfo = new StatusInfo();
+                statusInfo.created = statusList.getJSONObject(i).optString("created_at");
                 statusInfo.avatar = statusList.getJSONObject(i).getString("avatar");
                 statusInfo.name = statusList.getJSONObject(i).getString("name");
                 statusInfo.author = statusList.getJSONObject(i).getString("author");
@@ -135,6 +147,26 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         mItemName = (TextView) view.findViewById(R.id.item_name);
         mItemName.setText(listData.get(position).name);
         mItemName.getPaint().setFakeBoldText(true);
+
+        mItemDate = (TextView) view.findViewById(R.id.item_date);
+        String dateString = listData.get(position).created;
+        if ( dateString != null && !"".equals(dateString)) {
+            try {
+                Date date = mSinaWeiboDateFormat.parse(dateString);
+                int second = (int)(System.currentTimeMillis() - date.getTime())/1000;
+                if (second > 59 && second < 1800) {
+                    mItemDate.setText(second/60 + "分钟前");
+                } else if (second < 59) {
+                    mItemDate.setText(second + "秒钟前");
+                } else {
+                    mItemDate.setText(mSimpleDateFormat.format(date));
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            mItemDate.setText("");
+        }
 
         mItemText = (TextView) view.findViewById(R.id.item_text);
         mItemText.setText(listData.get(position).text);

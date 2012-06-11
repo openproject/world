@@ -16,19 +16,45 @@
         android:layout_marginRight="8dip"
         android:layout_marginBottom="8dip"
         android:layout_marginTop="2dip">
-        <TextView android:id="@+id/item_name"
-            android:layout_width="fill_parent"
+        <RelativeLayout android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dip"
-            android:textSize="16dip"
-            android:textStyle="bold"
-            android:textColor="#192F06">
-        </TextView>
+            android:orientation="horizontal">
+            <TextView android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dip"
+                android:layout_alignParentLeft="true"
+                android:textSize="16dip"
+                android:textStyle="bold"
+                android:textColor="#192F06">
+            </TextView>
+            <TextView android:id="@+id/item_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dip"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="2dip"
+                android:textSize="12dip"
+                android:textColor="#192F06">
+            </TextView>
+        </RelativeLayout>
         <TextView android:id="@+id/item_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="15dip"
             android:textColor="#192F06">
         </TextView>
+        <LinearLayout android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView android:id="@+id/item_from"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dip"
+                android:text="来自:新浪微博"
+                android:textSize="11dip"
+                android:textColor="#192F06">
+            </TextView>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
