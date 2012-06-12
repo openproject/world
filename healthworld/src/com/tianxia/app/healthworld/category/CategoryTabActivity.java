@@ -42,28 +42,28 @@ public class CategoryTabActivity extends  AdapterActivity<Map<String,String>> {
 
         listData.clear();
         Map<String,String> map = new HashMap<String, String>();
-        map.put("image", String.valueOf(R.drawable.app_arrow));
+        map.put("image", String.valueOf(R.drawable.category_icon_food));
         map.put("name", "饮食");
 
         listData.add(map);
 
         map = new HashMap<String, String>();
-        map.put("image", String.valueOf(R.drawable.app_arrow));
+        map.put("image", String.valueOf(R.drawable.category_icon_sport));
         map.put("name", "锻炼");
         listData.add(map);
 
         map = new HashMap<String, String>();
-        map.put("image", String.valueOf(R.drawable.app_arrow));
+        map.put("image", String.valueOf(R.drawable.category_icon_heart));
         map.put("name", "心理");
         listData.add(map);
 
         map = new HashMap<String, String>();
-        map.put("image", String.valueOf(R.drawable.app_arrow));
+        map.put("image", String.valueOf(R.drawable.category_icon_emergency));
         map.put("name", "急救");
         listData.add(map);
 
         map = new HashMap<String, String>();
-        map.put("image", String.valueOf(R.drawable.app_arrow));
+        map.put("image", String.valueOf(R.drawable.category_icon_else));
         map.put("name", "其它");
         listData.add(map);
 

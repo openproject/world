@@ -157,7 +157,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
                 if (second > 59 && second < 1800) {
                     mItemDate.setText(second/60 + "分钟前");
                 } else if (second < 59) {
-                    mItemDate.setText(second + "秒钟前");
+                    mItemDate.setText(second + "秒前");
                 } else {
                     mItemDate.setText(mSimpleDateFormat.format(date));
                 }
