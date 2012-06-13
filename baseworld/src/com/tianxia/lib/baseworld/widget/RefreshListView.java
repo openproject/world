@@ -87,6 +87,10 @@ public class RefreshListView extends ListView implements OnScrollListener{
             @Override
             public void onClick(View v) {
                 mFooterTextView.setText(R.string.app_list_footer_loading);
+                if (mRefreshListener != null) {
+                    mRefreshListener.more();
+                }
+                mFooterTextView.setText(R.string.app_list_footer_more);
             }
         });
         setSelection(1);
@@ -270,5 +274,15 @@ public class RefreshListView extends ListView implements OnScrollListener{
         Object refreshing();
         void refreshed(Object obj);
         void more();
+    }
+
+    public void recoverFootView() {
+        if (getFooterViewsCount() == 0) {
+            addFooterView(mFooterLinearLayout);
+        }
+    }
+
+    public void removeFootView() {
+        removeFooterView(mFooterLinearLayout);
     }
 }

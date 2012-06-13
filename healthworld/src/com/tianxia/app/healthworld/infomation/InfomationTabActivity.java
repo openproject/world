@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tianxia.app.healthworld.AppApplication;
 import com.tianxia.app.healthworld.AppApplicationApi;
@@ -49,6 +50,8 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
 
     private SimpleDateFormat mSinaWeiboDateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", new DateFormatSymbols(Locale.US));
     private SimpleDateFormat mSimpleDateFormat;
+
+    private int pageIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +107,30 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         }
     }
 
+    private void moreInfomationList(int pageIndex) {
+        String cacheConfigString = ConfigCache.getUrlCache(AppApplicationApi.INFOMATION_PAGE_URL + pageIndex + ".json");
+        if (cacheConfigString != null) {
+            mAppLoadingLinearLayout.setVisibility(View.GONE);
+            showInfomationList(cacheConfigString);
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(AppApplicationApi.INFOMATION_PAGE_URL + pageIndex + ".json", new AsyncHttpResponseHandler(){
+
+                @Override
+                public void onSuccess(String result){
+                    ConfigCache.setUrlCache(result, AppApplicationApi.INFOMATION_URL);
+                    showInfomationList(result);
+                }
+
+                @Override
+                public void onFailure(Throwable arg0) {
+                    arg0.printStackTrace();
+                }
+
+            });
+        }
+    }
+
     private void showInfomationList(String result) {
         try {
             JSONObject statusConfig = new JSONObject(result);
@@ -120,8 +147,13 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
                 statusInfo.id = statusList.getJSONObject(i).getLong("id");
                 listData.add(statusInfo);
             }
-            adapter = new Adapter(InfomationTabActivity.this);
-            listView.setAdapter(adapter);
+            if (pageIndex == 0) {
+                adapter = new Adapter(InfomationTabActivity.this);
+                listView.setAdapter(adapter);
+            } else {
+                adapter.notifyDataSetChanged();
+            }
+            pageIndex = statusConfig.getInt("page");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -142,7 +174,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         }
 
         mItemAvatar = (SmartImageView) view.findViewById(R.id.item_avatar);
-        mItemAvatar.setImageUrl(listData.get(position).avatar, R.drawable.icon, R.drawable.icon);
+        mItemAvatar.setImageUrl(listData.get(position).avatar, R.drawable.icon, 0);
 
         mItemName = (TextView) view.findViewById(R.id.item_name);
         mItemName.setText(listData.get(position).name);
@@ -198,11 +230,19 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
     public void refreshed(Object obj) {
         if (obj != null) {
             listData.clear();
+            pageIndex = 0;
+            ((RefreshListView)listView).recoverFootView();
             showInfomationList((String)obj);
         }
     };
 
     @Override
     public void more() {
+        if (pageIndex > 1) {
+            moreInfomationList(pageIndex - 1);
+        } else {
+            Toast.makeText(this, "加载完毕", Toast.LENGTH_SHORT).show();
+            ((RefreshListView)listView).removeFootView();
+        }
     }
 }
