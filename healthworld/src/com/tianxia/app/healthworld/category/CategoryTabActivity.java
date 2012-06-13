@@ -19,6 +19,7 @@ public class CategoryTabActivity extends  AdapterActivity<Map<String,String>> {
 
     private TextView mItemTextView = null;
     private ImageView mItemImageView = null;
+    private TextView mItemDescribeTextView = null;
     private int mImageHeight = 0;
     private int mDividerHeight;
 
@@ -43,28 +44,33 @@ public class CategoryTabActivity extends  AdapterActivity<Map<String,String>> {
         listData.clear();
         Map<String,String> map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.category_icon_food));
-        map.put("name", "饮食");
+        map.put("name", "饮食、常识");
+        map.put("describe", "健康饮食，健康生活");
 
         listData.add(map);
 
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.category_icon_sport));
         map.put("name", "锻炼");
+        map.put("describe", "生命源与运动");
         listData.add(map);
 
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.category_icon_heart));
         map.put("name", "心理");
+        map.put("describe", "放飞心灵，做豁达的人");
         listData.add(map);
 
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.category_icon_emergency));
         map.put("name", "急救");
+        map.put("describe", "把握第一时间");
         listData.add(map);
 
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.category_icon_else));
         map.put("name", "其它");
+        map.put("describe", "其他健康，养生，生活等常识");
         listData.add(map);
 
         adapter = new Adapter(this);
@@ -90,6 +96,10 @@ public class CategoryTabActivity extends  AdapterActivity<Map<String,String>> {
 
         mItemTextView = (TextView) view.findViewById(R.id.item_text);
         mItemTextView.setText(listData.get(position).get("name"));
+
+        mItemDescribeTextView = (TextView) view.findViewById(R.id.item_text_describe);
+        mItemDescribeTextView.setText(listData.get(position).get("describe"));
+
         return view;
     }
 

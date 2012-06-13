@@ -184,12 +184,12 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         File file = new File(AppApplication.mSdcardDataDir + "/" + StringUtils.replaceUrlWithPlus(AppApplicationApi.INFOMATION_URL));
         if (file.exists() && file.isFile()) {
             file.delete();
-            try {
-                DownloadUtils.download(AppApplicationApi.INFOMATION_URL, file, false, null);
-                result = FileUtils.readTextFile(file);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        }
+        try {
+            DownloadUtils.download(AppApplicationApi.INFOMATION_URL, file, false, null);
+            result = FileUtils.readTextFile(file);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return result;
     }

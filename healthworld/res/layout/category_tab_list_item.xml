@@ -33,7 +33,6 @@
         <TextView android:id="@+id/item_text_describe"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="健康饮食,健康生活"
             android:textSize="15dip"
             android:textColor="#888888" />
         </LinearLayout>
