@@ -110,7 +110,6 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
     private void moreInfomationList(int pageIndex) {
         String cacheConfigString = ConfigCache.getUrlCache(AppApplicationApi.INFOMATION_PAGE_URL + pageIndex + ".json");
         if (cacheConfigString != null) {
-            mAppLoadingLinearLayout.setVisibility(View.GONE);
             showInfomationList(cacheConfigString);
         } else {
             AsyncHttpClient client = new AsyncHttpClient();
@@ -118,12 +117,14 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
 
                 @Override
                 public void onSuccess(String result){
-                    ConfigCache.setUrlCache(result, AppApplicationApi.INFOMATION_URL);
                     showInfomationList(result);
+                    ((RefreshListView)listView).finishFootView();
                 }
 
                 @Override
                 public void onFailure(Throwable arg0) {
+                    ((RefreshListView)listView).finishFootView();
+                    Toast.makeText(InfomationTabActivity.this, R.string.app_loading_fail, Toast.LENGTH_SHORT).show();
                     arg0.printStackTrace();
                 }
 
@@ -231,7 +232,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         if (obj != null) {
             listData.clear();
             pageIndex = 0;
-            ((RefreshListView)listView).recoverFootView();
+            ((RefreshListView)listView).addFootView();
             showInfomationList((String)obj);
         }
     };

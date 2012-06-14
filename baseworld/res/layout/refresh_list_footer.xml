@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:gravity="center">
     <TextView android:id="@+id/refresh_list_footer_text"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="20dip"
         android:textColor="#192F06"
         android:padding="12dip"
         android:text="@string/app_list_footer_more"/>
+    <ProgressBar android:id="@+id/refresh_list_footer_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="?android:attr/progressBarStyleSmall"
+        android:visibility="gone">
+    </ProgressBar>
 </LinearLayout>

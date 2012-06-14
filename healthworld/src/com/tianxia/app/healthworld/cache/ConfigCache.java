@@ -61,6 +61,8 @@ public class ConfigCache {
         } catch (IOException e) {
             Log.d(TAG, "write " + file.getAbsolutePath() + " data failed!");
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
