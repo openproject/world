@@ -101,6 +101,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
                     mAppLoadingProgressBar.setVisibility(View.INVISIBLE);
                     mAppLoadingTextView.setText(R.string.app_loading_fail);
                     listView.setAdapter(null);
+                    listView.setVisibility(View.INVISIBLE);
                 }
 
             });
