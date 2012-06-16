@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -215,6 +216,9 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
     @Override
     public Object refreshing() {
         String result = null;
+        if (AppApplication.mSdcardDataDir == null) {
+            AppApplication.mSdcardDataDir = Environment.getExternalStorageDirectory().getPath() +  "/healthworld/config/";
+        }
         File file = new File(AppApplication.mSdcardDataDir + "/" + StringUtils.replaceUrlWithPlus(AppApplicationApi.INFOMATION_URL));
         if (file.exists() && file.isFile()) {
             file.delete();

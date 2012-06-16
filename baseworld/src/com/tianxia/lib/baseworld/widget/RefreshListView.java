@@ -35,16 +35,16 @@ public class RefreshListView extends ListView implements OnScrollListener{
 
     private int mCurrentScrollState;
 
-    private final static int NONE_PULL_REFRESH = 0;
-    private final static int ENTER_PULL_REFRESH = 1;
-    private final static int OVER_PULL_REFRESH = 2;
-    private final static int EXIT_PULL_REFRESH = 3;
-    private int mPullRefreshState = 0;
+    private final static int NONE_PULL_REFRESH = 0;    //正常状态
+    private final static int ENTER_PULL_REFRESH = 1;   //进入下拉刷新状态
+    private final static int OVER_PULL_REFRESH = 2;    //进入松手刷新状态
+    private final static int EXIT_PULL_REFRESH = 3;    //松手后反弹和加载状态
+    private int mPullRefreshState = 0;                 //记录刷新状态
 
-    private final static int REFRESH_BACKING = 0;
-    private final static int REFRESH_BACED = 1;
-    private final static int REFRESH_RETURN = 2;
-    private final static int REFRESH_DONE = 3;
+    private final static int REFRESH_BACKING = 0;      //反弹中
+    private final static int REFRESH_BACED = 1;        //达到刷新界限，反弹结束后
+    private final static int REFRESH_RETURN = 2;       //没有达到刷新界限，返回
+    private final static int REFRESH_DONE = 3;         //加载数据结束
 
     private LinearLayout mHeaderLinearLayout = null;
     private LinearLayout mFooterLinearLayout = null;
@@ -67,6 +67,7 @@ public class RefreshListView extends ListView implements OnScrollListener{
     public RefreshListView(Context context) {
         this(context, null);
     }
+
     public RefreshListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -157,33 +158,38 @@ public class RefreshListView extends ListView implements OnScrollListener{
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (mCurrentScrollState ==SCROLL_STATE_TOUCH_SCROLL
+        if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL
                 && firstVisibleItem == 0
                 && (mHeaderLinearLayout.getBottom() >= 0 && mHeaderLinearLayout.getBottom() < mHeaderHeight)) {
+            //进入且仅进入下拉刷新状态
             if (mPullRefreshState == NONE_PULL_REFRESH) {
                 mPullRefreshState = ENTER_PULL_REFRESH;
             }
-        } else if (mCurrentScrollState ==SCROLL_STATE_TOUCH_SCROLL
+        } else if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL
                 && firstVisibleItem == 0
                 && (mHeaderLinearLayout.getBottom() >= mHeaderHeight)) {
+            //下拉达到界限，进入松手刷新状态
             if (mPullRefreshState == ENTER_PULL_REFRESH || mPullRefreshState == NONE_PULL_REFRESH) {
                 mPullRefreshState = OVER_PULL_REFRESH;
-                mDownY = mMoveY;
-                mHeaderTextView.setText("松手刷新");
-                mHeaderPullDownImageView.setVisibility(View.GONE);
-                mHeaderReleaseDownImageView.setVisibility(View.VISIBLE);
+                mDownY = mMoveY; //为下拉1/3折扣效果记录开始位置
+                mHeaderTextView.setText("松手刷新");//显示松手刷新
+                mHeaderPullDownImageView.setVisibility(View.GONE);//隐藏"下拉刷新"
+                mHeaderReleaseDownImageView.setVisibility(View.VISIBLE);//显示向上的箭头
             }
-        } else if (mCurrentScrollState ==SCROLL_STATE_TOUCH_SCROLL && firstVisibleItem != 0) {
+        } else if (mCurrentScrollState == SCROLL_STATE_TOUCH_SCROLL && firstVisibleItem != 0) {
+            //不刷新了
             if (mPullRefreshState == ENTER_PULL_REFRESH) {
                 mPullRefreshState = NONE_PULL_REFRESH;
             }
         } else if (mCurrentScrollState == SCROLL_STATE_FLING && firstVisibleItem == 0) {
+            //飞滑状态，不能显示出header，也不能影响正常的飞滑
             //只在正常情况下才纠正位置
             if (mPullRefreshState == NONE_PULL_REFRESH) {
                 setSelection(1);
             }
         }
     }
+
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         mCurrentScrollState = scrollState;
