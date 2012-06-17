@@ -1,5 +1,7 @@
 package com.tianxia.app.speciality;
 
+import android.content.Context;
+
 import com.tianxia.app.speciality.setting.SettingTabActivity;
 import com.tianxia.lib.baseworld.BaseApplication;
 
@@ -20,5 +22,9 @@ public class AppApplication extends BaseApplication {
 
     @Override
     public void initEnv() {
+    }
+
+    @Override
+    public void exitApp(Context context) {
     }
 }

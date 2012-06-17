@@ -9,4 +9,6 @@
         <item>设置</item>
     </string-array>
     <string name="item_avatar">avatar</string>
+
+    <string name="app_exit_message">确定要退出应用养生视线?</string>
 </resources>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -59,6 +60,8 @@ public abstract class BaseApplication extends Application {
 
     public abstract void initDb();
     public abstract void initEnv();
+
+    public abstract void exitApp(Context context);
 
     public void initLocalVersion(){
         PackageInfo pinfo;

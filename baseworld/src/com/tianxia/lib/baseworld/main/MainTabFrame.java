@@ -120,4 +120,5 @@ public class MainTabFrame extends ActivityGroup {
         mainTabIntent = new Intent(this,activity);
         mainTabContainer.addView(localActivityManager.startActivity(id, mainTabIntent).getDecorView());
     }
+
 }

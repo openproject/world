@@ -5,6 +5,7 @@ import java.io.File;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.Environment;
 
 import com.tianxia.app.floworld.appreciate.AppreciateTabActivity;
@@ -74,6 +75,10 @@ public class AppApplication extends BaseApplication {
 
         mNetWorkState = NetworkUtils.getNetworkState(this);
         checkDomain(mDomain, false);
+    }
+
+    @Override
+    public void exitApp(Context context) {
     }
 
     public void checkDomain(final String domain, final boolean stop){

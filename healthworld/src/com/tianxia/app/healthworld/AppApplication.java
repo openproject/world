@@ -5,6 +5,9 @@ import java.io.File;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Environment;
 
 import com.tianxia.app.healthworld.cache.ConfigCache;
@@ -14,10 +17,12 @@ import com.tianxia.app.healthworld.favorite.FavoriteTabActivity;
 import com.tianxia.app.healthworld.infomation.InfomationTabActivity;
 import com.tianxia.app.healthworld.setting.SettingTabActivity;
 import com.tianxia.lib.baseworld.BaseApplication;
+import com.tianxia.lib.baseworld.R;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 import com.tianxia.lib.baseworld.utils.NetworkUtils;
 import com.tianxia.lib.baseworld.utils.PreferencesUtils;
+import com.waps.AppConnect;
 
 public class AppApplication extends BaseApplication {
 
@@ -71,6 +76,29 @@ public class AppApplication extends BaseApplication {
 
         mNetWorkState = NetworkUtils.getNetworkState(this);
         checkDomain(mDomain, false);
+        AppConnect.getInstance(getApplicationContext());
+    }
+
+    @Override
+    public void exitApp(final Context context) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+        alertBuilder.setTitle(this.getString(R.string.app_exit_title))
+            .setMessage(this.getString(R.string.app_exit_message))
+            .setPositiveButton("退出",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        AppConnect.getInstance(context).finalize();
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                    }
+                }
+            ).setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                }
+            );
+        alertBuilder.create().show();
     }
 
     public void checkDomain(final String domain, final boolean stop){

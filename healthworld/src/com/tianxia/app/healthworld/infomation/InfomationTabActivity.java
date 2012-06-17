@@ -27,6 +27,7 @@ import com.tianxia.app.healthworld.AppApplicationApi;
 import com.tianxia.app.healthworld.R;
 import com.tianxia.app.healthworld.cache.ConfigCache;
 import com.tianxia.app.healthworld.model.StatusInfo;
+import com.tianxia.lib.baseworld.BaseApplication;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.main.MainTabFrame;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
@@ -38,7 +39,6 @@ import com.tianxia.lib.baseworld.widget.RefreshListView;
 import com.tianxia.lib.baseworld.widget.RefreshListView.RefreshListener;
 import com.tianxia.widget.image.SmartImageView;
 import com.waps.AdView;
-import com.waps.AppConnect;
 
 public class InfomationTabActivity extends AdapterActivity<StatusInfo> implements RefreshListener{
 
@@ -75,7 +75,6 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
 
         mSimpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
 
-        AppConnect.getInstance(this);
         LinearLayout container =(LinearLayout)findViewById(R.id.AdLinearLayout);
         new AdView(this,container).DisplayAd();
     }
@@ -259,8 +258,8 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AppConnect.getInstance(this).finalize();
+    public void onBackPressed() {
+        ((BaseApplication)getApplication()).exitApp(getParent());
     }
+
 }
