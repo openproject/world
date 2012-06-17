@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application android:name=".AppApplication"
         android:label="@string/app_name"
@@ -19,6 +20,10 @@
         android:theme="@android:style/Theme.Black.NoTitleBar">
         <meta-data android:value="4f672e2352701550360000c9" android:name="UMENG_APPKEY" />
         <meta-data android:value="Dev" android:name="UMENG_CHANNEL"/>
+        <!--以下属性为应用ID,从万普后台获取-->
+        <meta-data android:name="WAPS_ID" android:value="923cfb1a970c051eccd0af856bd3752c" />
+        <!--以下属性为分发渠道ID,编码表参见本文档末附表-->
+        <meta-data android:name="WAPS_PID" android:value="WAPS" />
         <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
@@ -40,6 +45,8 @@
         <activity android:name="com.feedback.ui.SendFeedback" android:windowSoftInputMode="adjustResize" />
         <activity android:name="com.feedback.ui.FeedbackConversations" />
         <activity android:name="com.feedback.ui.FeedbackConversation" android:configChanges="keyboard" />
+
+        <activity android:name="com.waps.OffersWebView" android:configChanges="keyboardHidden|orientation"/>
     </application>
 
 </manifest>

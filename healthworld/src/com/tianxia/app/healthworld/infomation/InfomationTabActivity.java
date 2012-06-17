@@ -37,6 +37,8 @@ import com.tianxia.lib.baseworld.utils.StringUtils;
 import com.tianxia.lib.baseworld.widget.RefreshListView;
 import com.tianxia.lib.baseworld.widget.RefreshListView.RefreshListener;
 import com.tianxia.widget.image.SmartImageView;
+import com.waps.AdView;
+import com.waps.AppConnect;
 
 public class InfomationTabActivity extends AdapterActivity<StatusInfo> implements RefreshListener{
 
@@ -72,6 +74,10 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         });
 
         mSimpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
+
+        AppConnect.getInstance(this);
+        LinearLayout container =(LinearLayout)findViewById(R.id.AdLinearLayout);
+        new AdView(this,container).DisplayAd();
     }
 
     private void setInfomationList() {
@@ -250,5 +256,11 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
             Toast.makeText(this, "加载完毕", Toast.LENGTH_SHORT).show();
             ((RefreshListView)listView).removeFootView();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AppConnect.getInstance(this).finalize();
     }
 }

@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="libs/youmi-android.jar"/>
 	<classpathentry kind="lib" path="libs/AndroidAnalyticSDK3.2.1.jar"/>
 	<classpathentry kind="lib" path="libs/alipay_plugin.jar"/>
+	<classpathentry kind="lib" path="libs/AppOffer_1.6.5.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
