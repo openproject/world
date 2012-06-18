@@ -1,0 +1,66 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import json
+import codecs
+import urllib2
+
+json_food_cursor = 0;
+json_sport_cursor = 0;
+json_heart_cursor = 0;
+json_emergency_cursor = 0;
+json_else_cursor = 0;
+categoryCursors = [json_food_cursor, json_sport_cursor, json_heart_cursor, json_emergency_cursor, json_else_cursor]
+
+categoryFoodFile = None
+categorySportFile = None
+categoryHeartFile = None
+categoryEmergencyFile = None
+categoryElseFile = None
+
+jsonAllDataPath = "../json/all_data.json"
+
+jsonAllDataResult = None
+jsonAllDataResult = json.load(file(jsonAllDataPath))
+
+categoryFoodFile = codecs.open("../json/category/food/all_data.json", "w",'utf-8')
+categorySportFile = codecs.open("../json/category/sport/all_data.json", "w",'utf-8')
+categoryHeartFile = codecs.open("../json/category/heart/all_data.json", "w",'utf-8')
+categoryEmergencyFile = codecs.open("../json/category/emergency/all_data.json", "w",'utf-8')
+categoryElseFile = codecs.open("../json/category/else/all_data.json", "w",'utf-8')
+
+index = 0
+categoryFiles = [categoryFoodFile, categorySportFile, categoryHeartFile, categoryEmergencyFile, categoryElseFile]
+
+for categoryFile in categoryFiles:
+    categoryFile.write("{\"statuses\":[\n")
+
+for jsonData in jsonAllDataResult["statuses"]:
+    if (jsonData.get("type") == "饮食" or jsonData.get("type") == "常识"):
+        index = 0
+    elif (jsonData.get("type") == "运动"):
+        index = 1
+    elif (jsonData.get("type") == "心理"):
+        index = 2
+    elif (jsonData.get("type") == "急救"):
+        index = 3
+    else:
+        index = 4
+
+    if (categoryCursors[index] > 0):
+        categoryFiles[index].write(",\n")
+    categoryFiles[index].write("{")
+    categoryFiles[index].write("\"avatar\":" + "\"" + jsonData["avatar"] + "\",")
+    if (jsonData.get("created_at") != None):
+        categoryFiles[index].write("\"created_at\":" + "\"" + jsonData["created_at"] + "\",")
+    categoryFiles[index].write("\"name\":" + "\"" + jsonData["name"] + "\",")
+    categoryFiles[index].write("\"author\":" + "\"" + jsonData["author"] + "\",")
+    categoryFiles[index].write("\"id\":" + "\"" + str(jsonData["id"]) + "\",")
+    categoryFiles[index].write("\"text\":" + "\"" + jsonData["text"] + "\"")
+    categoryFiles[index].write("}")
+    categoryCursors[index] += 1
+
+for categoryFile in categoryFiles:
+    categoryFile.write("\n]}")
+    categoryFile.close()

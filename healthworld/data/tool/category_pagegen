@@ -1,0 +1,96 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import json
+import codecs
+import urllib2
+
+def page(all_data_path, page_data_path):
+    json_cursor = 0
+    page_size = 15
+    page_num = None
+    page_index = 1
+    pageFile = None
+    latestFile = None
+#jsonAllDataPath = "../json/all_data.json"
+
+    jsonAllDataResult = None
+    jsonAllDataResult = json.load(file(all_data_path))
+
+    count = len(jsonAllDataResult["statuses"])
+    page_num = count/page_size;
+
+    for jsonData in jsonAllDataResult["statuses"]:
+        if (json_cursor % page_size == 0):
+            pageFile = codecs.open(page_data_path +"pages/" + str(page_index) + ".json", "w",'utf-8')
+            if (page_index == page_num or (page_num == 0 and page_index == 1)):
+                latestFile = codecs.open(page_data_path + "latest.json", "w",'utf-8')
+                latestFile.write("{\"page\":" + str(page_index) + ",\"statuses\":[\n")
+            pageFile.write("{\"page\":" + str(page_index) + ",\"statuses\":[\n")
+            page_index += 1
+        pageFile.write("{")
+        pageFile.write("\"avatar\":" + "\"" + jsonData["avatar"] + "\",")
+        if (jsonData.get("created_at") != None):
+            pageFile.write("\"created_at\":" + "\"" + jsonData["created_at"] + "\",")
+        if (jsonData.get("type") == "饮食"):
+            pageFile.write("\"type\":" + "\"food\",")
+        elif (jsonData.get("type") == "常识"):
+	        pageFile.write("\"type\":" + "\"common\",")
+        elif (jsonData.get("type") == "运动"):
+	        pageFile.write("\"type\":" + "\"sport\",")
+        elif (jsonData.get("type") == "心理"):
+	        pageFile.write("\"type\":" + "\"heart\",")
+        elif (jsonData.get("type") == "急救"):
+	        pageFile.write("\"type\":" + "\"emergency\",")
+        else:
+	        pageFile.write("\"type\":" + "\"else\",")
+        pageFile.write("\"name\":" + "\"" + jsonData["name"] + "\",")
+        pageFile.write("\"author\":" + "\"" + jsonData["author"] + "\",")
+        pageFile.write("\"id\":" + "\"" + str(jsonData["id"]) + "\",")
+        pageFile.write("\"text\":" + "\"" + jsonData["text"] + "\"")
+        pageFile.write("}")
+
+        if (page_index > page_num):
+            latestFile.write("{")
+            latestFile.write("\"avatar\":" + "\"" + jsonData["avatar"] + "\",")
+            if (jsonData.get("created_at") != None):
+                latestFile.write("\"created_at\":" + "\"" + jsonData["created_at"] + "\",")
+            if (jsonData.get("type") == "饮食"):
+                latestFile.write("\"type\":" + "\"food\",")
+            elif (jsonData.get("type") == "常识"):
+	            latestFile.write("\"type\":" + "\"common\",")
+            elif (jsonData.get("type") == "运动"):
+	            latestFile.write("\"type\":" + "\"sport\",")
+            elif (jsonData.get("type") == "心理"):
+	            latestFile.write("\"type\":" + "\"heart\",")
+            elif (jsonData.get("type") == "急救"):
+	            latestFile.write("\"type\":" + "\"emergency\",")
+            else:
+	            latestFile.write("\"type\":" + "\"else\",")
+            latestFile.write("\"name\":" + "\"" + jsonData["name"] + "\",")
+            latestFile.write("\"author\":" + "\"" + jsonData["author"] + "\",")
+            latestFile.write("\"id\":" + "\"" + str(jsonData["id"]) + "\",")
+            latestFile.write("\"text\":" + "\"" + jsonData["text"] + "\"")
+            latestFile.write("}")
+        if (page_index > page_num and json_cursor != (count - 1)):
+            latestFile.write(",")
+        if (page_index > page_num):
+            latestFile.write("\n")
+        if (json_cursor == (count - 1)):
+            latestFile.write("]}")
+            latestFile.close()
+
+        if (json_cursor % page_size != (page_size - 1) and json_cursor != (count - 1)):
+            pageFile.write(",")
+        pageFile.write("\n")
+        if (json_cursor % page_size == (page_size - 1) or json_cursor == (count - 1)):
+            pageFile.write("]}")
+            pageFile.close()
+        json_cursor += 1
+
+page("../json/category/food/all_data.json", "../json/category/food/")
+page("../json/category/sport/all_data.json", "../json/category/sport/")
+page("../json/category/heart/all_data.json", "../json/category/heart/")
+page("../json/category/emergency/all_data.json", "../json/category/emergency/")
+page("../json/category/else/all_data.json", "../json/category/else/")

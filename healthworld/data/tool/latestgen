@@ -65,8 +65,8 @@ def get_user(username):
 
 
 def login():
-    username = 'xxx'
-    pwd = 'xxxx'
+    username = 'xxxxx'
+    pwd = 'xxxxx'
     url = 'http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.3.18)'
     try:
         servertime, nonce = get_servertime()
@@ -129,10 +129,12 @@ for i in range(count-1, -1, -1):
         jsonLatestFile.write(",")
         jsonLatestFile.write("\n")
         jsonLatestFile.write("{\"avatar\":\"" + status["retweeted_status"]["user"]["profile_image_url"] + "\",")
+        jsonLatestFile.write("\"created_at\":\"" + status["created_at"] + "\",")
+        jsonLatestFile.write("\"type\":\"" + status["text"] + "\",")
         jsonLatestFile.write("\"name\":\"" + status["retweeted_status"]["user"]["name"] + "\",")
         jsonLatestFile.write("\"author\":\"" + status["retweeted_status"]["user"]["profile_url"] + "\",")
         jsonLatestFile.write("\"id\":" + status["retweeted_status"]["idstr"] + ",")
-        jsonLatestFile.write("\"text\":\"" + status["retweeted_status"]["text"] + "\"}")
+        jsonLatestFile.write("\"text\":\"" + status["retweeted_status"]["text"].replace("\"","") + "\"}")
         print u'写入第',
         print str(index + 1),
         print u'条数据'

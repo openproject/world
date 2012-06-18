@@ -7,7 +7,7 @@ import codecs
 import urllib2
 
 json_cursor = 0
-page_size = 20
+page_size = 15
 page_num = None
 page_index = 1
 pageFile = None
@@ -18,7 +18,7 @@ jsonAllDataResult = None
 jsonAllDataResult = json.load(file(jsonAllDataPath))
 
 count = len(jsonAllDataResult["statuses"])
-page_num = count/20;
+page_num = count/page_size;
 print page_num 
 
 for jsonData in jsonAllDataResult["statuses"]:
@@ -26,11 +26,25 @@ for jsonData in jsonAllDataResult["statuses"]:
         pageFile = codecs.open("../json/pages/" + str(page_index) + ".json", "w",'utf-8')
         if (page_index == page_num):
             latestFile = codecs.open("../json/latest.json", "w",'utf-8')
-            latestFile.write("{\"statuses\":[\n")
+            latestFile.write("{\"page\":" + str(page_index) + ",\"statuses\":[\n")
+        pageFile.write("{\"page\":" + str(page_index) + ",\"statuses\":[\n")
         page_index += 1
-        pageFile.write("{\"statuses\":[\n")
     pageFile.write("{")
     pageFile.write("\"avatar\":" + "\"" + jsonData["avatar"] + "\",")
+    if (jsonData.get("created_at") != None):
+        pageFile.write("\"created_at\":" + "\"" + jsonData["created_at"] + "\",")
+    if (jsonData.get("type") == "饮食"):
+        pageFile.write("\"type\":" + "\"food\",")
+    elif (jsonData.get("type") == "常识"):
+	    pageFile.write("\"type\":" + "\"common\",")
+    elif (jsonData.get("type") == "运动"):
+	    pageFile.write("\"type\":" + "\"sport\",")
+    elif (jsonData.get("type") == "心理"):
+	    pageFile.write("\"type\":" + "\"heart\",")
+    elif (jsonData.get("type") == "急救"):
+	    pageFile.write("\"type\":" + "\"emergency\",")
+    else:
+	    pageFile.write("\"type\":" + "\"else\",")
     pageFile.write("\"name\":" + "\"" + jsonData["name"] + "\",")
     pageFile.write("\"author\":" + "\"" + jsonData["author"] + "\",")
     pageFile.write("\"id\":" + "\"" + str(jsonData["id"]) + "\",")
@@ -40,6 +54,20 @@ for jsonData in jsonAllDataResult["statuses"]:
     if (page_index > page_num):
         latestFile.write("{")
         latestFile.write("\"avatar\":" + "\"" + jsonData["avatar"] + "\",")
+        if (jsonData.get("created_at") != None):
+            latestFile.write("\"created_at\":" + "\"" + jsonData["created_at"] + "\",")
+        if (jsonData.get("type") == "饮食"):
+            latestFile.write("\"type\":" + "\"food\",")
+        elif (jsonData.get("type") == "常识"):
+	        latestFile.write("\"type\":" + "\"common\",")
+        elif (jsonData.get("type") == "运动"):
+	        latestFile.write("\"type\":" + "\"sport\",")
+        elif (jsonData.get("type") == "心理"):
+	        latestFile.write("\"type\":" + "\"heart\",")
+        elif (jsonData.get("type") == "急救"):
+	        latestFile.write("\"type\":" + "\"emergency\",")
+        else:
+	        latestFile.write("\"type\":" + "\"else\",")
         latestFile.write("\"name\":" + "\"" + jsonData["name"] + "\",")
         latestFile.write("\"author\":" + "\"" + jsonData["author"] + "\",")
         latestFile.write("\"id\":" + "\"" + str(jsonData["id"]) + "\",")
