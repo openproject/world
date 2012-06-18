@@ -37,6 +37,7 @@
         </receiver>
         <activity android:name=".infomation.InfomationTabActivity"></activity>
         <activity android:name=".category.CategoryTabActivity"></activity>
+        <activity android:name=".category.CategoryListActivity"></activity>
         <activity android:name=".digest.DigestTabActivity"></activity>
         <activity android:name=".favorite.FavoriteTabActivity"></activity>
         <activity android:name=".setting.SettingTabActivity"></activity>

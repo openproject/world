@@ -3,6 +3,7 @@ package com.tianxia.app.healthworld.category;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ public class CategoryTabActivity extends  AdapterActivity<Map<String,String>> {
     private TextView mItemDescribeTextView = null;
     private int mImageHeight = 0;
     private int mDividerHeight;
+
+    private String[] categorys = {"food", "sport", "heart", "emergency", "else"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class CategoryTabActivity extends  AdapterActivity<Map<String,String>> {
         map = new HashMap<String, String>();
         map.put("image", String.valueOf(R.drawable.category_icon_sport));
         map.put("name", "锻炼");
-        map.put("describe", "生命源与运动");
+        map.put("describe", "生命源于运动");
         listData.add(map);
 
         map = new HashMap<String, String>();
@@ -104,8 +107,11 @@ public class CategoryTabActivity extends  AdapterActivity<Map<String,String>> {
     }
 
     @Override
-    protected void onItemClick(AdapterView<?> adapterView, View view,
-            int position, long id) {
+    protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        Intent intent = new Intent(this, CategoryListActivity.class);
+        intent.putExtra("category", categorys[position]);
+        intent.putExtra("title", listData.get(position).get("name"));
+        startActivity(intent);
     }
 
 }
