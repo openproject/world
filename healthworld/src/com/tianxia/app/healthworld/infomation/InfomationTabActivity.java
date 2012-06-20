@@ -161,7 +161,13 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
             } else {
                 adapter.notifyDataSetChanged();
             }
+
             pageIndex = statusConfig.getInt("page");
+            if (pageIndex == 1) {
+                //if pageIndex == 1 means the page is the last page
+                //so do not need show More FooterView any more
+                ((RefreshListView)listView).removeFootView();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

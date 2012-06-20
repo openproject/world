@@ -299,6 +299,8 @@ public class RefreshListView extends ListView implements OnScrollListener{
     }
 
     public void removeFootView() {
+        mFooterProgressBar.setVisibility(View.GONE);
+        mFooterTextView.setText(R.string.app_list_footer_more);
         removeFooterView(mFooterLinearLayout);
     }
 }
