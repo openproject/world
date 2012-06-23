@@ -7,4 +7,6 @@ public class AppApplicationApi {
     public static final String INFOMATION_PAGE_URL = AppApplication.mDomain + "healthworld/data/json/pages/";
 
     public static final String CATEGORY_URL = AppApplication.mDomain + "healthworld/data/json/category/";
+
+    public static final String Digest_URL = AppApplication.mDomain + "healthworld/data/json/digest.json";
 }
