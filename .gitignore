@@ -4,3 +4,4 @@ out
 .settings
 *.keystore
 *.apk
+build.xml
