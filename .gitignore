@@ -1,3 +1,6 @@
 bin
 gen
+out
 .settings
+*.keystore
+*.apk

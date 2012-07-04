@@ -19,7 +19,7 @@
         android:icon="@drawable/icon"
         android:theme="@android:style/Theme.Black.NoTitleBar">
         <meta-data android:value="4f672e2352701550360000c9" android:name="UMENG_APPKEY" />
-        <meta-data android:value="Dev" android:name="UMENG_CHANNEL"/>
+        <meta-data android:value="gfan" android:name="UMENG_CHANNEL"/>
         <!--以下属性为应用ID,从万普后台获取-->
         <meta-data android:name="WAPS_ID" android:value="923cfb1a970c051eccd0af856bd3752c" />
         <!--以下属性为分发渠道ID,编码表参见本文档末附表-->

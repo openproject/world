@@ -1,0 +1,129 @@
+<project default="main" basedir=".">
+
+    <property name="apk-name" value="product" />
+    <property name="apk-version" value="latest" />
+    <property name="apk-market" value="dev" />
+
+    <property name="android-jar" value="/usr/lib/android-sdk/platforms/android-10/android.jar" />
+
+    <target name="init">
+        <echo>start initing ... </echo>
+
+        <mkdir dir="gen" />
+        <delete>
+            <fileset dir="gen"></fileset>
+        </delete>
+        
+        <mkdir dir="bin/classes" />
+        <delete>
+            <fileset dir="bin/classes"></fileset>
+        </delete>
+        
+        <mkdir dir="build/${apk-version}" />
+
+        <echo>finish initing. </echo>
+    </target>
+
+    <target name="main" depends="init">
+        <echo>generating R.java for project to dir gen (using aapt) ... </echo>
+        <exec executable="aapt">
+            <arg value="package" />
+            <arg value="-m" />
+            <arg value="-J" />
+            <arg value="gen" />
+            <arg value="-M" />
+            <arg value="AndroidManifest.xml" />
+            <arg value="-S" />
+            <arg value="res" />
+            <arg value="-S" />
+            <arg value="../baseworld/res" />
+            <arg value="-I" />
+            <arg value="${android-jar}" />
+            <arg value="--auto-add-overlay" />
+        </exec>
+
+        <echo>generating R.java for library to dir gen (using aapt) ... </echo>
+        <exec executable="aapt">
+            <arg value="package" />
+            <arg value="-m" />
+            <arg value="--non-constant-id" />
+            <arg value="--auto-add-overlay" />
+            <arg value="-J" />
+            <arg value="gen" />
+            <arg value="-M" />
+            <arg value="../baseworld/AndroidManifest.xml" />
+            <arg value="-S" />
+            <arg value="res" />
+            <arg value="-S" />
+            <arg value="../baseworld/res" />
+            <arg value="-I" />
+            <arg value="${android-jar}" />
+        </exec>
+
+        <path id="project.libs">
+            <fileset dir="libs">
+                <include name="*.jar" />
+            </fileset>
+        </path>
+        <echo>compiling java files to class files (include R.java, library and the third-party jars) ... </echo>
+        <javac destdir="bin/classes" bootclasspath="${android-jar}">
+            <src path="../baseworld/src" />
+            <src path="src" />
+            <src path="gen" />
+            <classpath refid="project.libs" />
+        </javac>
+
+        <echo>packaging class files (include the third-party jars) to calsses.dex ... </echo>
+        <exec executable="dx">
+            <arg value="--dex" />
+            <arg value="--output=bin/classes.dex" />
+            <arg value="bin/classes" />
+            <arg value="libs" />
+        </exec>
+
+        <echo>packaging resource (include res, assets, AndroidManifest.xml, etc.) to res.zip ... </echo>
+        <exec executable="aapt">
+            <arg value="package" />
+            <arg value="-f" />
+            <arg value="-M" />
+            <arg value="AndroidManifest.xml" />
+            <arg value="-S" />
+            <arg value="res" />
+            <arg value="-S" />
+            <arg value="../baseworld/res" />
+            <arg value="-A" />
+            <arg value="assets" />
+            <arg value="-I" />
+            <arg value="${android-jar}" />
+            <arg value="-F" />
+            <arg value="bin/res.zip" />
+            <arg value="--auto-add-overlay" />
+        </exec>
+
+        <echo>building unsigned.apk ... </echo>
+        <exec executable="apkbuilder">
+            <arg value="bin/unsigned.apk" />
+            <arg value="-u" />
+            <arg value="-z" />
+            <arg value="bin/res.zip" />
+            <arg value="-f" />
+            <arg value="bin/classes.dex" />
+        </exec>
+
+        <echo>signing the unsigned apk to final product apk ... </echo>
+        <exec executable="jarsigner">
+            <arg value="-keystore" />
+            <arg value="../kaiyuanxiangmu_world.keystore" />
+            <arg value="-storepass" />
+            <arg value="xxxx" />
+            <arg value="-keypass" />
+            <arg value="xxxx" />
+            <arg value="-signedjar" />
+            <arg value="build/${apk-version}/${apk-name}_${apk-version}_${apk-market}.apk" />
+            <arg value="bin/unsigned.apk" />
+            <arg value="xxx" />
+        </exec>
+
+        <echo>done.</echo>
+    </target>
+</project>
