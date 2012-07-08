@@ -1,5 +1,7 @@
 <project default="main" basedir=".">
 
+    <property file="../keystore.properties" />
+
     <property name="apk-name" value="product" />
     <property name="apk-version" value="latest" />
     <property name="apk-market" value="dev" />
@@ -115,13 +117,13 @@
             <arg value="-keystore" />
             <arg value="../kaiyuanxiangmu_world.keystore" />
             <arg value="-storepass" />
-            <arg value="xxxx" />
+	    <arg value="${storepass}" />
             <arg value="-keypass" />
-            <arg value="xxxx" />
+	    <arg value="${keypass}" />
             <arg value="-signedjar" />
             <arg value="build/${apk-version}/${apk-name}_${apk-version}_${apk-market}.apk" />
             <arg value="bin/unsigned.apk" />
-            <arg value="xxx" />
+	    <arg value="${alias}" />
         </exec>
 
         <echo>done.</echo>
