@@ -8,5 +8,5 @@ public class AppApplicationApi {
 
     public static final String CATEGORY_URL = AppApplication.mDomain + "healthworld/data/json/category/";
 
-    public static final String Digest_URL = AppApplication.mDomain + "healthworld/data/json/digest.json";
+    public static final String DIGEST_URL = AppApplication.mDomain + "healthworld/data/json/digest.json";
 }
