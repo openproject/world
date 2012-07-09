@@ -1,6 +1,8 @@
 package com.tianxia.app.healthworld.digest;
 
 import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.Button;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import com.feedback.UMFeedbackService;
 import com.tianxia.app.healthworld.R;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.activity.BaseActivity;
@@ -20,6 +23,7 @@ import com.tianxia.app.healthworld.cache.ConfigCache;
 import com.tianxia.app.healthworld.model.BookInfo;
 
 import com.tianxia.app.healthworld.AppApplicationApi;
+import com.tianxia.app.healthworld.AppApplication;
 
 public class DigestTabActivity extends AdapterActivity<BookInfo>{
 
@@ -37,6 +41,14 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
     protected void setLayoutView(){
         setContentView(R.layout.digest_tab_activity);
         setListView(R.id.digest_tab_list);
+        Button btn = new Button(DigestTabActivity.this);
+        btn.setText(R.string.digest_footer_suggest_tips);
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                UMFeedbackService.openUmengFeedbackSDK(DigestTabActivity.this);
+            }
+        });
+        ((ListView)listView).addFooterView(btn);
     }
 
     private void setDigestList(){
@@ -102,7 +114,8 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
         }
 
         mItemConverImageView = (SmartImageView) view.findViewById(R.id.item_image);
-        mItemConverImageView.setImageUrl(listData.get(position).cover, R.drawable.icon, 0);
+        mItemConverImageView.setImageUrl(AppApplication.mDomain + listData.get(position).cover, R.drawable.icon, 0);
+        System.out.println("cover:" + AppApplication.mDomain + listData.get(position).cover);
 
         mItemTitleTextView = (TextView) view.findViewById(R.id.item_text);
         mItemTitleTextView.setText(listData.get(position).title);

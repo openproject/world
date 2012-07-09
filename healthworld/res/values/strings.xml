@@ -11,4 +11,8 @@
     <string name="item_avatar">avatar</string>
 
     <string name="app_exit_message">确定要退出应用养生视线?</string>
+
+    <string name="digest_footer_suggest_tips">推荐书籍</string>
+
+    <string name="setting_contact_tel">"tel:15800413861"</string>
 </resources>
