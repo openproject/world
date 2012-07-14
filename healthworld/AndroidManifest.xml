@@ -39,6 +39,7 @@
         <activity android:name=".category.CategoryTabActivity"></activity>
         <activity android:name=".category.CategoryListActivity"></activity>
         <activity android:name=".digest.DigestTabActivity"></activity>
+        <activity android:name=".digest.ChapterListActivity"></activity>
         <activity android:name=".favorite.FavoriteTabActivity"></activity>
         <activity android:name=".setting.SettingTabActivity"></activity>
         <activity android:name="com.tianxia.lib.baseworld.activity.SettingAboutActivity"></activity>

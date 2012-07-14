@@ -1,29 +1,33 @@
 package com.tianxia.app.healthworld.digest;
 
-import android.widget.TextView;
-import android.widget.ListView;
-import android.widget.Button;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.AdapterView;
-import com.tianxia.widget.image.SmartImageView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.content.Intent;
 
 import android.os.Bundle;
+
+import android.view.LayoutInflater;
+import android.view.View;
+
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
 import com.feedback.UMFeedbackService;
+
+import com.tianxia.app.healthworld.AppApplication;
+import com.tianxia.app.healthworld.AppApplicationApi;
+import com.tianxia.app.healthworld.cache.ConfigCache;
+import com.tianxia.app.healthworld.model.BookInfo;
 import com.tianxia.app.healthworld.R;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.activity.BaseActivity;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
-import com.tianxia.app.healthworld.cache.ConfigCache;
-import com.tianxia.app.healthworld.model.BookInfo;
+import com.tianxia.widget.image.SmartImageView;
 
-import com.tianxia.app.healthworld.AppApplicationApi;
-import com.tianxia.app.healthworld.AppApplication;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DigestTabActivity extends AdapterActivity<BookInfo>{
 
@@ -96,6 +100,7 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
                 bookInfo.title = digestList.getJSONObject(i).optString("title");
                 bookInfo.summary = digestList.getJSONObject(i).optString("summary");
                 bookInfo.cover = digestList.getJSONObject(i).optString("cover");
+                bookInfo.url = digestList.getJSONObject(i).optString("url");
                 listData.add(bookInfo);
             }
             adapter = new Adapter(DigestTabActivity.this);
@@ -127,7 +132,10 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
     }
 
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        //todo
+        Intent intent = new Intent(this, ChapterListActivity.class);
+        intent.putExtra("title", listData.get(position).title);
+        intent.putExtra("url", listData.get(position).url);
+        startActivity(intent);
     }
 
 }

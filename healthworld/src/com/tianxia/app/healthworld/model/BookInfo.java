@@ -7,6 +7,7 @@ public class BookInfo {
     public String title;
     public String summary;
     public String cover;
+    public String url;
     public List<ChapterInfo> chapter;
 
 }

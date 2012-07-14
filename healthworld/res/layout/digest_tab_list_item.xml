@@ -5,10 +5,10 @@
     <com.tianxia.widget.image.SmartImageView android:id="@+id/item_image"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_width="48dip"
-            android:layout_height="48dip"
-            android:layout_marginLeft="15dip"
-            android:layout_marginRight="15dip"
+            android:layout_width="56dip"
+            android:layout_height="70dip"
+            android:layout_marginLeft="8dip"
+            android:layout_marginRight="8dip"
             android:layout_marginTop="11dip"
             android:layout_marginBottom="10dip"/>
     <ImageView android:id="@+id/item_arrow"
@@ -16,8 +16,8 @@
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="15dip"
-            android:layout_marginRight="15dip"
+            android:layout_marginLeft="6dip"
+            android:layout_marginRight="10dip"
             android:src="@drawable/app_arrow"/>
     <LinearLayout android:layout_toLeftOf="@id/item_arrow"
         android:layout_toRightOf="@id/item_image"
@@ -28,12 +28,14 @@
         <TextView android:id="@+id/item_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dip"
+            android:textSize="18dip"
             android:textColor="#192F06" />
         <TextView android:id="@+id/item_text_describe"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="15dip"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="11dip"
             android:textColor="#888888" />
         </LinearLayout>
 </RelativeLayout>

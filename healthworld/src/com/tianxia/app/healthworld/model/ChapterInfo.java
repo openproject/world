@@ -6,6 +6,6 @@ public class ChapterInfo {
 
     public String title;
     public String url;
-    public List<ChapterInfo> chapter;
+    public List<ChapterInfo> subChapters;
 
 }

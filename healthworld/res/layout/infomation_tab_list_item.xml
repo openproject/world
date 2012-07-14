@@ -19,15 +19,6 @@
         <RelativeLayout android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <TextView android:id="@+id/item_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dip"
-                android:layout_alignParentLeft="true"
-                android:textSize="16dip"
-                android:textStyle="bold"
-                android:textColor="#192F06">
-            </TextView>
             <TextView android:id="@+id/item_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -35,6 +26,18 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="2dip"
                 android:textSize="12dip"
+                android:textColor="#192F06">
+            </TextView>
+            <TextView android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dip"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@id/item_date"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textSize="16dip"
+                android:textStyle="bold"
                 android:textColor="#192F06">
             </TextView>
         </RelativeLayout>
