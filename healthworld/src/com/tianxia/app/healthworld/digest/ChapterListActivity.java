@@ -79,7 +79,7 @@ public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
 
                  @Override
                  public void onFailure(Throwable arg0) {
-                     System.out.println("fail -----------------------------");
+                     //System.out.println("fail -----------------------------");
                      //mAppLoadingProgressBar.setVisibility(View.INVISIBLE);
                      //mAppLoadingTextView.setText(R.string.app_loading_fail);
                      listView.setAdapter(null);
@@ -99,8 +99,9 @@ public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
                 chapterInfo = new ChapterInfo();
                 chapterInfo.title = chapterList.getJSONObject(i).optString("title");
                 chapterInfo.url = chapterList.getJSONObject(i).optString("url");
+                chapterInfo.level = 1;
                 listData.add(chapterInfo);
-                chapterInfo.subChapters = recurseChapters(chapterList.getJSONObject(i).optJSONArray("subChapters"));
+                chapterInfo.subChapters = recurseChapters(chapterList.getJSONObject(i).optJSONArray("subChapters"), chapterInfo.level + 1);
             }
 
             adapter = new Adapter(ChapterListActivity.this);
@@ -111,7 +112,7 @@ public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
         }
     }
 
-    private List<ChapterInfo> recurseChapters(JSONArray jsonarray) {
+    private List<ChapterInfo> recurseChapters(JSONArray jsonarray, int level) {
         List<ChapterInfo> result = null;
         if (jsonarray == null || jsonarray.length() == 0) {
             return result;
@@ -123,7 +124,8 @@ public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
             try {
                 chapterInfo.title = jsonarray.getJSONObject(i).optString("title");
                 chapterInfo.url = jsonarray.getJSONObject(i).optString("url");
-                chapterInfo.subChapters = recurseChapters(jsonarray.getJSONObject(i).optJSONArray("subChapters"));
+                chapterInfo.level = level;
+                chapterInfo.subChapters = recurseChapters(jsonarray.getJSONObject(i).optJSONArray("subChapters"), level + 1);
                 result.add(chapterInfo);
                 listData.add(chapterInfo);
             } catch (JSONException e) {
@@ -135,13 +137,27 @@ public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
 
     protected View getView(int position, View convertView) {
         View view = convertView;
-        if (view == null) {
+        if (listData.get(position).level == 1 && listData.get(position).subChapters != null) {
+            view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.chapter_section_list_item, null);
+        } else {
             view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.chapter_list_item, null);
         }
 
         mItemTextView = (TextView) view.findViewById(R.id.item_text);
-        mItemTextView.setText(listData.get(position).title);
+        if (listData.get(position).subChapters == null) {
+            mItemTextView.setText("  ❂ " + listData.get(position).title);
+        } else {
+            mItemTextView.setText("  " + listData.get(position).title);
+        }
         return view;
+    }
+
+    protected boolean isItemEnabled(int position) {
+        if (listData.get(position).level == 1 && listData.get(position).subChapters != null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {

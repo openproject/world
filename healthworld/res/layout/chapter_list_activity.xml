@@ -21,7 +21,8 @@
     <ListView android:id="@+id/chapter_list"
         android:layout_width="fill_parent" 
         android:layout_height="fill_parent"
-        android:divider="@drawable/app_divider_h_gray"
+        android:layout_marginLeft="8dip"
+        android:divider="@drawable/app_divider_h_dashed"
         android:cacheColorHint="#00000000">
     </ListView>
 </LinearLayout>

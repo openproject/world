@@ -200,9 +200,11 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
             try {
                 Date date = mSinaWeiboDateFormat.parse(dateString);
                 int second = (int)(System.currentTimeMillis() - date.getTime())/1000;
-                if (second > 59 && second < 1800) {
+                if (second > 3600 && second <= 86400 ) {
+                    mItemDate.setText(second/3600 + "小时前");
+                } else if (second > 59 && second <= 3600) {
                     mItemDate.setText(second/60 + "分钟前");
-                } else if (second < 59) {
+                } else if (second <= 59) {
                     mItemDate.setText(second + "秒前");
                 } else {
                     mItemDate.setText(mSimpleDateFormat.format(date));

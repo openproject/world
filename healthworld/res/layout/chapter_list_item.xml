@@ -2,12 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="8dip">
+    android:padding="8dip"
+    android:paddingTop="12dip"
+    android:paddingBottom="12dip">
     <TextView android:id="@+id/item_text"
         android:layout_alignParentLeft="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="18dip"
+        android:textSize="14dip"
         android:textColor="#192F06" />
     <ImageView android:id="@+id/item_arrow"
             android:layout_alignParentRight="true"
@@ -15,6 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_marginLeft="6dip"
-            android:layout_marginRight="10dip"
+            android:layout_marginRight="6dip"
             android:src="@drawable/app_arrow"/>
 </RelativeLayout>

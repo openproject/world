@@ -40,6 +40,9 @@ public abstract class AdapterActivity<T> extends BaseActivity {
      * @return
      */
     protected abstract View getView(int position, View convertView);
+    protected boolean isItemEnabled(int position) {
+        return true;
+    }
 
     /**
      * the listView's item click event 
@@ -72,6 +75,12 @@ public abstract class AdapterActivity<T> extends BaseActivity {
         public int getCount() {
             return listData.size();
         }
+
+        @Override
+        public boolean isEnabled(int position) {
+            return AdapterActivity.this.isItemEnabled(position);
+        }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             return AdapterActivity.this.getView(position, convertView);
