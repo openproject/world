@@ -56,6 +56,8 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
 
     private int pageIndex = 0;
 
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +78,13 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         mSimpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
 
         LinearLayout container =(LinearLayout)findViewById(R.id.AdLinearLayout);
-        new AdView(this,container).DisplayAd();
+        try {
+            mAdView = new AdView(this,container);
+            mAdView.DisplayAd();
+        } catch (Exception e) {
+            container.setVisibility(View.GONE);
+            e.printStackTrace();
+        }
     }
 
     private void setInfomationList() {

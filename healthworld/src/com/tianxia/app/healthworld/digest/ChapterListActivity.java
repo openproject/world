@@ -26,6 +26,7 @@ import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 import com.tianxia.app.healthworld.AppApplication;
+import android.content.Intent;
 
 public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
 
@@ -161,7 +162,9 @@ public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
     }
 
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-        //toko
+        Intent intent = new Intent(this, ChapterDetailsActivity.class);
+        intent.putExtra("url", listData.get(position).url);
+        startActivity(intent);
     }
 
 }

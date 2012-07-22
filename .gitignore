@@ -5,3 +5,6 @@ out
 *.keystore
 *.apk
 keystore.properties
+tags
+cscope.files
+cscope.out
