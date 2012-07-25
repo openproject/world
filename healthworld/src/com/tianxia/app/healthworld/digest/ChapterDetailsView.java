@@ -32,7 +32,9 @@ public class ChapterDetailsView extends View{
     private int mMarginLeftAndRight = 25;
 
     private Paint mPaint;
-    private int mFontHeight;
+    private float mFontHeight;
+
+    private boolean mNeedRefresh = true;
 
     public ChapterDetailsView(Context context,AttributeSet attrs) {
         super(context, attrs);
@@ -41,7 +43,7 @@ public class ChapterDetailsView extends View{
         mPaint.setAntiAlias(true);
         mPaint.setTextSize(25);
         FontMetrics fm = mPaint.getFontMetrics();
-        mFontHeight = (int)(Math.ceil(fm.descent - fm.top));
+        mFontHeight = fm.descent - fm.top;
     }
 
     public void setInitText(String initText) {
@@ -57,43 +59,20 @@ public class ChapterDetailsView extends View{
     @Override
     public void onDraw(Canvas canvas) {
         if (mContent != null && !"".equals(mContent)) {
-            mPageLines = (getHeight() - mMarginTopAndBottom*2)/mFontHeight;
-            int start = 0, end;
-            mLines.clear();
-            int textWidth = getWidth() - mMarginLeftAndRight*2;
-            for (int i = 0; i < mContent.length(); i++) {
-                end = i;
-                String line = mContent.substring(start, end + 1);
-                if (mPaint.measureText(line) >= textWidth) {
-                    line = mContent.substring(start, end);
-                    mLines.add(line);
-                    start = i;
-                } else if (i == mContent.length() - 1 ){
-                    mLines.add(line);
-                    start = i;
-                } else if (mContent.charAt(i) == '\r' && mContent.charAt(i+1) == '\n') {
-                    // if goto this if branch, there is must be : i < mContent.length() - 1
-                    mLines.add(line);
-                    start = i + 2;
-                }
+            if (mNeedRefresh) {
+                splitContentToPageLines();
+                mNeedRefresh = false;
             }
-
-            if (mLines.size()%mPageLines == 0) {
-                mPageMax = mLines.size()/mPageLines;
-            } else {
-                mPageMax = mLines.size()/mPageLines + 1;
-            }
-
-            int drawTop = mMarginTopAndBottom;
+            float drawTop = mMarginTopAndBottom;
             int startLine = (mPage - 1)*mPageLines;
             for (int i = startLine; i < startLine + mPageLines && i < mLines.size(); i++) {
                 canvas.drawText(mLines.get(i), mMarginLeftAndRight, drawTop, mPaint);
-                drawTop += mFontHeight;
+                drawTop += mFontHeight + 2.5;
             }
         } else if (mInitText != null && !"".equals(mInitText)) {
             int initTextWidth = (int) mPaint.measureText(mInitText);
             int initTextX = (getWidth() - initTextWidth)/2;
-            int initTextY = (getHeight() - mFontHeight)/2;
+            int initTextY = (getHeight() - (int)mFontHeight)/2;
             canvas.drawText(mInitText, initTextX, initTextY, mPaint);
         }
     }
@@ -121,10 +100,49 @@ public class ChapterDetailsView extends View{
         }
         return super.onTouchEvent(event);
     }
-    public void drawPrePage(String text) {
-    }
-    public void drawPostPage(String text) {
+
+    public void splitContentToPageLines() {
+        mPageLines = (int)((float)(getHeight() - mMarginTopAndBottom*2)/mFontHeight);
+        int start = 0, end;
+        mLines.clear();
+        int textWidth = getWidth() - mMarginLeftAndRight*2;
+
+        for (int i = 0; i < mContent.length(); i++) {
+            end = i;
+            String line = mContent.substring(start, end + 1);
+            if (mPaint.measureText(line) >= textWidth) {
+                line = mContent.substring(start, end);
+                mLines.add(line);
+                start = i;
+            } else if (i == mContent.length() - 1 ){
+                mLines.add(line);
+                start = i;
+            } else if (mContent.charAt(i) == '\r' && mContent.charAt(i+1) == '\n') {
+                // if goto this if branch, there is must be : i < mContent.length() - 1
+                if (start >= end) {
+                    continue;
+                }
+                line = mContent.substring(start, end);
+                mLines.add(line);
+                start = i + 2;
+                if (start > mContent.length() - 1) {
+                    start = mContent.length() - 1;
+                }
+            } else if (mContent.charAt(i) == '\n') {
+                if (start >= end) {
+                    continue;
+                }
+                line = mContent.substring(start, end);
+                mLines.add(line);
+                start = i + 1;
+            }
+
+        }
+
+        if (mLines.size()%mPageLines == 0) {
+            mPageMax = mLines.size()/mPageLines;
+        } else {
+            mPageMax = mLines.size()/mPageLines + 1;
+        }
     }
 }
-
-

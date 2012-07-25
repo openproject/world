@@ -25,7 +25,8 @@
         <meta-data android:name="WAPS_ID" android:value="923cfb1a970c051eccd0af856bd3752c" />
         <!--以下属性为分发渠道ID,编码表参见本文档末附表-->
         <meta-data android:name="WAPS_PID" android:value="WAPS" />
-        <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame">
+        <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame"
+            android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,15 +37,33 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <activity android:name=".infomation.InfomationTabActivity"></activity>
-        <activity android:name=".category.CategoryTabActivity"></activity>
-        <activity android:name=".category.CategoryListActivity"></activity>
-        <activity android:name=".digest.DigestTabActivity"></activity>
-        <activity android:name=".digest.ChapterListActivity"></activity>
-        <activity android:name=".digest.ChapterDetailsActivity"></activity>
-        <activity android:name=".favorite.FavoriteTabActivity"></activity>
-        <activity android:name=".setting.SettingTabActivity"></activity>
-        <activity android:name="com.tianxia.lib.baseworld.activity.SettingAboutActivity"></activity>
+        <activity android:name=".infomation.InfomationTabActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".category.CategoryTabActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".category.CategoryListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".digest.DigestTabActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".digest.ChapterListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".digest.ChapterDetailsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".favorite.FavoriteTabActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".setting.SettingTabActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.tianxia.lib.baseworld.activity.SettingAboutActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <activity android:name="com.feedback.ui.SendFeedback" android:windowSoftInputMode="adjustResize" />
         <activity android:name="com.feedback.ui.FeedbackConversations" />
