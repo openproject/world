@@ -8,6 +8,7 @@ import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
@@ -118,6 +119,11 @@ public class MainTabFrame extends ActivityGroup {
     public void setContainerView(String id,Class<?> activity){
         mainTabContainer.removeAllViews();
         mainTabIntent = new Intent(this,activity);
+        View view = localActivityManager.startActivity(id, mainTabIntent).getDecorView();
+
+        //make sure the subactivity will fill parent layout, it is a important tips
+        view.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
+
         mainTabContainer.addView(localActivityManager.startActivity(id, mainTabIntent).getDecorView());
     }
 

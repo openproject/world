@@ -77,14 +77,29 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
 
         mSimpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
 
-        LinearLayout container =(LinearLayout)findViewById(R.id.AdLinearLayout);
-        try {
-            mAdView = new AdView(this,container);
-            mAdView.DisplayAd();
-        } catch (Exception e) {
-            container.setVisibility(View.GONE);
-            e.printStackTrace();
-        }
+        final LinearLayout container =(LinearLayout)findViewById(R.id.AdLinearLayout);
+        new Thread(){
+
+            public void run() {
+                try {
+                    sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                runOnUiThread(new Runnable () {
+                    public void run() {
+                        try {
+                            mAdView = new AdView(InfomationTabActivity.this,container);
+                            mAdView.DisplayAd();
+                        } catch (Exception e) {
+                            container.setVisibility(View.GONE);
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        }.start();
     }
 
     private void setInfomationList() {

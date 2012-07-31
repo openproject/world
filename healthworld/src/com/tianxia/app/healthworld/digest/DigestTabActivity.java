@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,6 +30,7 @@ import com.tianxia.widget.image.SmartImageView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.view.Gravity;
 
 public class DigestTabActivity extends AdapterActivity<BookInfo>{
 
@@ -52,6 +55,9 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
                 UMFeedbackService.openUmengFeedbackSDK(DigestTabActivity.this);
             }
         });
+        View emptyView = createEmptyView();
+        ((ViewGroup)listView.getParent()).addView(emptyView);
+        ((ListView)listView).setEmptyView(emptyView);
         ((ListView)listView).addFooterView(btn);
     }
 
@@ -138,4 +144,12 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
         startActivity(intent);
     }
 
+    public View createEmptyView() {
+        TextView textView = new TextView(this);
+        textView.setText("正在加载中...");
+        textView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+        textView.setGravity(Gravity.CENTER);
+        textView.setVisibility(View.GONE);
+        return textView;
+    }
 }
