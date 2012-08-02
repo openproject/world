@@ -39,7 +39,7 @@ public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);       
+        super.onCreate(savedInstanceState);
 
         title = getIntent().getStringExtra("title");
         url = getIntent().getStringExtra("url");
@@ -53,38 +53,34 @@ public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
     protected void setLayoutView(){
         setContentView(R.layout.chapter_list_activity);
         setListView(R.id.chapter_list);
+
+        showLoadingEmptyView();
     }
 
     private void setChapterList() {
          String cacheConfigString = ConfigCache.getUrlCache(AppApplication.mDomain + url);
          if (cacheConfigString != null) {
-             //mAppLoadingLinearLayout.setVisibility(View.GONE);
              showChapterList(cacheConfigString);
-             System.out.println(cacheConfigString);
          } else {
              AsyncHttpClient client = new AsyncHttpClient();
              client.get(AppApplication.mDomain + url, new AsyncHttpResponseHandler(){
 
                  @Override
                  public void onStart() {
-                     //mAppLoadingLinearLayout.setVisibility(View.VISIBLE);
                  }
 
                  @Override
                  public void onSuccess(String result){
                      System.out.println(result);
                      ConfigCache.setUrlCache(result,url);
-                     //mAppLoadingLinearLayout.setVisibility(View.GONE);
                      showChapterList(result);
                  }
 
                  @Override
                  public void onFailure(Throwable arg0) {
-                     //System.out.println("fail -----------------------------");
-                     //mAppLoadingProgressBar.setVisibility(View.INVISIBLE);
-                     //mAppLoadingTextView.setText(R.string.app_loading_fail);
                      listView.setAdapter(null);
-                     listView.setVisibility(View.INVISIBLE);
+
+                     showFailEmptyView();
                  }
 
              });

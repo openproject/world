@@ -35,16 +35,15 @@ import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 import com.tianxia.lib.baseworld.utils.DownloadUtils;
 import com.tianxia.lib.baseworld.utils.FileUtils;
 import com.tianxia.lib.baseworld.utils.StringUtils;
+import com.tianxia.lib.baseworld.utils.EmptyViewUtils;
 import com.tianxia.lib.baseworld.widget.RefreshListView;
 import com.tianxia.lib.baseworld.widget.RefreshListView.RefreshListener;
 import com.tianxia.widget.image.SmartImageView;
 import com.waps.AdView;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
 public class InfomationTabActivity extends AdapterActivity<StatusInfo> implements RefreshListener{
-
-    private LinearLayout mAppLoadingLinearLayout = null;
-    private ProgressBar mAppLoadingProgressBar = null;
-    private TextView mAppLoadingTextView = null;
 
     private SmartImageView mItemAvatar;
     private TextView mItemName;
@@ -61,19 +60,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAppLoadingLinearLayout = (LinearLayout) findViewById(R.id.app_loading);
-        mAppLoadingProgressBar = (ProgressBar) findViewById(R.id.app_loading_pbar);
-        mAppLoadingTextView = (TextView) findViewById(R.id.app_loading_tip);
         setInfomationList();
-
-        mAppLoadingLinearLayout.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                if (MainTabFrame.mainTabContainerHeight != 0) {
-                    mAppLoadingLinearLayout.getLayoutParams().height = MainTabFrame.mainTabContainerHeight;
-                }
-            }
-        });
 
         mSimpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
 
@@ -105,7 +92,6 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
     private void setInfomationList() {
         String cacheConfigString = ConfigCache.getUrlCache(AppApplicationApi.INFOMATION_URL);
         if (cacheConfigString != null) {
-            mAppLoadingLinearLayout.setVisibility(View.GONE);
             showInfomationList(cacheConfigString);
         } else {
             AsyncHttpClient client = new AsyncHttpClient();
@@ -113,24 +99,18 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
 
                 @Override
                 public void onStart() {
-                    mAppLoadingLinearLayout.setVisibility(View.VISIBLE);
-                    mAppLoadingProgressBar.setVisibility(View.VISIBLE);
-                    mAppLoadingTextView.setText(R.string.app_loading);
                 }
 
                 @Override
                 public void onSuccess(String result){
                     ConfigCache.setUrlCache(result, AppApplicationApi.INFOMATION_URL);
-                    mAppLoadingLinearLayout.setVisibility(View.GONE);
                     showInfomationList(result);
                 }
 
                 @Override
                 public void onFailure(Throwable arg0) {
-                    mAppLoadingProgressBar.setVisibility(View.INVISIBLE);
-                    mAppLoadingTextView.setText(R.string.app_loading_fail);
                     listView.setAdapter(null);
-                    listView.setVisibility(View.INVISIBLE);
+                    showFailEmptyView();
                 }
 
             });
@@ -201,6 +181,8 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         setContentView(R.layout.infomation_tab_activity);
         setListView(R.id.infomation_tab_list);
         ((RefreshListView) listView).setOnRefreshListener(this);
+
+        showLoadingEmptyView();
     }
 
     @Override
@@ -287,6 +269,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
             ((RefreshListView)listView).removeFootView();
         }
     }
+
 
     @Override
     public void onBackPressed() {

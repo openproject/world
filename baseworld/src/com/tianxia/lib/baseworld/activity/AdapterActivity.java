@@ -1,22 +1,31 @@
 package com.tianxia.lib.baseworld.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
+
 import android.os.Bundle;
+
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SimpleAdapter;
 
+import com.tianxia.lib.baseworld.utils.EmptyViewUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AdapterActivity<T> extends BaseActivity {
     public static final int TYPE_LISTVIEW = 0;
     public static final int TYPE_GRIDVIEW = 0;
     public Adapter adapter;
-    
+
+    //for empty view
+    private View mEmptyLoadingView = null;
+    private View mEmptyFailView = null;
+
     protected AbsListView listView;
     public AbsListView getListView() {
         return listView;
@@ -45,7 +54,7 @@ public abstract class AdapterActivity<T> extends BaseActivity {
     }
 
     /**
-     * the listView's item click event 
+     * the listView's item click event
      * @param adapterView
      * @param view
      * @param position
@@ -87,4 +96,23 @@ public abstract class AdapterActivity<T> extends BaseActivity {
         }
     }
 
+    //show loading view when init and loading data from network
+    protected void showLoadingEmptyView() {
+        if (mEmptyFailView == null) {
+            mEmptyLoadingView = EmptyViewUtils.createLoadingView(this);
+        }
+        ((ViewGroup)listView.getParent()).removeView(mEmptyFailView);
+        ((ViewGroup)listView.getParent()).addView(mEmptyLoadingView);
+        listView.setEmptyView(mEmptyLoadingView);
+    }
+
+    //show fail view when loading data fail
+    protected void showFailEmptyView() {
+        if (mEmptyFailView == null) {
+            mEmptyFailView = EmptyViewUtils.createFailView(this);
+        }
+        ((ViewGroup)listView.getParent()).removeView(mEmptyLoadingView);
+        ((ViewGroup)listView.getParent()).addView(mEmptyFailView);
+        listView.setEmptyView(mEmptyFailView);
+    }
 }

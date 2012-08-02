@@ -31,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.view.Gravity;
+import android.widget.LinearLayout;
 
 public class DigestTabActivity extends AdapterActivity<BookInfo>{
 
@@ -55,16 +56,13 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
                 UMFeedbackService.openUmengFeedbackSDK(DigestTabActivity.this);
             }
         });
-        View emptyView = createEmptyView();
-        ((ViewGroup)listView.getParent()).addView(emptyView);
-        ((ListView)listView).setEmptyView(emptyView);
+        showLoadingEmptyView();
         ((ListView)listView).addFooterView(btn);
     }
 
     private void setDigestList(){
          String cacheConfigString = ConfigCache.getUrlCache(AppApplicationApi.DIGEST_URL);
          if (cacheConfigString != null) {
-             //mAppLoadingLinearLayout.setVisibility(View.GONE);
              showDigestList(cacheConfigString);
              System.out.println(cacheConfigString);
          } else {
@@ -73,14 +71,12 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
 
                  @Override
                  public void onStart() {
-                     //mAppLoadingLinearLayout.setVisibility(View.VISIBLE);
                  }
 
                  @Override
                  public void onSuccess(String result){
                      System.out.println(result);
                      ConfigCache.setUrlCache(result, AppApplicationApi.DIGEST_URL);
-                     //mAppLoadingLinearLayout.setVisibility(View.GONE);
                      showDigestList(result);
                  }
 
@@ -89,7 +85,7 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
                      //mAppLoadingProgressBar.setVisibility(View.INVISIBLE);
                      //mAppLoadingTextView.setText(R.string.app_loading_fail);
                      listView.setAdapter(null);
-                     listView.setVisibility(View.INVISIBLE);
+                     showFailEmptyView();
                  }
 
              });
@@ -142,14 +138,5 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
         intent.putExtra("title", listData.get(position).title);
         intent.putExtra("url", listData.get(position).url);
         startActivity(intent);
-    }
-
-    public View createEmptyView() {
-        TextView textView = new TextView(this);
-        textView.setText("正在加载中...");
-        textView.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-        textView.setGravity(Gravity.CENTER);
-        textView.setVisibility(View.GONE);
-        return textView;
     }
 }
