@@ -19,10 +19,11 @@
             android:textColor="#ffffff"/>
     </LinearLayout>
     <ListView android:id="@+id/chapter_list"
-        android:layout_width="fill_parent" 
+        android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginLeft="8dip"
         android:divider="@drawable/app_divider_h_dashed"
+        android:layoutAnimation="@anim/digest_list_item_anim_config"
         android:cacheColorHint="#00000000">
     </ListView>
 </LinearLayout>
