@@ -40,7 +40,7 @@
     <string name="setting_about_subject">花界\nFlower World</string>
     <string name="setting_about_description">看花，议花，识花，提高您的赏花素养！</string>
     <string name="setting_about_copyright_1">开源项目 版权所有</string>
-    <string name="setting_about_copyright_2">Copyright © 2011~2012 杰风工作室.</string>
+    <string name="setting_about_copyright_2">Copyright © 2012~2013 杰风工作室.</string>
     <string name="setting_about_copyright_3">All Rights Reserved.</string>
 
     <!-- alipay -->
@@ -55,7 +55,7 @@
     <string name="notify_urlHint">"notify_url"</string>
     <string name="charsetHint">"charset"</string>
     <string name="signTypeHint">"signType"</string>
-    <string name="confirm_install_hint">"安装提示"</string> 
+    <string name="confirm_install_hint">"安装提示"</string>
     <string name="confirm_install">"为保证您的交易安全，需要您安装支付宝安全支付服务，才能进行付款。\n\n点击确定，立即安装。"</string>
     <string name="Ensure">"确定"</string>
     <string name="Cancel">"取消"</string>

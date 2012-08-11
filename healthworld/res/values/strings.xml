@@ -5,7 +5,7 @@
         <item>养生视线</item>
         <item>分类</item>
         <item>文摘</item>
-        <item>收藏</item>
+        <item>心愿</item>
         <item>设置</item>
     </string-array>
     <string name="item_avatar">avatar</string>
@@ -15,4 +15,10 @@
     <string name="digest_footer_suggest_tips">推荐书籍</string>
 
     <string name="setting_contact_tel">"tel:15800413861"</string>
+
+    <string name="setting_about_subject">养生视线\nHealth World</string>
+    <string name="setting_about_description">每天饮食,常识等资讯，您的健康小助手！</string>
+
+    <string name="setting_share_app_subject">向你分享一个精彩应用《养生视线》</string>
+    <string name="setting_share_app_body">向你分享一个精彩应用《养生视线》，每天饮食,常识等资讯，您的健康小助手，下载地址:</string>
 </resources>

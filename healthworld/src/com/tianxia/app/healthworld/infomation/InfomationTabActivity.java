@@ -22,6 +22,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+
 import com.tianxia.app.healthworld.AppApplication;
 import com.tianxia.app.healthworld.AppApplicationApi;
 import com.tianxia.app.healthworld.R;
@@ -42,6 +46,8 @@ import com.tianxia.widget.image.SmartImageView;
 import com.waps.AdView;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.content.Intent;
+import com.tianxia.lib.baseworld.upgrade.AppUpgradeService;
 
 public class InfomationTabActivity extends AdapterActivity<StatusInfo> implements RefreshListener{
 
@@ -56,6 +62,10 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
     private int pageIndex = 0;
 
     private AdView mAdView;
+
+    private int mLatestVersionCode = 0;
+    private String mLatestVersionUpdate = null;
+    private String mLatestVersionDownload = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +103,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         String cacheConfigString = ConfigCache.getUrlCache(AppApplicationApi.INFOMATION_URL);
         if (cacheConfigString != null) {
             showInfomationList(cacheConfigString);
+            checkNewVersion();
         } else {
             AsyncHttpClient client = new AsyncHttpClient();
             client.get(AppApplicationApi.INFOMATION_URL, new AsyncHttpResponseHandler(){
@@ -105,6 +116,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
                 public void onSuccess(String result){
                     ConfigCache.setUrlCache(result, AppApplicationApi.INFOMATION_URL);
                     showInfomationList(result);
+                    checkNewVersion();
                 }
 
                 @Override
@@ -145,6 +157,13 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
     private void showInfomationList(String result) {
         try {
             JSONObject statusConfig = new JSONObject(result);
+
+            mLatestVersionCode = statusConfig.optInt("version-code");
+            mLatestVersionUpdate = statusConfig.optString("version-update");
+            mLatestVersionDownload = AppApplication.mDomain + statusConfig.optString("version-download");
+            if (mLatestVersionDownload != null) {
+                AppApplication.mApkDownloadUrl = mLatestVersionDownload;
+            }
 
             JSONArray statusList = statusConfig.getJSONArray("statuses");
             StatusInfo statusInfo = null;
@@ -276,4 +295,29 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
         ((BaseApplication)getApplication()).exitApp(getParent());
     }
 
+    public void checkNewVersion(){
+        if (BaseApplication.mVersionCode < mLatestVersionCode && BaseApplication.mShowUpdate) {
+            new AlertDialog.Builder(this)
+                .setTitle(R.string.check_new_version)
+                .setMessage(mLatestVersionUpdate)
+                .setPositiveButton(R.string.app_upgrade_confirm, new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(InfomationTabActivity.this, AppUpgradeService.class);
+                        System.out.println("mLatestVersionDownload:" + mLatestVersionDownload);
+                        intent.putExtra("downloadUrl", mLatestVersionDownload);
+                        startService(intent);
+                    }
+                })
+                .setNegativeButton(R.string.app_upgrade_cancel, new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create()
+                .show();
+            //BaseApplication.mShowUpdate = false;
+        }
+    }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tianxia.app.healthworld"
-    android:versionCode="1"
-    android:versionName="V1.0_Base_20120408" >
+    android:versionCode="2"
+    android:versionName="V1.0_Alpha_20120811" >
     <uses-sdk android:minSdkVersion="7" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -20,7 +20,7 @@
         android:icon="@drawable/icon"
         android:theme="@android:style/Theme.Black.NoTitleBar">
         <meta-data android:value="4f672e2352701550360000c9" android:name="UMENG_APPKEY" />
-        <meta-data android:value="gfan" android:name="UMENG_CHANNEL"/>
+        <meta-data android:value="dev" android:name="UMENG_CHANNEL"/>
         <!--以下属性为应用ID,从万普后台获取-->
         <meta-data android:name="WAPS_ID" android:value="923cfb1a970c051eccd0af856bd3752c" />
         <!--以下属性为分发渠道ID,编码表参见本文档末附表-->
@@ -64,6 +64,8 @@
         <activity android:name="com.tianxia.lib.baseworld.activity.SettingAboutActivity"
             android:screenOrientation="portrait">
         </activity>
+
+        <service android:name="com.tianxia.lib.baseworld.upgrade.AppUpgradeService"></service>
 
         <activity android:name="com.feedback.ui.SendFeedback" android:windowSoftInputMode="adjustResize" />
         <activity android:name="com.feedback.ui.FeedbackConversations" />

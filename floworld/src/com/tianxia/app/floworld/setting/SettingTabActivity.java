@@ -71,6 +71,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
     private String mLatestVersionDownload = null;
 
     ProgressDialog mProgressDialog;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.setting_tab_activity);

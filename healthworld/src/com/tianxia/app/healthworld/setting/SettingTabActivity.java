@@ -1,30 +1,49 @@
 package com.tianxia.app.healthworld.setting;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.net.Uri;
+
 import android.view.View;
+
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.feedback.UMFeedbackService;
+
 import com.tianxia.app.healthworld.AppApplication;
 import com.tianxia.app.healthworld.R;
 import com.tianxia.lib.baseworld.activity.PreferenceActivity;
 import com.tianxia.lib.baseworld.activity.SettingAboutActivity;
 import com.tianxia.lib.baseworld.alipay.AlixPay;
+import com.tianxia.lib.baseworld.BaseApplication;
+import com.tianxia.lib.baseworld.upgrade.AppUpgradeService;
 import com.tianxia.lib.baseworld.widget.CornerListView;
+
+import java.lang.reflect.Method;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
+import com.tianxia.app.healthworld.AppApplicationApi;
+import com.tianxia.lib.baseworld.utils.NetworkUtils;
+import com.tianxia.app.healthworld.cache.ConfigCache;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 
 public class SettingTabActivity extends PreferenceActivity implements OnItemClickListener{
 
@@ -50,11 +69,12 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
                                             "setting_donate"};
     private HashMap<String, String> mSettingItemMethodMap = new HashMap<String, String>();
 
-//    private int mLatestVersionCode = 0;
-//    private String mLatestVersionUpdate = null;
-//    private String mLatestVersionDownload = null;
+    private int mLatestVersionCode = 0;
+    private String mLatestVersionUpdate = null;
+    private String mLatestVersionDownload = null;
 
     ProgressDialog mProgressDialog;
+
     @Override
     public void setLayout() {
         setContentView(R.layout.setting_tab_activity);
@@ -142,9 +162,86 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
     }
 
     public void setting_check_new_version() {
+
+        if (AppApplication.mNetWorkState == NetworkUtils.NETWORN_NONE) {
+            Toast.makeText(this, R.string.check_new_version_no_network, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mProgressDialog.setTitle(R.string.check_new_version_title);
+        mProgressDialog.setMessage(getString(R.string.check_new_version_message));
+        mProgressDialog.setIndeterminate(false);
+        mProgressDialog.setCancelable(true);
+        mProgressDialog.show();
+
+        String cacheConfigString = ConfigCache.getUrlCache(AppApplicationApi.INFOMATION_URL);
+        if (cacheConfigString != null) {
+            checkNewVersion(cacheConfigString);
+        } else {
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(AppApplicationApi.INFOMATION_URL, new AsyncHttpResponseHandler(){
+
+                @Override
+                public void onSuccess(String result){
+                    ConfigCache.setUrlCache(result, AppApplicationApi.INFOMATION_URL);
+                    checkNewVersion(result);
+                }
+
+                @Override
+                public void onFailure(Throwable arg0) {
+                    mProgressDialog.cancel();
+                }
+
+            });
+        }
     }
 
     public void checkNewVersion(String result){
+        if (result == null || "".equals(result)) {
+            mProgressDialog.cancel();
+            Toast.makeText(this, R.string.check_new_version_null, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        try {
+            JSONObject appreciateConfig = new JSONObject(result);
+            mLatestVersionCode = appreciateConfig.getInt("version-code");
+            mLatestVersionUpdate = appreciateConfig.getString("version-update");
+            mLatestVersionDownload = AppApplication.mDomain + appreciateConfig.getString("version-download");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            mProgressDialog.cancel();
+            Toast.makeText(this, R.string.check_new_version_exception, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mProgressDialog.cancel();
+
+        if (BaseApplication.mVersionCode < mLatestVersionCode) {
+            new AlertDialog.Builder(this)
+                .setTitle(R.string.check_new_version)
+                .setMessage(mLatestVersionUpdate)
+                .setPositiveButton(R.string.app_upgrade_confirm, new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(SettingTabActivity.this, AppUpgradeService.class);
+                        intent.putExtra("downloadUrl", mLatestVersionDownload);
+                        startService(intent);
+                    }
+                })
+                .setNegativeButton(R.string.app_upgrade_cancel, new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create()
+                .show();
+        } else {
+            Toast.makeText(this, R.string.check_new_version_latest, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void shareApp() {
