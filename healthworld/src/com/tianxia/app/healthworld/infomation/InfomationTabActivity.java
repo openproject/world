@@ -26,6 +26,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 
+import com.feedback.NotificationType;
+import com.feedback.UMFeedbackService;
 import com.tianxia.app.healthworld.AppApplication;
 import com.tianxia.app.healthworld.AppApplicationApi;
 import com.tianxia.app.healthworld.R;
@@ -71,6 +73,8 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setInfomationList();
+
+        UMFeedbackService.enableNewReplyNotification(this, NotificationType.NotificationBar);
 
         mSimpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
 
