@@ -7,4 +7,5 @@ public class TagCloudInfo {
     public String title;
     public Rect rect;
     public int textSize;
+    public int color;
 }

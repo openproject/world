@@ -15,6 +15,9 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import android.view.MotionEvent;
+import android.content.Intent;
+import android.net.Uri;
 
 public class TagCloudView extends View {
 
@@ -49,6 +52,9 @@ public class TagCloudView extends View {
     private int mDownY = 0;
     private int mLeftX = 0;
     private int mRightX = 0;
+
+    private boolean mFirstDraw = true;
+    private int mSelectedPosition = -1;
 
     private List<TagCloudInfo> mTagClouds;
 
@@ -95,6 +101,51 @@ public class TagCloudView extends View {
             mTagClouds.add(tagCloudInfo);
         }
     }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        TagCloudInfo tagCloudInfo = null;
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                //if (mSelectedPosition == -1) {
+                for (int i = 0; i < mTagClouds.size(); i++) {
+                    tagCloudInfo = mTagClouds.get(i);
+                    if (event.getX() >= tagCloudInfo.rect.left
+                            && event.getX() <= tagCloudInfo.rect.right
+                            && event.getY() >= tagCloudInfo.rect.top
+                            && event.getY() <= tagCloudInfo.rect.bottom) {
+                        mSelectedPosition = i;
+                        break;
+                    }
+                }
+                if (mSelectedPosition > -1 && tagCloudInfo != null) {
+                    tagCloudInfo.color = mColors[mRandom.nextInt(mColors.length)];
+                    //tagCloudInfo.textSize = tagCloudInfo.textSize + 5;
+                    invalidate();
+
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.baidu.com/s?wd=" + tagCloudInfo.title));
+                    getContext().startActivity(intent);
+
+                    new Thread() {
+                        public void run() {
+                            try {
+                                Thread.sleep(100);
+                                //mTagClouds.get(mSelectedPosition).textSize -= 5;
+                                postInvalidate();
+                                mSelectedPosition = -1;
+                            } catch (InterruptedException e) {
+                            }
+                        }
+                    }.start();
+                }
+                //}
+                break;
+            default:
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
     @Override
     public void onDraw(Canvas canvas) {
         mWidth = getWidth();
@@ -102,30 +153,44 @@ public class TagCloudView extends View {
 
         minTop = mHeight;
 
-        System.out.println("width:" + mWidth + ",height:" + mHeight);
         mLeftX = mRightX = mWidth/2;
         mUpY = mDownY = mHeight/2;
 
-        computePosition();
-
-        centerVertialTagClouds();
-
-
         TagCloudInfo tagCloudInfo;
-        for (int i = 0; i < mTagClouds.size(); i++) {
-            tagCloudInfo = mTagClouds.get(i);
-            setMinTopAndMaxBottom(tagCloudInfo);
-        }
-        centerVertialTagClouds();
 
-        //TagCloudInfo tagCloudInfo;
+        if (mFirstDraw) {
+            computePosition();
+
+            centerVertialTagClouds();
+
+            for (int i = 0; i < mTagClouds.size(); i++) {
+                tagCloudInfo = mTagClouds.get(i);
+                setMinTopAndMaxBottom(tagCloudInfo);
+            }
+
+            centerVertialTagClouds();
+            mFirstDraw = false;
+        }
+
         for (int i = 0; i < mTagClouds.size(); i++) {
             tagCloudInfo = mTagClouds.get(i);
             if (tagCloudInfo.rect.top > 5 && tagCloudInfo.rect.bottom < mHeight - 5) {
                 mPaint.setTextSize(tagCloudInfo.textSize);
-                mPaint.setColor(mColors[mRandom.nextInt(mColors.length)]);
+                mPaint.setColor(tagCloudInfo.color);
                 canvas.drawText(tagCloudInfo.title, tagCloudInfo.rect.left, tagCloudInfo.rect.bottom, mPaint);
             }
+        }
+
+        if (mSelectedPosition > -1) {
+            tagCloudInfo = mTagClouds.get(mSelectedPosition);
+            mPaint.setTextSize(tagCloudInfo.textSize);
+            mPaint.setAlpha(100);
+            Rect rect = new Rect(tagCloudInfo.rect.left,
+                    tagCloudInfo.rect.bottom + (int)mPaint.ascent(),
+                    tagCloudInfo.rect.right,
+                    tagCloudInfo.rect.bottom + (int)mPaint.descent());
+            canvas.drawRect(rect, mPaint);
+            mPaint.setAlpha(255);
         }
     }
 
@@ -138,6 +203,7 @@ public class TagCloudView extends View {
             scalePaint(tagCloudInfo, mPaint);
 
             tagCloudInfo.textSize = (int)mPaint.getTextSize();
+            tagCloudInfo.color = mColors[mRandom.nextInt(mColors.length)];
 
             int leftWidth = (mWidth - stringWidth)/2;
             //int leftWidth = 3;
@@ -225,8 +291,6 @@ public class TagCloudView extends View {
             move = bottomPadding -space;
         }
 
-        System.out.println("topPadding:" + topPadding + ", bottomPadding:" + bottomPadding);
-        System.out.println("move:" + move);
         if (move != 0) {
             TagCloudInfo tagCloudInfo = null;
             for (int i = 0; i < mTagClouds.size(); i++) {
