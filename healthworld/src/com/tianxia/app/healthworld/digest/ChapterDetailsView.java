@@ -33,6 +33,8 @@ public class ChapterDetailsView extends View{
 
     private Paint mPaint;
     private float mFontHeight;
+    private float mPaintDescent;
+    private float mPaintAscent;
 
     private boolean mNeedRefresh = true;
 
@@ -44,6 +46,8 @@ public class ChapterDetailsView extends View{
         mPaint.setTextSize(25);
         FontMetrics fm = mPaint.getFontMetrics();
         mFontHeight = fm.descent - fm.top;
+        mPaintDescent = mPaint.descent();
+        mPaintAscent = mPaint.ascent();
     }
 
     public void setInitText(String initText) {
@@ -63,11 +67,11 @@ public class ChapterDetailsView extends View{
                 splitContentToPageLines();
                 mNeedRefresh = false;
             }
-            float drawTop = mMarginTopAndBottom;
+            float drawTop = mMarginTopAndBottom - mPaintAscent;
             int startLine = (mPage - 1)*mPageLines;
             for (int i = startLine; i < startLine + mPageLines && i < mLines.size(); i++) {
                 canvas.drawText(mLines.get(i), mMarginLeftAndRight, drawTop, mPaint);
-                drawTop += mFontHeight + 2.5;
+                drawTop += mFontHeight;
             }
         } else if (mInitText != null && !"".equals(mInitText)) {
             int initTextWidth = (int) mPaint.measureText(mInitText);
