@@ -12,13 +12,6 @@ public abstract class PreferenceActivity extends BaseActivity {
     public List<List<Map<String,String>>> listDatas = new ArrayList<List<Map<String,String>>>();
     public LinearLayout cornerContainer = null;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setListDatas();
-        setLayout();
-    }
-
     //set the layout and cornerListViews container
     public abstract void setLayout();
     public abstract void setListDatas();

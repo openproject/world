@@ -114,6 +114,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
 
     @Override
     public void setListDatas() {
+        listData.clear();
         List<Map<String,String>> listData = new ArrayList<Map<String,String>>();
 
         Map<String,String> map;
@@ -274,5 +275,12 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
 
     public void feedBackSuggestion() {
         UMFeedbackService.openUmengFeedbackSDK(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setListDatas();
+        setLayout();
     }
 }

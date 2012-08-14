@@ -14,6 +14,10 @@
 
     <string name="digest_footer_suggest_tips">推荐书籍</string>
 
+    <string name="favorite_add_wish">添加心愿</string>
+    <string name="favorite_edit_wish">编辑心愿</string>
+    <string name="favorite_clear_wish">清除所有心愿</string>
+
     <string name="setting_contact_tel">"tel:15800413861"</string>
 
     <string name="setting_about_subject">养生视线\nHealth World</string>

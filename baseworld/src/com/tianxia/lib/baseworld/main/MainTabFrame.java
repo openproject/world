@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.tianxia.lib.baseworld.BaseApplication;
 import com.tianxia.lib.baseworld.R;
+import android.view.KeyEvent;
 
 public class MainTabFrame extends ActivityGroup {
 
@@ -127,4 +128,17 @@ public class MainTabFrame extends ActivityGroup {
         mainTabContainer.addView(localActivityManager.startActivity(id, mainTabIntent).getDecorView());
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_MENU) {
+            localActivityManager.getCurrentActivity().openOptionsMenu();
+            //return true means that the key event is intercepted here successfully
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+            localActivityManager.getCurrentActivity().onBackPressed();
+            //return false means that it will skip over the key event here
+            return true;
+        }
+        return false;
+    }
 }

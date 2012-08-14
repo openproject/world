@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/favorite_add_wish"
+        android:title="@string/favorite_add_wish" />
+    <item android:id="@+id/favorite_edit_wish"
+        android:title="@string/favorite_edit_wish" />
+    <item android:id="@+id/favorite_clear_wish"
+        android:title="@string/favorite_clear_wish" />
+</menu>
+
