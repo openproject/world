@@ -12,6 +12,10 @@
 
     <string name="app_exit_message">确定要退出应用养生视线?</string>
 
+    <string name="info_options">选项</string>
+    <string name="info_options_share">分享</string>
+    <string name="info_options_share_title">分享一条来自《养生视线》的资讯</string>
+
     <string name="digest_footer_suggest_tips">推荐书籍</string>
 
     <string name="favorite_add_wish">添加心愿</string>

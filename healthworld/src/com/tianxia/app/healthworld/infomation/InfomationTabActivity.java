@@ -1,55 +1,67 @@
 package com.tianxia.app.healthworld.infomation;
 
+import android.app.AlertDialog;
+
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+
+import android.os.Bundle;
+import android.os.Environment;
+
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnCreateContextMenuListener;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.feedback.NotificationType;
+import com.feedback.UMFeedbackService;
+
+import com.tianxia.app.healthworld.AppApplication;
+import com.tianxia.app.healthworld.AppApplicationApi;
+import com.tianxia.app.healthworld.cache.ConfigCache;
+import com.tianxia.app.healthworld.model.StatusInfo;
+import com.tianxia.app.healthworld.R;
+import com.tianxia.lib.baseworld.activity.AdapterActivity;
+import com.tianxia.lib.baseworld.BaseApplication;
+import com.tianxia.lib.baseworld.main.MainTabFrame;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
+import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
+import com.tianxia.lib.baseworld.upgrade.AppUpgradeService;
+import com.tianxia.lib.baseworld.utils.DownloadUtils;
+import com.tianxia.lib.baseworld.utils.EmptyViewUtils;
+import com.tianxia.lib.baseworld.utils.FileUtils;
+import com.tianxia.lib.baseworld.utils.StringUtils;
+import com.tianxia.lib.baseworld.widget.RefreshListView;
+import com.tianxia.lib.baseworld.widget.RefreshListView.RefreshListener;
+import com.tianxia.widget.image.SmartImageView;
+
+import com.waps.AdView;
+
 import java.io.File;
+
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import android.os.Bundle;
-import android.os.Environment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
-
-import com.feedback.NotificationType;
-import com.feedback.UMFeedbackService;
-import com.tianxia.app.healthworld.AppApplication;
-import com.tianxia.app.healthworld.AppApplicationApi;
-import com.tianxia.app.healthworld.R;
-import com.tianxia.app.healthworld.cache.ConfigCache;
-import com.tianxia.app.healthworld.model.StatusInfo;
-import com.tianxia.lib.baseworld.BaseApplication;
-import com.tianxia.lib.baseworld.activity.AdapterActivity;
-import com.tianxia.lib.baseworld.main.MainTabFrame;
-import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
-import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
-import com.tianxia.lib.baseworld.utils.DownloadUtils;
-import com.tianxia.lib.baseworld.utils.FileUtils;
-import com.tianxia.lib.baseworld.utils.StringUtils;
-import com.tianxia.lib.baseworld.utils.EmptyViewUtils;
-import com.tianxia.lib.baseworld.widget.RefreshListView;
-import com.tianxia.lib.baseworld.widget.RefreshListView.RefreshListener;
-import com.tianxia.widget.image.SmartImageView;
-import com.waps.AdView;
-import android.view.ViewGroup;
-import android.widget.ListView;
-import android.content.Intent;
-import com.tianxia.lib.baseworld.upgrade.AppUpgradeService;
 
 public class InfomationTabActivity extends AdapterActivity<StatusInfo> implements RefreshListener{
 
@@ -101,6 +113,8 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
                 });
             }
         }.start();
+
+        listView .setOnCreateContextMenuListener(this);
     }
 
     private void setInfomationList() {
@@ -252,6 +266,34 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
 
     @Override
     protected void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle(getString(R.string.info_options));
+        menu.add(0, 1, 1, getString(R.string.info_options_share));
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 1:
+                //get item position
+                ContextMenuInfo info = item.getMenuInfo();
+                AdapterView.AdapterContextMenuInfo contextMenuInfo = (AdapterContextMenuInfo) info;
+                int position = contextMenuInfo.position - 1;
+
+                Intent intent=new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.info_options_share_title));
+                intent.putExtra(Intent.EXTRA_TEXT, listData.get(position).text);
+                startActivity(Intent.createChooser(intent, getString(R.string.setting_share_app_title)));
+                break;
+            default:
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 
     @Override
