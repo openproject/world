@@ -74,32 +74,14 @@ public class TagCloudView extends View {
         mPaint.setAntiAlias(true);
 
         mRandom = new Random();
-        setTagList();
     }
 
-    public void setTagList() {
-        String[] result = {"坚持跑步!",
-                           "多喝水!",
-                           "早点睡觉，不熬夜!",
-                           "吃早餐!",
-                           "眼睛多转一转!",
-                           "戒烟戒酒！",
-                           "勤洗脸洗头洗澡！",
-                           "少坐着",
-                           "少坐着，多走走，常舒展运动一下",
-                           "开心就好",
-                           "给自己加油",
-                           "就是爱音乐",
-                           "拒绝懒惰的借口",
-                           "每天都是新的一天，微笑！",
-                           "保持居住环境清洁"};
-        mTagClouds = new ArrayList<TagCloudInfo>();
-        TagCloudInfo tagCloudInfo = null;
-        for (String str : result) {
-            tagCloudInfo = new TagCloudInfo();
-            tagCloudInfo.title = str;
-            mTagClouds.add(tagCloudInfo);
-        }
+    public void setTagList(List<TagCloudInfo> dataSource) {
+        mTagClouds = dataSource;
+    }
+
+    public List<TagCloudInfo> getTagList() {
+        return mTagClouds;
     }
 
     @Override
@@ -148,6 +130,10 @@ public class TagCloudView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
+        if (mTagClouds == null) {
+            return;
+        }
+
         mWidth = getWidth();
         mHeight = getHeight();
 
@@ -299,5 +285,9 @@ public class TagCloudView extends View {
                 tagCloudInfo.rect.top = tagCloudInfo.rect.top + move;
             }
         }
+    }
+
+    public void refresh() {
+        mFirstDraw = true;
     }
 }

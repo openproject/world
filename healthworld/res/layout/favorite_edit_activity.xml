@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/bg">
+    <LinearLayout android:id="@+id/app_banner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dip"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/main_banner_bg"
+        android:layout_alignParentTop="true">
+        <TextView android:id="@+id/app_banner_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/favorite_edit_wish"
+            android:textSize="22dip"
+            android:textColor="#ffffff"/>
+    </LinearLayout>
+    <com.tianxia.lib.baseworld.widget.DragListView android:id="@+id/favorite_edit_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:divider="@drawable/app_divider_h_gray"
+        android:cacheColorHint="#00000000">
+    </com.tianxia.lib.baseworld.widget.DragListView>
+</LinearLayout>

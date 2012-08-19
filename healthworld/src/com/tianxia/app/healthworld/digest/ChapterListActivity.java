@@ -71,7 +71,6 @@ public class ChapterListActivity extends AdapterActivity<ChapterInfo>{
 
                  @Override
                  public void onSuccess(String result){
-                     System.out.println(result);
                      ConfigCache.setUrlCache(result,url);
                      showChapterList(result);
                  }

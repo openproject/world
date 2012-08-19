@@ -36,7 +36,6 @@ public class ChapterDetailsActivity extends Activity{
 
         mUrl = getIntent().getStringExtra("url");
 
-        System.out.println("url:" + mUrl);
         mChapterDetailsView = (ChapterDetailsView)findViewById(R.id.chapter_details_content);
         mChapterDetailsView.setInitText("正在加载，请稍候...");
         setChapterContent();
@@ -58,7 +57,6 @@ public class ChapterDetailsActivity extends Activity{
                  @Override
                  public void onSuccess(String result){
                      mChapterDetailsView.setContent(result);
-                     System.out.println(result);
                      ConfigCache.setUrlCache(result, AppApplication.mDomain + mUrl);
                      //mAppLoadingLinearLayout.setVisibility(View.GONE);
                      //showDigestList(result);

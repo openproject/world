@@ -31,6 +31,8 @@ public class AppApplication extends BaseApplication {
     public static String mDomain = "http://www.kaiyuanxiangmu.com/";
     public static String mBakeDomain = "http://1.kaiyuanxiangmu.sinaapp.com/";
 
+    private static final String DB_NAME = "healthworld.db";
+
     public static String mSdcardDataDir;
     public static String mApkDownloadUrl = null;
 
@@ -57,6 +59,7 @@ public class AppApplication extends BaseApplication {
 
     @Override
     public void initDb() {
+        mSQLiteHelper = new AppSQLiteHelper(getApplicationContext(), DB_NAME, 1);
     }
 
     @Override

@@ -64,7 +64,6 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
          String cacheConfigString = ConfigCache.getUrlCache(AppApplicationApi.DIGEST_URL);
          if (cacheConfigString != null) {
              showDigestList(cacheConfigString);
-             System.out.println(cacheConfigString);
          } else {
              AsyncHttpClient client = new AsyncHttpClient();
              client.get(AppApplicationApi.DIGEST_URL, new AsyncHttpResponseHandler(){
@@ -75,7 +74,6 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
 
                  @Override
                  public void onSuccess(String result){
-                     System.out.println(result);
                      ConfigCache.setUrlCache(result, AppApplicationApi.DIGEST_URL);
                      showDigestList(result);
                  }
@@ -122,7 +120,6 @@ public class DigestTabActivity extends AdapterActivity<BookInfo>{
 
         mItemConverImageView = (SmartImageView) view.findViewById(R.id.item_image);
         mItemConverImageView.setImageUrl(AppApplication.mDomain + listData.get(position).cover, R.drawable.icon, 0);
-        System.out.println("cover:" + AppApplication.mDomain + listData.get(position).cover);
 
         mItemTitleTextView = (TextView) view.findViewById(R.id.item_text);
         mItemTitleTextView.setText(listData.get(position).title);

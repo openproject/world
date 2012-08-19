@@ -26,6 +26,7 @@
         <!--以下属性为分发渠道ID,编码表参见本文档末附表-->
         <meta-data android:name="WAPS_PID" android:value="WAPS" />
         <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
@@ -56,6 +57,9 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".favorite.FavoriteTabActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".favorite.FavoriteEditActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity android:name=".setting.SettingTabActivity"

@@ -350,7 +350,6 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(InfomationTabActivity.this, AppUpgradeService.class);
-                        System.out.println("mLatestVersionDownload:" + mLatestVersionDownload);
                         intent.putExtra("downloadUrl", mLatestVersionDownload);
                         startService(intent);
                     }
@@ -363,7 +362,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
                 })
                 .create()
                 .show();
-            //BaseApplication.mShowUpdate = false;
+            BaseApplication.mShowUpdate = false;
         }
     }
 }
