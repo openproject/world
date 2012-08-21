@@ -43,12 +43,15 @@ import com.tianxia.lib.baseworld.upgrade.AppUpgradeService;
 import com.tianxia.lib.baseworld.utils.DownloadUtils;
 import com.tianxia.lib.baseworld.utils.EmptyViewUtils;
 import com.tianxia.lib.baseworld.utils.FileUtils;
+import com.tianxia.lib.baseworld.utils.PreferencesUtils;
 import com.tianxia.lib.baseworld.utils.StringUtils;
 import com.tianxia.lib.baseworld.widget.RefreshListView;
 import com.tianxia.lib.baseworld.widget.RefreshListView.RefreshListener;
 import com.tianxia.widget.image.SmartImageView;
 
+import com.waps.AppConnect;
 import com.waps.AdView;
+import com.waps.UpdatePointsNotifier;
 
 import java.io.File;
 
@@ -63,7 +66,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class InfomationTabActivity extends AdapterActivity<StatusInfo> implements RefreshListener{
+public class InfomationTabActivity extends AdapterActivity<StatusInfo>
+        implements RefreshListener, UpdatePointsNotifier{
 
     private SmartImageView mItemAvatar;
     private TextView mItemName;
@@ -90,29 +94,8 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
 
         mSimpleDateFormat = new SimpleDateFormat("MM-dd hh:mm");
 
-        final LinearLayout container =(LinearLayout)findViewById(R.id.AdLinearLayout);
-        new Thread(){
-
-            public void run() {
-                try {
-                    sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                runOnUiThread(new Runnable () {
-                    public void run() {
-                        try {
-                            mAdView = new AdView(InfomationTabActivity.this,container);
-                            mAdView.DisplayAd();
-                        } catch (Exception e) {
-                            container.setVisibility(View.GONE);
-                            e.printStackTrace();
-                        }
-                    }
-                });
-            }
-        }.start();
+        //获取积分
+        AppConnect.getInstance(this).getPoints(this);
 
         listView .setOnCreateContextMenuListener(this);
     }
@@ -365,4 +348,44 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo> implement
             BaseApplication.mShowUpdate = false;
         }
     }
+
+    //process the ad show
+    //获取成功
+    @Override
+    public void getUpdatePoints(String currencyName, int pointTotal) {
+        final LinearLayout container =(LinearLayout)findViewById(R.id.AdLinearLayout);
+        if (pointTotal < 15) {
+            runOnUiThread(new Runnable () {
+                public void run() {
+                    try {
+                        mAdView = new AdView(InfomationTabActivity.this,container);
+                        mAdView.DisplayAd();
+                    } catch (Exception e) {
+                        container.setVisibility(View.GONE);
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } else {
+
+            long last_time = PreferencesUtils.getLongPreference(this,
+                    AppApplicationApi.SHARE_CREDITS,
+                    AppApplicationApi.SHARE_CREDITS_LAST_TIME,
+                    0);
+            if (System.currentTimeMillis() - last_time > 1000*60*60*24) {
+                //spent 15 credits will keep no ad one day
+                AppConnect.getInstance(InfomationTabActivity.this).spendPoints(15, InfomationTabActivity.this);
+                PreferencesUtils.setLongPreference(this,
+                        AppApplicationApi.SHARE_CREDITS,
+                        AppApplicationApi.SHARE_CREDITS_LAST_TIME,
+                        System.currentTimeMillis());
+            }
+        }
+    }
+
+    //获取失败
+    @Override
+    public void getUpdatePointsFailed(String error) {
+    }
+
 }
