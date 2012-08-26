@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="3dip"
     android:orientation="horizontal">
     <com.tianxia.widget.image.SmartImageView android:id="@+id/item_avatar"
         android:layout_width="52dip"

@@ -192,7 +192,9 @@ public class TagCloudView extends View {
             tagCloudInfo.color = mColors[mRandom.nextInt(mColors.length)];
 
             int leftWidth = (mWidth - stringWidth)/2;
-            //int leftWidth = 3;
+            if (leftWidth <= 0) {
+                leftWidth = 1;
+            }
             if (i == 0) {
                 int drawX = mLeftX - stringWidth/2;
                 int drawY = mUpY - stringHeight/2;
