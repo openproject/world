@@ -26,10 +26,14 @@ import com.tianxia.lib.baseworld.widget.TagCloudView;
 import java.util.ArrayList;
 import java.util.List;
 import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
 
 public class FavoriteTabActivity extends BaseActivity{
 
     private TagCloudView mTagCloudView;
+    private View mEmptyView;
+    private Button mEmptyBtnView;
 
     public static boolean mDataSetChanged = true;
 
@@ -40,6 +44,13 @@ public class FavoriteTabActivity extends BaseActivity{
 
         mDataSetChanged = true;
         mTagCloudView = (TagCloudView) findViewById(R.id.tag_cloud_view);
+        mEmptyView = findViewById(R.id.empty_view);
+        mEmptyBtnView = (Button) findViewById(R.id.empty_btn);
+        mEmptyBtnView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                showAddWishDialg();
+            }
+        });
     }
 
     private List<TagCloudInfo> getTags() {
@@ -66,28 +77,14 @@ public class FavoriteTabActivity extends BaseActivity{
             }
         }
         return tags;
-        //String[] result = {"坚持跑步!",
-                           //"多喝水!",
-                           //"早点睡觉，不熬夜!",
-                           //"吃早餐!",
-                           //"眼睛多转一转!",
-                           //"戒烟戒酒！",
-                           //"勤洗脸洗头洗澡！",
-                           //"少坐着",
-                           //"少坐着，多走走，常舒展运动一下",
-                           //"开心就好",
-                           //"给自己加油",
-                           //"就是爱音乐",
-                           //"拒绝懒惰的借口",
-                           //"每天都是新的一天，微笑！",
-                           //"保持居住环境清洁"};
-        //mTagClouds = new ArrayList<TagCloudInfo>();
-        //TagCloudInfo tagCloudInfo = null;
-        //for (String str : result) {
-            //tagCloudInfo = new TagCloudInfo();
-            //tagCloudInfo.title = str;
-            //mTagClouds.add(tagCloudInfo);
-        //}
+    }
+
+    private void showEmptyView(List<TagCloudInfo> list) {
+        if (list != null && list.size() > 0) {
+            mEmptyView.setVisibility(View.GONE);
+        } else {
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -123,6 +120,8 @@ public class FavoriteTabActivity extends BaseActivity{
             mTagCloudView.setTagList(getTags());
             mTagCloudView.refresh();
             mDataSetChanged = false;
+
+            showEmptyView(mTagCloudView.getTagList());
         }
     }
 
@@ -163,6 +162,7 @@ public class FavoriteTabActivity extends BaseActivity{
                 mTagCloudView.setTagList(getTags());
                 mTagCloudView.refresh();
                 mTagCloudView.invalidate();
+                showEmptyView(mTagCloudView.getTagList());
                 Toast.makeText(this, "添加成功。", Toast.LENGTH_SHORT).show();
             }
         }
@@ -178,6 +178,7 @@ public class FavoriteTabActivity extends BaseActivity{
                 mTagCloudView.setTagList(getTags());
                 mTagCloudView.refresh();
                 mTagCloudView.invalidate();
+                showEmptyView(mTagCloudView.getTagList());
                 Toast.makeText(this, "清除成功。", Toast.LENGTH_SHORT).show();
             }
         }

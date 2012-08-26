@@ -290,4 +290,8 @@ public class TagCloudView extends View {
     public void refresh() {
         mFirstDraw = true;
     }
+
+    public interface IComputePosition {
+        void execute(List<TagCloudInfo> list, Paint paint);
+    }
 }

@@ -2,6 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
+    <LinearLayout android:id="@+id/empty_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <ImageView android:id="@+id/empty_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/wish_empty_tip"/>
+        <Button android:id="@+id/empty_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加心愿"
+            android:paddingTop="8dip"
+            android:paddingBottom="8dip"
+            android:paddingLeft="18dip"
+            android:paddingRight="18dip"
+            android:background="@drawable/btn_wish_add" />
+    </LinearLayout>
     <com.tianxia.lib.baseworld.widget.TagCloudView
         android:id="@+id/tag_cloud_view"
         android:layout_width="fill_parent"
