@@ -23,7 +23,7 @@
         <!--以下属性为应用ID,从万普后台获取-->
         <meta-data android:name="WAPS_ID" android:value="923cfb1a970c051eccd0af856bd3752c" />
         <!--以下属性为分发渠道ID,编码表参见本文档末附表-->
-        <meta-data android:name="WAPS_PID" android:value="WAPS" />
+        <meta-data android:value="dev" android:name="WAPS_PID"/>
         <activity android:name="com.tianxia.lib.baseworld.main.MainTabFrame"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">

@@ -8,5 +8,6 @@ for market in $markets
 do
     echo packaging healthworld_1.0_$market.apk ...
     sed -i "s/\(android:value=\)\"\(.*\)\"\( android:name=\"UMENG_CHANNEL\"\)/\1\"$market\"\3/g" AndroidManifest.xml
+    sed -i "s/\(android:value=\)\"\(.*\)\"\( android:name=\"WAPS_PID\"\)/\1\"$market\"\3/g" AndroidManifest.xml
     ant -Dapk-name=healthworld -Dapk-version=v1.0_beta -Dapk-market=$market
 done
