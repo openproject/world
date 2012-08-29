@@ -349,12 +349,13 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo>
         }
     }
 
+    private static final int NO_AD_SPEND_PER_DAY = 25;
     //process the ad show
     //获取成功
     @Override
     public void getUpdatePoints(String currencyName, int pointTotal) {
         final LinearLayout container =(LinearLayout)findViewById(R.id.AdLinearLayout);
-        if (pointTotal < 15) {
+        if (pointTotal < NO_AD_SPEND_PER_DAY) {
             runOnUiThread(new Runnable () {
                 public void run() {
                     try {
@@ -374,7 +375,7 @@ public class InfomationTabActivity extends AdapterActivity<StatusInfo>
                     0);
             if (System.currentTimeMillis() - last_time > 1000*60*60*24) {
                 //spent 15 credits will keep no ad one day
-                AppConnect.getInstance(InfomationTabActivity.this).spendPoints(15, InfomationTabActivity.this);
+                AppConnect.getInstance(InfomationTabActivity.this).spendPoints(NO_AD_SPEND_PER_DAY, InfomationTabActivity.this);
                 PreferencesUtils.setLongPreference(this,
                         AppApplicationApi.SHARE_CREDITS,
                         AppApplicationApi.SHARE_CREDITS_LAST_TIME,
