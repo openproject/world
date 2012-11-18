@@ -114,7 +114,7 @@ public class SettingTabActivity extends PreferenceActivity implements OnItemClic
 
     @Override
     public void setListDatas() {
-        listData.clear();
+        listDatas.clear();
         List<Map<String,String>> listData = new ArrayList<Map<String,String>>();
 
         Map<String,String> map;

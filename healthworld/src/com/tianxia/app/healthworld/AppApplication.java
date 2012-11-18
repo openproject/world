@@ -17,7 +17,7 @@ import com.tianxia.app.healthworld.favorite.FavoriteTabActivity;
 import com.tianxia.app.healthworld.infomation.InfomationTabActivity;
 import com.tianxia.app.healthworld.setting.SettingTabActivity;
 import com.tianxia.lib.baseworld.BaseApplication;
-import com.tianxia.lib.baseworld.R;
+import com.tianxia.app.healthworld.R;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpClient;
 import com.tianxia.lib.baseworld.sync.http.AsyncHttpResponseHandler;
 import com.tianxia.lib.baseworld.utils.NetworkUtils;

@@ -26,7 +26,7 @@ import com.tianxia.app.floworld.constant.FavoriteType;
 import com.tianxia.app.floworld.discuss.DiscussDetailsActivity;
 import com.tianxia.app.floworld.model.AppreciateLatestInfo;
 import com.tianxia.app.floworld.model.FavoriteInfo;
-import com.tianxia.lib.baseworld.R;
+import com.tianxia.app.floworld.R;
 import com.tianxia.lib.baseworld.activity.AdapterActivity;
 import com.tianxia.widget.image.SmartImageView;
 
